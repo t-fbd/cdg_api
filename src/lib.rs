@@ -1,57 +1,100 @@
-//!# Rust API for the [US Congress API](https://api.congress.gov/)
-//!
-//!## Overview
-//!
-//!This library provides a Rust interface for the [US Congress API](https://api.congress.gov/). It
-//!allows users to interact with the API endpoints, construct URLs, and parse the responses into
-//!Rust data structures.
-//!
-//!## Features
-//!
-//!## Usage
-//!
-//!## Examples
+#![doc = include_str!("../README.md")]
+//! # Rust API for the US Congress API
 
 pub mod endpoints;
 pub mod url_builders;
 pub mod param_models;
+pub mod response_models;
 
 pub use endpoints::*;
 pub const BASE_URL: &str = "https://api.congress.gov/v3/";
 
+use reqwest::blocking::Client;
+use response_models::PrimaryResponse;
+use serde::de::DeserializeOwned;
+
+/// Fetches data from the US Congress API and deserializes it into the specified response model.
+///
+/// # Parameters
+///
+/// - `url`: The API endpoint URL.
+///
+/// # Returns
+///
+/// - `Ok(T)`: The deserialized response data.
+/// - `Err`: An error if the request fails or deserialization fails.
+pub fn get_congress_data<T: PrimaryResponse + DeserializeOwned>(url: &str) -> Result<T, Box<dyn std::error::Error>> {
+    let client = Client::new();
+    let response = client.get(url).send()?;
+    let data = response.json::<T>()?;
+    Ok(data)
+}
 
 use std::io::Write;
+
+/// Executes a `curl` request to the given URL and processes the JSON output with `jq`.
+///
+/// # Parameters
+///
+/// - `url`: The API endpoint URL.
+/// - `jq_cmd`: A `jq` filter string to process the JSON output.
+///
+/// # Returns
+///
+/// - `Ok(())`: If the command executes successfully.
+/// - `Err`: If there is an error executing the commands or processing the data.
+///
+/// # Notes
+///
+/// - Requires `curl` and `jq` to be installed on your system.
+/// - Ensures that the `CDG_API_KEY` environment variable is set.
 pub fn curl_and_jq(url: &str, jq_cmd: &str) -> Result<(), Box<dyn std::error::Error>> {
-    // check if jq is installed, check if curl is installed
-    // if not, return an error
-    std::process::Command::new("jq")
+    // Check if jq is installed
+    if std::process::Command::new("jq")
         .arg("--version")
         .output()
-        .expect("jq is not installed. Please install jq and try again.");
+        .is_err()
+    {
+        return Err("jq is not installed. Please install jq and try again.".into());
+    }
 
-    std::process::Command::new("curl")
+    // Check if curl is installed
+    if std::process::Command::new("curl")
         .arg("--version")
         .output()
-        .expect("curl is not installed. Please install curl and try again.");
+        .is_err()
+    {
+        return Err("curl is not installed. Please install curl and try again.".into());
+    }
 
-    let output = std::process::Command::new("curl")
+    // Execute curl command
+    let curl_output = std::process::Command::new("curl")
         .arg(url)
-        .output()
-        .expect("Failed to execute command");
+        .output()?;
 
-    let output = std::str::from_utf8(&output.stdout).unwrap();
-    let output = output.trim();
+    if !curl_output.status.success() {
+        return Err("Failed to execute curl command.".into());
+    }
 
-    let _ = std::process::Command::new("jq")
+    let stdout = String::from_utf8(curl_output.stdout)?;
+    let trimmed_output = stdout.trim();
+
+    // Execute jq command
+    let mut jq_process = std::process::Command::new("jq")
         .arg(jq_cmd)
         .stdin(std::process::Stdio::piped())
         .stdout(std::process::Stdio::inherit())
-        .spawn()
-        .expect("Failed to execute command")
-        .stdin
-        .unwrap()
-        .write_all(output.as_bytes());
+        .spawn()?;
+
+    {
+        let stdin = jq_process.stdin.as_mut().ok_or("Failed to open stdin for jq")?;
+        stdin.write_all(trimmed_output.as_bytes())?;
+    }
+
+    let jq_status = jq_process.wait()?;
+    if !jq_status.success() {
+        return Err("jq command failed.".into());
+    }
 
     Ok(())
-
 }

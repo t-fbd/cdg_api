@@ -1,8 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::param_models::*;
 
-/// Represents all available API endpoints for legislative data.
-///
 /// Each variant of the `Endpoints` enum corresponds to a specific API endpoint,
 /// encapsulating the necessary parameters required to interact with that endpoint.
 #[derive(Debug, Serialize, Deserialize, Clone)]

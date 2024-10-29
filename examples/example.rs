@@ -6,7 +6,8 @@ use cdg_api::{
     param_models::{
         FormatType, MemberListParams
     },
-    curl_and_jq
+    response_models::*,
+    get_congress_data
 };
 
 fn main() {
@@ -19,13 +20,19 @@ fn main() {
 
     let endpoint = Endpoints::new_member_list(params);
 
-    println!("{}", get_endpoint_url(endpoint.clone()));
+    let url = get_endpoint_url(endpoint);
 
-    match curl_and_jq(&get_endpoint_url(endpoint), ".members | to_entries[] | {name: .value.name, party: .value.partyName, state: .value.state}") {
-        Ok(_) => exit(0),
+    println!("URL: {}", url);
+
+    let response: MembersResponse = match get_congress_data(&url) {
+        Ok(response) => response,
         Err(e) => {
             eprintln!("Error: {}", e);
             exit(1);
         }
+    };
+
+    for member in response.members {
+        println!("{}, {}, {}\n", member.name, member.state, member.party_name);
     }
 }

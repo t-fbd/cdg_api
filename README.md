@@ -9,12 +9,41 @@ A simple library to interact with the [US Congress API](https://api.congress.gov
 
 This library provides a Rust interface for the US Congress API, allowing you to construct API endpoints, build URLs with parameters, and retrieve legislative data.
 
+Currently unavailable in the API are the following:
+calls to the endpoints:
+
+- `/committee-report`
+- `/committee-print`
+- `/committee-meeting`
+- `/hearing`
+- `/congressional-record`
+- `/daily-congressional-record`
+- `/bound-congressional-record`
+- `/house-communication`
+- `/house-requirement`
+- `/senate-communication`
+
+Available endpoints are all related to:
+
+- `/member`
+- `/bill`
+- `/law`
+- `/amendment`
+- `/committee`
+- `/nomination`
+- `/treaty`
+- `/summaries`
+- `/congress`
+
 ## Features
 
-- Enumerated endpoints covering various legislative data.
-- Parameter models for customizing API queries.
-- URL builders for constructing API URLs with parameters.
-- Utility function to fetch and pretty-print JSON responses (requires `curl` and `jq`).
+- **Enumerated Endpoints**: Covering various legislative data.
+- **Parameter Models**: For customizing API queries in a type-safe manner.
+- **URL Builders**: For constructing API URLs with parameters.
+- **Response Models**: Structs representing the API responses, enabling easy deserialization and manipulation of returned JSON data.
+- **Utility Functions**:
+  - **`curl_and_jq`**: Fetch and pretty-print JSON responses (requires `curl` and `jq`).
+  - **`get_congress_data`**: Fetch data using `reqwest` and deserialize into Rust structs.
 
 ## Installation
 
@@ -69,7 +98,7 @@ Here's an example of how to fetch a list of current members of Congress and disp
 
 **Note**:
 
-- This example requires `curl` and `jq` to be installed on your system.
+- This example uses the `get_congress_data` function, which requires the `reqwest` crate (already included as a dependency).
 - Ensure that the `CDG_API_KEY` environment variable is set as described above.
 
 ```rust
@@ -77,9 +106,12 @@ use std::process::exit;
 
 use cdg_api::{
     url_builders::get_endpoint_url,
-    Endpoints, NewEndpoint,
-    param_models::{FormatType, MemberListParams},
-    curl_and_jq,
+    Endpoints, NewEndpoint, 
+    param_models::{
+        FormatType, MemberListParams
+    },
+    response_models::MembersResponse,
+    get_congress_data
 };
 
 fn main() {
@@ -92,10 +124,64 @@ fn main() {
 
     let endpoint = Endpoints::new_member_list(params);
 
-    println!("{}", get_endpoint_url(endpoint.clone()));
+    let url = get_endpoint_url(endpoint);
+
+    println!("URL: {}", url);
+
+    let response: MembersResponse = match get_congress_data(&url) {
+        Ok(response) => response,
+        Err(e) => {
+            eprintln!("Error: {}", e);
+            exit(1);
+        }
+    };
+
+    for member in response.members {
+        println!("{}, {}, {}\n", member.name, member.state, member.party_name);
+    }
+}
+```
+
+This example:
+
+- Constructs an endpoint for fetching a list of current members of Congress.
+- Builds the full API URL using the `get_endpoint_url` function.
+- Uses the `get_congress_data` function to fetch and deserialize the data into `MembersResponse`.
+- Iterates through the members and prints their names, states, and party affiliations.
+
+### Using `curl_and_jq`
+
+Alternatively, you can use the `curl_and_jq` utility function to fetch and process JSON data directly in the command line.
+
+```rust
+use std::process::exit;
+
+use cdg_api::{
+    url_builders::get_endpoint_url,
+    Endpoints, NewEndpoint, 
+    param_models::{
+        FormatType, MemberListParams
+    },
+    response_models::*,
+    curl_and_jq
+};
+
+fn main() {
+    let params = MemberListParams {
+        format: Some(FormatType::Json),
+        limit: Some(10),
+        current_member: Some(true),
+        ..MemberListParams::default()
+    };
+
+    let endpoint = Endpoints::new_member_list(params);
+
+    let url = get_endpoint_url(endpoint);
+
+    println!("URL: {}", url);
 
     match curl_and_jq(
-        &get_endpoint_url(endpoint),
+        &url,
         ".members | to_entries[] | {name: .value.name, party: .value.partyName, state: .value.state}",
     ) {
         Ok(_) => exit(0),
@@ -139,6 +225,34 @@ You can install them using:
 
 ## Modules
 
+### `endpoints`
+
+Contains the `Endpoints` enum and the `NewEndpoint` trait, representing available API endpoints.
+
+#### `Endpoints` Enum
+
+Variants for various data types:
+
+- **Members**: `MemberList`, `MemberByCongress`, `MemberByState`, etc.
+- **Bills**, **Laws**, **Amendments**, **Committees**, **Nominations**, **Treaties**, **Summaries**, **Congress**.
+
+#### `NewEndpoint` Trait
+
+Provides constructors for each endpoint variant.
+
+```rust
+use cdg_api::{Endpoints, NewEndpoint};
+use cdg_api::param_models::MemberListParams;
+
+let params = MemberListParams {
+    current_member: Some(true),
+    limit: Some(10),
+    ..Default::default()
+};
+
+let endpoint = Endpoints::new_member_list(params);
+```
+
 ### `url_builders`
 
 Utilities to construct API URLs with parameters.
@@ -174,54 +288,95 @@ Parameter structs for customizing API requests, such as:
 
 *(Other parameter structs for bills, laws, amendments, etc., are also available.)*
 
-### `endpoints`
+### `response_models`
 
-Contains the `Endpoints` enum and the `NewEndpoint` trait, representing available API endpoints.
+Defines the data structures that map to the API response JSON structures using `serde` for deserialization.
 
-#### `Endpoints` Enum
+#### PrimaryResponse Trait
 
-Variants for various data types:
+A trait that all primary response structs implement, ensuring they can be deserialized and used with `get_congress_data`.
 
-- **Members**: `MemberList`, `MemberByCongress`, `MemberByState`, etc.
-- **Bills**, **Laws**, **Amendments**, **Committees**, **Nominations**, **Treaties**, **Summaries**, **Congress**.
+#### Structs
 
-#### `NewEndpoint` Trait
+- **MembersResponse**: Represents the response structure for member-related endpoints.
+- **BillsResponse**: Represents the response structure for bill-related endpoints.
+- **LawsResponse**: Represents the response structure for law-related endpoints.
+- **AmendmentsResponse**: Represents the response structure for amendment-related endpoints.
+- *(Additional response structs for committees, nominations, treaties, summaries, congress, etc.)*
 
-Provides constructors for each endpoint variant.
+#### Example Response Struct
 
 ```rust
-use cdg_api::{Endpoints, NewEndpoint};
-use cdg_api::param_models::MemberListParams;
+use serde::Deserialize;
 
-let params = MemberListParams {
-    current_member: Some(true),
-    limit: Some(10),
-    ..Default::default()
-};
+#[derive(Debug, Deserialize)]
+pub struct MembersResponse {
+    pub members: Vec<Member>,
+    // Additional fields as per the API response
+}
 
-let endpoint = Endpoints::new_member_list(params);
+#[derive(Debug, Deserialize)]
+pub struct Member {
+    pub name: String,
+    pub state: String,
+    pub party_name: String,
+    // Additional member fields
+}
 ```
 
+### `param_models`
+
+*(This section remains unchanged as it's already well-documented.)*
+
 ## Functions
+
+### `get_congress_data`
+
+Fetches data from the US Congress API and deserializes it into the specified response model.
+
+```rust
+pub fn get_congress_data<T: PrimaryResponse + DeserializeOwned>(url: &str) -> Result<T, Box<dyn std::error::Error>>;
+```
+
+- **Parameters**:
+  - `url`: The API endpoint URL.
+  
+- **Returns**:
+  - `Ok(T)`: The deserialized response data.
+  - `Err`: An error if the request fails or deserialization fails.
+
+**Usage Example**:
+
+```rust
+use cdg_api::{
+    get_congress_data,
+    response_models::MembersResponse,
+};
+
+fn fetch_members(url: &str) -> Result<MembersResponse, Box<dyn std::error::Error>> {
+    let response: MembersResponse = get_congress_data(url)?;
+    Ok(response)
+}
+```
 
 ### `curl_and_jq`
 
 Utility function that performs a `curl` request and processes the JSON output with `jq`.
 
 ```rust
-pub fn curl_and_jq(url: &str, jq_filter: &str) -> Result<(), Box<dyn std::error::Error>>;
+pub fn curl_and_jq(url: &str, jq_cmd: &str) -> Result<(), Box<dyn std::error::Error>>;
 ```
 
 - **Parameters**:
   - `url`: The API endpoint URL.
-  - `jq_filter`: A `jq` filter string to process the JSON output.
+  - `jq_cmd`: A `jq` filter string to process the JSON output.
 
 **Note**:
 
 - Requires `curl` and `jq` to be installed.
-- Ensure that the `CDG_API_KEY` environment variable is set.
+- Ensures that the `CDG_API_KEY` environment variable is set.
 
-### Example
+**Usage Example**:
 
 ```rust
 use cdg_api::{
@@ -244,25 +399,20 @@ fn main() {
 }
 ```
 
-In the above code:
-
-- The line `// Ensure CDG_API_KEY is set in your environment` reminds you to set the API key via environment variables.
-- The actual setting of the API key is omitted to avoid hardcoding sensitive information.
-
 ## Environment Variables
 
-- **CDG_API_KEY**: Your API key for the US Congress API.
+- **`CDG_API_KEY`**: Your API key for the US Congress API.
 
 ## Future Work
 
 Primary areas for future development include:
 
-- **Response Models**: Define `structs` that map to the API response JSON structures using `serde` for deserialization.
-
-Additional features may include:
-
-- **Async Support**: Introduce asynchronous HTTP request support for better performance in applications that can leverage it.
-- **Error Handling**: Improve error handling mechanisms to provide more informative feedback to users.
+- **Async Support**: Introduce asynchronous HTTP request support using `tokio` or `async-std` for better performance in applications that can leverage it.
+- **Enhanced Error Handling**: Improve error handling mechanisms to provide more informative and user-friendly feedback.
+- **Additional Response Models**: Expand the `response_models` to cover all available API endpoints comprehensively.
+- **Pagination Support**: Implement support for handling paginated responses from the API.
+- **Caching Mechanisms**: Introduce caching to reduce redundant API calls and improve performance.
+- **Comprehensive Documentation**: Expand the documentation with more examples and detailed explanations of each module and function.
 
 Feel free to open an issue or submit a pull request on the [GitHub repository](https://github.com/t-fbd/cdg_api).
 
@@ -273,4 +423,3 @@ This project is licensed under the terms of the [MIT license](LICENSE).
 ## Repository
 
 [https://github.com/t-fbd/cdg_api](https://github.com/t-fbd/cdg_api)
-
