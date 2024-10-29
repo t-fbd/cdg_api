@@ -1,0 +1,15 @@
+[package]
+name = "cdg_api"
+description = "A simple library to interact with api.congress.gov"
+version = "0.1.0"
+edition = "2021"
+readme = "README.md"
+repository = "https://github.com/t-fbd/cdg_api"
+license-file = "LICENSE"
+keywords = ["gov", "congress", "api", "serde", "documents"]
+categories = ["api-bindings", "data-structures"]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+reqwest = { version = "0.11", features = ["blocking", "json"] }
