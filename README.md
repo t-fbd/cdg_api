@@ -51,7 +51,7 @@ Add `cdg_api` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-cdg_api = "0.2.0"
+cdg_api = "*"
 ```
 
 or use `cargo` to add the dependency:
