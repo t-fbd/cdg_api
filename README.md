@@ -153,6 +153,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Handle the response
     println!("Response: {}", response);
 
+    // Make the HTTP request
+
     Ok(())
 }
 ```
@@ -160,9 +162,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 ### Retrieving Committee Information
 
 ```rust
-use cdg_api::{Endpoints, ChamberType, CommitteeOption, CommonParams};
-use reqwest::blocking::Client;
-use serde_json::Value;
+use cdg_api::{ChamberType, CommitteeOption, CommonParams, Endpoints, NewEndpoint};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Set up common parameters
@@ -174,9 +174,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Create committee endpoint
     let committee_endpoint = Endpoints::new_committee(
-        Some(117),
         Some(ChamberType::Senate),
-        Some("SSGA".to_string()),
+        Some(118),
+        None,
         Some(CommitteeOption::Bills),
         Some(params),
     );
@@ -186,11 +186,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Request URL: {}", url);
 
     // Make the HTTP request
-    let client = Client::new();
-    let response = client.get(&url).send()?.json::<Value>()?;
-
-    // Handle the response
-    println!("Response: {}", response);
 
     Ok(())
 }
