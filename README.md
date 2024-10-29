@@ -255,13 +255,16 @@ In the above code:
 
 ## Future Work
 
-We plan to enhance the library by implementing response models for parsing API responses into Rust data structures. This will allow users to work with strongly typed data rather than raw JSON, improving the usability and safety of the library.
+Primary areas for future development include:
 
 - **Response Models**: Define `structs` that map to the API response JSON structures using `serde` for deserialization.
+
+Additional features may include:
+
 - **Async Support**: Introduce asynchronous HTTP request support for better performance in applications that can leverage it.
 - **Error Handling**: Improve error handling mechanisms to provide more informative feedback to users.
 
-Contributions are welcome! If you're interested in helping out, feel free to open an issue or submit a pull request on our [GitHub repository](https://github.com/t-fbd/cdg_api).
+Feel free to open an issue or submit a pull request on the [GitHub repository](https://github.com/t-fbd/cdg_api).
 
 ## License
 
