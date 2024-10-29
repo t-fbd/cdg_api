@@ -267,7 +267,7 @@ impl LawType {
 /// Parameters for the `BillList` endpoint.
 ///
 /// These parameters allow filtering and pagination when listing bills.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillListParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -292,7 +292,7 @@ pub struct BillListParams {
 ///
 /// These parameters allow filtering and pagination when retrieving bills
 /// for a specific congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillByCongressParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -317,7 +317,7 @@ pub struct BillByCongressParams {
 ///
 /// These parameters allow filtering and pagination when retrieving bills
 /// of a specific type within a congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillByTypeParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -342,7 +342,7 @@ pub struct BillByTypeParams {
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillDetailsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -351,7 +351,7 @@ pub struct BillDetailsParams {
 /// Parameters for the `BillActions` endpoint.
 ///
 /// These parameters allow pagination when fetching actions taken on a specific bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillActionsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -366,7 +366,7 @@ pub struct BillActionsParams {
 /// Parameters for the `BillAmendments` endpoint.
 ///
 /// These parameters allow pagination when listing amendments of a specific bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillAmendmentsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -381,7 +381,7 @@ pub struct BillAmendmentsParams {
 /// Parameters for the `BillCommittees` endpoint.
 ///
 /// These parameters allow pagination when retrieving committees associated with a specific bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillCommitteesParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -396,7 +396,7 @@ pub struct BillCommitteesParams {
 /// Parameters for the `BillCosponsors` endpoint.
 ///
 /// These parameters allow pagination when retrieving cosponsors of a specific bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillCosponsorsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -415,7 +415,7 @@ pub struct BillCosponsorsParams {
 /// Parameters for the `AmendmentList` endpoint.
 ///
 /// These parameters allow filtering and pagination when listing amendments.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentListParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -440,7 +440,7 @@ pub struct AmendmentListParams {
 ///
 /// These parameters allow filtering and pagination when retrieving amendments
 /// for a specific congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentByCongressParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -465,7 +465,7 @@ pub struct AmendmentByCongressParams {
 ///
 /// These parameters allow filtering and pagination when retrieving amendments
 /// of a specific type within a congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentByTypeParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -490,7 +490,7 @@ pub struct AmendmentByTypeParams {
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific amendment.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentDetailsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -499,7 +499,7 @@ pub struct AmendmentDetailsParams {
 /// Parameters for the `AmendmentActions` endpoint.
 ///
 /// These parameters allow pagination when fetching actions taken on a specific amendment.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentActionsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -514,7 +514,7 @@ pub struct AmendmentActionsParams {
 /// Parameters for the `AmendmentCosponsors` endpoint.
 ///
 /// These parameters allow pagination when retrieving cosponsors of a specific amendment.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentCosponsorsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -529,7 +529,7 @@ pub struct AmendmentCosponsorsParams {
 /// Parameters for the `AmendmentAmendments` endpoint.
 ///
 /// These parameters allow pagination when listing amendments of a specific amendment.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentAmendmentsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -545,7 +545,7 @@ pub struct AmendmentAmendmentsParams {
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving the text of a specific amendment.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentTextParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -558,7 +558,7 @@ pub struct AmendmentTextParams {
 /// Parameters for the `LawList` endpoint.
 ///
 /// These parameters allow filtering and pagination when listing laws.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct LawListParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -583,7 +583,7 @@ pub struct LawListParams {
 ///
 /// These parameters allow filtering and pagination when retrieving laws
 /// for a specific congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct LawByCongressParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -608,7 +608,7 @@ pub struct LawByCongressParams {
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific law.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct LawDetailsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -621,7 +621,7 @@ pub struct LawDetailsParams {
 /// Parameters for the `MemberList` endpoint.
 ///
 /// These parameters allow filtering and pagination when listing members of Congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MemberListParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -647,7 +647,7 @@ pub struct MemberListParams {
 ///
 /// These parameters allow filtering and pagination when retrieving members
 /// representing a specific state.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MemberByStateParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -666,7 +666,7 @@ pub struct MemberByStateParams {
 ///
 /// These parameters allow filtering and pagination when retrieving members
 /// associated with a specific congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MemberByCongressParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -684,7 +684,7 @@ pub struct MemberByCongressParams {
 ///
 /// These parameters allow filtering and pagination when retrieving members
 /// by congress, state, and district.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MemberByCongressStateDistrictParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -703,7 +703,7 @@ pub struct MemberByCongressStateDistrictParams {
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific member.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MemberDetailsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -712,7 +712,7 @@ pub struct MemberDetailsParams {
 /// Parameters for the `SponsorshipList` endpoint.
 ///
 /// These parameters allow pagination when listing sponsorships of a specific member.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct SponsorshipListParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -727,7 +727,7 @@ pub struct SponsorshipListParams {
 /// Parameters for the `CosponsorshipList` endpoint.
 ///
 /// These parameters allow pagination when listing cosponsorships of a specific member.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CosponsorshipListParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -746,7 +746,7 @@ pub struct CosponsorshipListParams {
 /// Parameters for the `CommitteeList` endpoint.
 ///
 /// These parameters allow filtering and pagination when listing committees.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteeListParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -768,7 +768,7 @@ pub struct CommitteeListParams {
 ///
 /// These parameters allow filtering and pagination when retrieving committees
 /// by chamber (House, Senate, or Joint).
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteeByChamberParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -790,7 +790,7 @@ pub struct CommitteeByChamberParams {
 ///
 /// These parameters allow filtering and pagination when retrieving committees
 /// associated with a specific congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteeByCongressParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -812,7 +812,7 @@ pub struct CommitteeByCongressParams {
 ///
 /// These parameters allow filtering and pagination when retrieving committees
 /// by both congress and chamber.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteeByCongressChamberParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -834,7 +834,7 @@ pub struct CommitteeByCongressChamberParams {
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific committee.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteeDetailsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -843,7 +843,7 @@ pub struct CommitteeDetailsParams {
 /// Parameters for the `CommitteeBills` endpoint.
 ///
 /// These parameters allow pagination when listing bills under a specific committee.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteeBillsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -858,7 +858,7 @@ pub struct CommitteeBillsParams {
 /// Parameters for the `CommitteeReports` endpoint.
 ///
 /// These parameters allow pagination when retrieving reports from a specific committee.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteeReportsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -873,7 +873,7 @@ pub struct CommitteeReportsParams {
 /// Parameters for the `CommitteeNominations` endpoint.
 ///
 /// These parameters allow pagination when listing nominations handled by a specific committee.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteeNominationsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -888,7 +888,7 @@ pub struct CommitteeNominationsParams {
 /// Parameters for the `CommitteeHouseCommunication` endpoint.
 ///
 /// These parameters allow pagination when retrieving house communications handled by a specific committee.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteeHouseCommunicationParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -903,7 +903,7 @@ pub struct CommitteeHouseCommunicationParams {
 /// Parameters for the `CommitteeSenateCommunication` endpoint.
 ///
 /// These parameters allow pagination when retrieving senate communications handled by a specific committee.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteeSenateCommunicationParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -922,7 +922,7 @@ pub struct CommitteeSenateCommunicationParams {
 /// Parameters for the `NominationList` endpoint.
 ///
 /// These parameters allow filtering and pagination when listing nominations.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct NominationListParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -947,7 +947,7 @@ pub struct NominationListParams {
 ///
 /// These parameters allow filtering and pagination when retrieving nominations
 /// for a specific congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct NominationByCongressParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -972,7 +972,7 @@ pub struct NominationByCongressParams {
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific nomination.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct NominationDetailsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -981,7 +981,7 @@ pub struct NominationDetailsParams {
 /// Parameters for the `Nominees` endpoint.
 ///
 /// These parameters allow pagination when listing nominees of a specific nomination.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct NomineesParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -996,7 +996,7 @@ pub struct NomineesParams {
 /// Parameters for the `NominationActions` endpoint.
 ///
 /// These parameters allow pagination when fetching actions taken on a specific nomination.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct NominationActionsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1011,7 +1011,7 @@ pub struct NominationActionsParams {
 /// Parameters for the `NominationCommittees` endpoint.
 ///
 /// These parameters allow pagination when retrieving committees involved in a specific nomination.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct NominationCommitteesParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1026,7 +1026,7 @@ pub struct NominationCommitteesParams {
 /// Parameters for the `NominationHearings` endpoint.
 ///
 /// These parameters allow pagination when listing hearings related to a specific nomination.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct NominationHearingsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1045,7 +1045,7 @@ pub struct NominationHearingsParams {
 /// Parameters for the `TreatyList` endpoint.
 ///
 /// These parameters allow filtering and pagination when listing treaties.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatyListParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1070,7 +1070,7 @@ pub struct TreatyListParams {
 ///
 /// These parameters allow filtering and pagination when retrieving treaties
 /// for a specific congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatyByCongressParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1095,7 +1095,7 @@ pub struct TreatyByCongressParams {
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific treaty.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatyDetailsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1105,7 +1105,7 @@ pub struct TreatyDetailsParams {
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving partitioned information about a specific treaty.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatyPartitionedParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1114,7 +1114,7 @@ pub struct TreatyPartitionedParams {
 /// Parameters for the `TreatyCommittees` endpoint.
 ///
 /// These parameters allow pagination when retrieving committees associated with a specific treaty.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatyCommitteesParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1129,7 +1129,7 @@ pub struct TreatyCommitteesParams {
 /// Parameters for the `TreatyActions` endpoint.
 ///
 /// These parameters allow pagination when fetching actions taken on a specific treaty.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatyActionsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1148,7 +1148,7 @@ pub struct TreatyActionsParams {
 /// Parameters for the `SummariesList` endpoint.
 ///
 /// These parameters allow filtering and pagination when listing summaries.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct SummariesListParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1173,7 +1173,7 @@ pub struct SummariesListParams {
 ///
 /// These parameters allow filtering and pagination when retrieving summaries
 /// for a specific congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct SummariesByCongressParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1198,7 +1198,7 @@ pub struct SummariesByCongressParams {
 ///
 /// These parameters allow filtering and pagination when retrieving summaries
 /// of a specific bill type within a congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct SummariesByTypeParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1226,7 +1226,7 @@ pub struct SummariesByTypeParams {
 /// Parameters for the `CongressList` endpoint.
 ///
 /// These parameters allow filtering and pagination when listing congress sessions.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CongressListParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1242,7 +1242,7 @@ pub struct CongressListParams {
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific congress session.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CongressDetailsParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
@@ -1252,7 +1252,7 @@ pub struct CongressDetailsParams {
 ///
 /// These parameters allow filtering and pagination when retrieving information
 /// about the current congress session.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CongressCurrentParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,

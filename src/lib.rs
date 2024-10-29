@@ -21,7 +21,19 @@ pub const BASE_URL: &str = "https://api.congress.gov/v3/";
 
 
 use std::io::Write;
-pub fn curl_and_jq(url: &str) -> Result<(), Box<dyn std::error::Error>> {
+pub fn curl_and_jq(url: &str, jq_cmd: &str) -> Result<(), Box<dyn std::error::Error>> {
+    // check if jq is installed, check if curl is installed
+    // if not, return an error
+    std::process::Command::new("jq")
+        .arg("--version")
+        .output()
+        .expect("jq is not installed. Please install jq and try again.");
+
+    std::process::Command::new("curl")
+        .arg("--version")
+        .output()
+        .expect("curl is not installed. Please install curl and try again.");
+
     let output = std::process::Command::new("curl")
         .arg(url)
         .output()
@@ -31,7 +43,7 @@ pub fn curl_and_jq(url: &str) -> Result<(), Box<dyn std::error::Error>> {
     let output = output.trim();
 
     let _ = std::process::Command::new("jq")
-        .arg(".bills | to_entries[] | {title: .value.title, congress: .value.congress, url: .value.url}")
+        .arg(jq_cmd)
         .stdin(std::process::Stdio::piped())
         .stdout(std::process::Stdio::inherit())
         .spawn()

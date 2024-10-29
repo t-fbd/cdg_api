@@ -5,7 +5,7 @@ use crate::param_models::*;
 ///
 /// Each variant of the `Endpoints` enum corresponds to a specific API endpoint,
 /// encapsulating the necessary parameters required to interact with that endpoint.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub enum Endpoints {
     // ================================
     // Bill Endpoints
