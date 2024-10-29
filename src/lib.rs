@@ -13,14 +13,14 @@
 //!## Examples
 
 pub mod endpoints;
-pub mod url_init;
-
-use std::io::Write;
+pub mod url_builders;
+pub mod param_models;
 
 pub use endpoints::*;
-
 pub const BASE_URL: &str = "https://api.congress.gov/v3/";
 
+
+use std::io::Write;
 pub fn curl_and_jq(url: &str) -> Result<(), Box<dyn std::error::Error>> {
     let output = std::process::Command::new("curl")
         .arg(url)
