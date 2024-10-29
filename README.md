@@ -418,7 +418,7 @@ Feel free to open an issue or submit a pull request on the [GitHub repository](h
 
 ## License
 
-This project is licensed under the terms of the [MIT license](LICENSE).
+This project is licensed under the terms of the [MIT license](https://github.com/t-fbd/cdg_api/blob/master/LICENSE).
 
 ## Repository
 

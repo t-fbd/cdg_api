@@ -1,17 +1,18 @@
 #![doc = include_str!("../README.md")]
-//! # Rust API for the US Congress API
+
+
 
 pub mod endpoints;
 pub mod url_builders;
 pub mod param_models;
 pub mod response_models;
 
-pub use endpoints::*;
 pub const BASE_URL: &str = "https://api.congress.gov/v3/";
 
 use reqwest::blocking::Client;
 use response_models::PrimaryResponse;
 use serde::de::DeserializeOwned;
+
 
 /// Fetches data from the US Congress API and deserializes it into the specified response model.
 ///
