@@ -1,6 +1,6 @@
-use cdg_api::{Endpoints, BillType, CommonParams, NewEndpoint};
+use cdg_api::{Endpoints, BillType, CommonParams, NewEndpoint, curl_and_jq};
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Example: Create a bill endpoint
     let params = CommonParams {
         format: Some(cdg_api::Format::Json),
@@ -20,5 +20,8 @@ fn main() {
     );
 
     let url = bill_endpoint.to_url();
-    println!("Generated URL: {}", url);
+
+    curl_and_jq(&url)?;
+
+    Ok(())
 }

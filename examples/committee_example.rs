@@ -1,6 +1,6 @@
-use cdg_api::{ChamberType, CommitteeOption, CommonParams, Endpoints, NewEndpoint};
+use cdg_api::{ChamberType, CommitteeOption, CommonParams, Endpoints, NewEndpoint, curl_and_jq};
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Set up common parameters
     let params = CommonParams {
         format: Some(cdg_api::Format::Json),
@@ -19,5 +19,9 @@ fn main() {
 
     // Generate URL
     let url = committee_endpoint.to_url();
-    println!("Request URL: {}", url);
+
+    // Make the HTTP request
+    curl_and_jq(&url)?;
+
+    Ok(())
 }

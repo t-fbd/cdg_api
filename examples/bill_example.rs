@@ -1,4 +1,4 @@
-use cdg_api::{BillOption, BillType, CommonParams, Endpoints, NewEndpoint};
+use cdg_api::{BillOption, BillType, CommonParams, Endpoints, NewEndpoint, curl_and_jq};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Set up common parameters
@@ -19,9 +19,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Generate URL
     let url = bill_endpoint.to_url();
-    println!("Request URL: {}", url);
 
     // Make the HTTP request
+    curl_and_jq(&url)?;
 
     Ok(())
 }
