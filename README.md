@@ -1,11 +1,10 @@
 # CDG API
 
+![Crates.io](https://img.shields.io/crates/v/cdg_api)
+![MIT License](https://img.shields.io/crates/l/cdg_api)
+
 A Rust library for interacting with the [US Congress API](https://api.congress.gov/).  
 Easily construct URLs, interact with various API endpoints, and parse responses into Rust data structures.
-
-![Crates.io](https://img.shields.io/crates/v/cdg_api)
-![License](https://img.shields.io/crates/l/cdg_api)
-![MIT License](https://img.shields.io/crates/l/cdg_api)
 
 ## Table of Contents
 
