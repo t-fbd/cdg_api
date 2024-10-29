@@ -122,8 +122,6 @@ let url = bill_endpoint.to_url();
 
 ```rs
 use cdg_api::{Endpoints, BillType, BillOption, CommonParams};
-use reqwest::blocking::Client;
-use serde_json::Value;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Set up common parameters
@@ -145,13 +143,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Generate URL
     let url = bill_endpoint.to_url();
     println!("Request URL: {}", url);
-
-    // Make the HTTP request
-    let client = Client::new();
-    let response = client.get(&url).send()?.json::<Value>()?;
-
-    // Handle the response
-    println!("Response: {}", response);
 
     // Make the HTTP request
 
