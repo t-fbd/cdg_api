@@ -6,7 +6,7 @@ impl Endpoints {
         let api_key = std::env::var("CDG_API_KEY").unwrap();
         match self {
             Endpoints::Bill { congress, bill_type, bill_number, bill_option, parameters } => {
-                url.push_str("bills");
+                url.push_str("bill");
                 let mut flag = 0;
 
                 if let Some(congress) = congress {
@@ -40,7 +40,7 @@ impl Endpoints {
                 return format!("{}&api_key={}", url, api_key);
             },
             Endpoints::Law { congress, law_type, law_number, parameters } => {
-                url.push_str("laws");
+                url.push_str("law");
                 url.push_str(&format!("/{}", congress));
                 let mut flag = 0;
 
@@ -63,7 +63,7 @@ impl Endpoints {
 
             },
             Endpoints::Amendment { congress, amendment_type, amendment_number, amendment_option, parameters } => {
-                url.push_str("amendments");
+                url.push_str("amendment");
                 let mut flag = 0;
 
                 if let Some(congress) = congress {
@@ -167,7 +167,7 @@ impl Endpoints {
                 return format!("{}&api_key={}", url, api_key);
             },
             Endpoints::Committee { chamber, congress, committee_code, committee_option, parameters } => {
-                url.push_str("committees");
+                url.push_str("committee");
                 let chamber_flag = chamber.is_some();
                 let congress_flag = congress.is_some();
 
@@ -193,7 +193,7 @@ impl Endpoints {
                 return format!("{}&api_key={}", url, api_key);
             },
             Endpoints::CommitteeReport { congress, report_type, report_number, text, parameters } => {
-                url.push_str("committee-reports");
+                url.push_str("committee-report");
                 let mut flag = 0;
                 let congress_flag = congress.is_some();
 
@@ -229,7 +229,7 @@ impl Endpoints {
                 return format!("{}&api_key={}", url, api_key);
             },
             Endpoints::CommitteePrint { congress, chamber, jacket_number, text, parameters } => {
-                url.push_str("committee_prints");
+                url.push_str("committee_print");
                 let mut flag = 0;
                 let congress_flag = congress.is_some();
                 let chamber_flag = chamber.is_some();
@@ -266,7 +266,7 @@ impl Endpoints {
                 return format!("{}&api_key={}", url, api_key);
             },
             Endpoints::CommitteeMeeting { congress, chamber, event_id, parameters } => {
-                url.push_str("committee-meetings");
+                url.push_str("committee-meeting");
                 let mut flag = 0;
                 let congress_flag = congress.is_some();
                 let chamber_flag = chamber.is_some();
@@ -296,7 +296,7 @@ impl Endpoints {
                 return format!("{}&api_key={}", url, api_key);
             },
             Endpoints::Hearing { congress, chamber, jacket_number, parameters } => {
-                url.push_str("hearings");
+                url.push_str("hearing");
                 let mut flag = 0;
                 let congress_flag = congress.is_some();
                 let chamber_flag = chamber.is_some();
@@ -389,7 +389,7 @@ impl Endpoints {
                 return format!("{}&api_key={}", url, api_key);
             },
             Endpoints::HouseCommunication { congress, communication_type, communication_number, parameters } => {
-                url.push_str("house-communications");
+                url.push_str("house-communication");
                 let mut flag = 0;
                 let congress_flag = congress.is_some();
 
@@ -418,7 +418,7 @@ impl Endpoints {
                 return format!("{}&api_key={}", url, api_key);
             },
             Endpoints::HouseRequirement { requirement_number, matching_communications, parameters } => {
-                url.push_str("house-requirements");
+                url.push_str("house-requirement");
                 let mut flag = 0;
 
                 if requirement_number.is_some() {
@@ -439,7 +439,7 @@ impl Endpoints {
                 return format!("{}&api_key={}", url, api_key);
             },
             Endpoints::SenateCommunication { congress, communication_type, communication_number, parameters } => {
-                url.push_str("senate-communications");
+                url.push_str("senate-communication");
                 let mut flag = 0;
                 let congress_flag = congress.is_some();
 
@@ -468,7 +468,7 @@ impl Endpoints {
                 return format!("{}&api_key={}", url, api_key);
             },
             Endpoints::Nomination { congress, nomination_number, ordinal, nomination_option, parameters } => {
-                url.push_str("nominations");
+                url.push_str("nomination");
                 let mut flag = 0;
                 let ord_flag = ordinal.is_some();
                 let nomination_option = {
@@ -508,7 +508,7 @@ impl Endpoints {
                 return format!("{}&api_key={}", url, api_key);
             },
             Endpoints::Treaty { congress, treaty_number, treaty_suffix, actions, committees, parameters } => {
-                url.push_str("treaties");
+                url.push_str("treaty");
                 let congress_flag = congress.is_some();
 
                 if congress_flag {

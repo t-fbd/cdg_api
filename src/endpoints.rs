@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-pub const BASE_URL: &str = "https://api.congress.gov/";
+pub const BASE_URL: &str = "https://api.congress.gov/v3/";
 
 #[derive(Debug, Serialize, Deserialize)]
 pub enum Endpoints {
