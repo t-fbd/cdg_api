@@ -9,9 +9,10 @@ A simple Rust library to interact with the [US Congress API](https://api.congres
 
 `cdg_api` provides a Rust interface for interacting with the US Congress API. It simplifies constructing API endpoints, building URLs with parameters, and retrieving legislative data. Whether fetching information about bills, members, amendments, or laws, `cdg_api` offers a streamlined and type-safe approach to accessing this data.
 
-### Currently Unavailable Endpoints
+### Currently Unavailable Endpoints for Making Non-Manual Calls
 
-The following API endpoints are currently unavailable for making calls, although response objects may be available for most of them:
+The following API endpoints are currently unavailable for making calls, although response objects may be available for most, if not all, of them.
+Manual calls can still be made to these endpoints using the `Endpoints::Manual` variant. For more information, refer to the [Using `Endpoints::Manual` for Custom Endpoints](#example-4-using-endpointsmanual-for-custom-endpoints) example.
 
 - `/committee-report`
 - `/committee-print`
@@ -24,9 +25,9 @@ The following API endpoints are currently unavailable for making calls, although
 - `/house-requirement`
 - `/senate-communication`
 
-### Available Endpoints
+### Fully Supported Endpoints
 
-The library currently supports endpoints related to:
+The library fully supports the following API endpoints:
 
 - `/member`
 - `/bill`

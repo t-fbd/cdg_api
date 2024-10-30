@@ -3,69 +3,50 @@ use serde_json::Value;
 
 pub trait PrimaryResponse {}
 
-impl PrimaryResponse for GenericResponse {} // catch-all for endpoints that don't have a specific
-                                            // response model
-impl PrimaryResponse for AmendmentsResponse {} // corresponds to the /amendment endpoint
-impl PrimaryResponse for AmendmentDetailsResponse {} // corresponds to the
-                                                     // /amendment/{congress}/{amendmentType}/{amendmentNumber}
-                                                     // endpoint
-impl PrimaryResponse for AmendmentActionsResponse {} // corresponds to the
-                                                      // /amendment/{congress}/{amendmentType}/{amendmentNumber}/actions
-                                                      // endpoint
-impl PrimaryResponse for AmendmentCosponsorsResponse {} // corresponds to the
-                                                         // /amendment/{congress}/{amendmentType}/{amendmentNumber}/cosponsors
-                                                         // endpoint
-impl PrimaryResponse for AmendmentAmendmentsResponse {} // corresponds to the
-                                                         // /amendment/{congress}/{amendmentType}/{amendmentNumber}/amendments
-                                                         // endpoint
-impl PrimaryResponse for AmendmentTextVersionsResponse {} // corresponds to the
-                                                           // /amendment/{congress}/{amendmentType}/{amendmentNumber}/text
-                                                           // endpoint
-impl PrimaryResponse for BillsResponse {} // corresponds to the /bill endpoint
-impl PrimaryResponse for BillDetailsResponse {} // corresponds to the
-                                                // /bill/{congress}/{billType}/{billNumber} endpoint
-impl PrimaryResponse for BillActionsResponse {} // corresponds to the
-                                                 // /bill/{congress}/{billType}/{billNumber}/actions endpoint
-impl PrimaryResponse for BillAmendmentsResponse {} // corresponds to the
-                                                   // /bill/{congress}/{billType}/{billNumber}/amendments endpoint
-impl PrimaryResponse for BillCommitteesResponse {} // corresponds to the
-                                                    // /bill/{congress}/{billType}/{billNumber}/committees endpoint
-impl PrimaryResponse for BillCosponsorsResponse {} // corresponds to the
-                                                   // /bill/{congress}/{billType}/{billNumber}/cosponsors endpoint
-impl PrimaryResponse for RelatedBillsResponse {} // corresponds to the
-                                                 // /bill/{congress}/{billType}/{billNumber}/relatedbills endpoint
-impl PrimaryResponse for BillSubjectsResponse {} // corresponds to the
-                                                  // /bill/{congress}/{billType}/{billNumber}/subjects endpoint
-impl PrimaryResponse for BillSummariesResponse {} // corresponds to the
-                                                  // /bill/{congress}/{billType}/{billNumber}/summaries endpoint
-impl PrimaryResponse for BillTextVersionsResponse {} // corresponds to the
-                                                     // /bill/{congress}/{billType}/{billNumber}/text endpoint
-impl PrimaryResponse for BillTitlesResponse {} // corresponds to the
-                                                // /bill/{congress}/{billType}/{billNumber}/titles endpoint
-impl PrimaryResponse for SummariesResponse {} // corresponds to the /summaries endpoint
-impl PrimaryResponse for LawsResponse {} // corresponds to the /law/{congress} and /law/{congress}/{lawType}
-                                         // endpoints
-impl PrimaryResponse for LawDetailsResponse {} // corresponds to the
-                                               // /law/{congress}/{lawType}/{lawNumber} endpoint
-impl PrimaryResponse for CongressesResponse {} // corresponds to the /congress endpoint
-impl PrimaryResponse for CongressDetailsResponse {} // corresponds to the
-                                                     // /congress/{congress} and /congress/current endpoints
-impl PrimaryResponse for CongressionalRecordResponse {} // corresponds to the /congressional-record
-                                                        // endpoint
-impl PrimaryResponse for DailyCongressionalRecordResponse {} // corresponds to the
-                                                              // /daily-congressional-record endpoint
-impl PrimaryResponse for ArticlesResponse {} // corresponds to the
-                                              // /daily-congressional-record/{volumeNumber}/{issueNumber}/articles
-                                              // endpoint
-impl PrimaryResponse for MembersResponse {} // corresponds to the /member endpoint
-impl PrimaryResponse for MemberDetailsResponse {} // corresponds to the /member/{bioguideId}
-                                                  // endpoint
-impl PrimaryResponse for NominationsResponse {} // corresponds to the /nomination endpoint
-impl PrimaryResponse for NominationDetailsResponse {} // corresponds to the
-                                                      // /nomination/{congress}/{nominationNumber} endpoint
-impl PrimaryResponse for TreatiesResponse {} // corresponds to the /treaty endpoint
-impl PrimaryResponse for TreatyDetailsResponse {} // corresponds to the
-                                                   // /treaty/{congress}/{treatyNumber} endpoint
+macro_rules! impl_primary_response {
+    ($($t:ty),*) => {
+        $(impl PrimaryResponse for $t {})*
+    };
+}
+
+impl_primary_response!(
+    GenericResponse,
+    AmendmentsResponse,
+    AmendmentDetailsResponse,
+    AmendmentActionsResponse,
+    AmendmentCosponsorsResponse,
+    AmendmentAmendmentsResponse,
+    AmendmentTextVersionsResponse,
+    BillsResponse,
+    BillDetailsResponse,
+    BillActionsResponse,
+    BillAmendmentsResponse,
+    BillCommitteesResponse,
+    BillCosponsorsResponse,
+    RelatedBillsResponse,
+    BillSubjectsResponse,
+    BillSummariesResponse,
+    BillTextVersionsResponse,
+    BillTitlesResponse,
+    SummariesResponse,
+    LawsResponse,
+    LawDetailsResponse,
+    CongressesResponse,
+    CongressDetailsResponse,
+    CongressionalRecordResponse,
+    DailyCongressionalRecordResponse,
+    ArticlesResponse,
+    MembersResponse,
+    MemberDetailsResponse,
+    NominationsResponse,
+    NominationDetailsResponse,
+    TreatiesResponse,
+    TreatyDetailsResponse,
+    HearingsResponse,
+    HearingDetailsResponse,
+    HouseCommunicationDetailsResponse,
+    HouseCommunicationsResponse
+);
 
 /// Dynamic response model that can represent a variety of response types.
 #[derive(Debug, Serialize, Deserialize)]
@@ -1614,5 +1595,253 @@ pub struct RelatedDoc {
     pub url: String,
     #[serde(flatten)]
     pub unknown: Option<Value>,
+}
+
+/// Response model for the `/hearing` endpoint.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HearingsResponse {
+    pub hearings: Vec<HearingItem>,
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Represents an individual hearing entry.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HearingItem {
+    #[serde(rename = "jacketNumber")]
+    pub jacket_number: String,
+    #[serde(rename = "updateDate")]
+    pub update_date: String,
+    pub chamber: String,
+    pub congress: u32,
+    pub number: u32,
+    pub part: Option<String>,
+    pub url: String,
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Response model for the `/hearing/{congress}/{chamber}/{jacketNumber}` endpoint.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HearingDetailsResponse {
+    pub hearing: HearingDetails,
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Represents detailed information about a hearing.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HearingDetails {
+    #[serde(rename = "jacketNumber")]
+    pub jacket_number: String,
+    #[serde(rename = "libraryOfCongressIdentifier")]
+    pub library_of_congress_identifier: String,
+    pub number: u32,
+    pub part: Option<String>,
+    #[serde(rename = "updateDate")]
+    pub update_date: String,
+    pub congress: u32,
+    pub title: String,
+    pub citation: String,
+    pub chamber: String,
+    pub committees: Vec<HearingCommittee>,
+    pub dates: Vec<HearingDate>,
+    pub formats: Vec<HearingFormat>,
+    #[serde(rename = "associatedMeeting")]
+    pub associated_meeting: Option<AssociatedMeeting>,
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Represents a committee that held the hearing.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HearingCommittee {
+    pub name: String,
+    #[serde(rename = "systemCode")]
+    pub system_code: String,
+    pub url: String,
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Represents a date when the hearing was held.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HearingDate {
+    pub date: String,
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Represents a hearing transcript format.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HearingFormat {
+    #[serde(rename = "type")]
+    pub format_type: String,
+    pub url: String,
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Represents meeting information associated with the hearing.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct AssociatedMeeting {
+    #[serde(rename = "eventID")]
+    pub event_id: String,
+    #[serde(rename = "URL")]
+    pub url: String,
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Response model for the `/house-communication` endpoint.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HouseCommunicationsResponse {
+    pub house_communications: Vec<HouseCommunicationItem>,
+}
+
+/// Represents an individual House communication entry.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HouseCommunicationItem {
+    pub chamber: String,
+    pub number: u32,
+    #[serde(rename = "communicationType")]
+    pub communication_type: CommunicationType,
+    #[serde(rename = "congressNumber")]
+    pub congress_number: u32,
+    pub url: String,
+}
+
+/// Represents the type of communication.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CommunicationType {
+    pub code: String,
+    pub name: String,
+}
+
+/// Response model for the `/house-communication/{congress}/{type}/{number}` endpoint.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HouseCommunicationDetailsResponse {
+    #[serde(rename = "house-communication")]
+    pub house_communication: HouseCommunicationDetails,
+}
+
+/// Represents detailed information about a House communication.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HouseCommunicationDetails {
+    pub chamber: String,
+    pub number: u32,
+    #[serde(rename = "communicationType")]
+    pub communication_type: CommunicationType,
+    pub congress: u32,
+    #[serde(rename = "updateDate")]
+    pub update_date: String,
+    pub abstract_text: String,
+    #[serde(rename = "congressionalRecordDate")]
+    pub congressional_record_date: String,
+    #[serde(rename = "sessionNumber")]
+    pub session_number: u32,
+    #[serde(rename = "isRulemaking")]
+    pub is_rulemaking: String,
+    pub committees: Vec<CommunicationCommittee>,
+    #[serde(rename = "matchingRequirements")]
+    pub matching_requirements: Vec<MatchingRequirement>,
+    #[serde(rename = "houseDocument")]
+    pub house_document: Vec<HouseDocument>,
+}
+
+/// Represents a committee associated with the communication.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CommunicationCommittee {
+    pub name: String,
+    #[serde(rename = "referralDate")]
+    pub referral_date: String,
+    #[serde(rename = "systemCode")]
+    pub system_code: String,
+}
+
+/// Represents a matching requirement associated with the communication.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct MatchingRequirement {
+    pub number: String,
+    #[serde(rename = "URL")]
+    pub url: String,
+    #[serde(rename = "reportNature")]
+    pub report_nature: String,
+    #[serde(rename = "submittingAgency")]
+    pub submitting_agency: String,
+    #[serde(rename = "submittingOfficial")]
+    pub submitting_official: String,
+    #[serde(rename = "legalAuthority")]
+    pub legal_authority: String,
+}
+
+/// Represents a House document associated with the communication.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HouseDocument {
+    pub citation: String,
+    pub title: String,
+}
+
+/// Response model for the `/house-requirement` endpoint.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HouseRequirementsResponse {
+    pub house_requirements: Vec<HouseRequirementItem>,
+}
+
+/// Represents an individual House requirement entry.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HouseRequirementItem {
+    pub number: u32,
+    #[serde(rename = "updateDate")]
+    pub update_date: String,
+    pub url: String,
+}
+
+/// Response model for the `/house-requirement/{number}` endpoint.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HouseRequirementDetailsResponse {
+    #[serde(rename = "houseRequirement")]
+    pub house_requirement: HouseRequirementDetails,
+}
+
+/// Represents detailed information about a House requirement.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HouseRequirementDetails {
+    pub number: u32,
+    #[serde(rename = "updateDate")]
+    pub update_date: String,
+    #[serde(rename = "parentAgency")]
+    pub parent_agency: String,
+    pub frequency: String,
+    pub nature: String,
+    #[serde(rename = "legalAuthority")]
+    pub legal_authority: String,
+    #[serde(rename = "activeRecord")]
+    pub active_record: bool,
+    #[serde(rename = "submittingAgency")]
+    pub submitting_agency: String,
+    #[serde(rename = "submittingOfficial")]
+    pub submitting_official: String,
+    #[serde(rename = "matchingCommunications")]
+    pub matching_communications: MatchingCommunications,
+}
+
+/// Represents matching communications associated with a House requirement.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct MatchingCommunications {
+    pub count: u32,
+    pub url: String,
+    pub items: Vec<MatchingCommunicationItem>,
+}
+
+/// Represents a House communication matching a House requirement.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct MatchingCommunicationItem {
+    pub chamber: String,
+    pub number: u32,
+    #[serde(rename = "communicationType")]
+    pub communication_type: CommunicationType,
+    pub congress: u32,
+    pub url: String,
 }
 
