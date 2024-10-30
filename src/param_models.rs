@@ -400,10 +400,10 @@ pub struct BillListParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering bills.
     pub from_date_time: Option<String>,
@@ -425,10 +425,10 @@ pub struct BillByCongressParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering bills.
     pub from_date_time: Option<String>,
@@ -450,10 +450,10 @@ pub struct BillByTypeParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering bills.
     pub from_date_time: Option<String>,
@@ -484,10 +484,10 @@ pub struct BillActionsParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `BillAmendments` endpoint.
@@ -499,10 +499,10 @@ pub struct BillAmendmentsParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `BillCommittees` endpoint.
@@ -514,10 +514,10 @@ pub struct BillCommitteesParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `BillCosponsors` endpoint.
@@ -529,10 +529,10 @@ pub struct BillCosponsorsParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 // ================================
@@ -548,10 +548,10 @@ pub struct AmendmentListParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering amendments.
     pub from_date_time: Option<String>,
@@ -573,10 +573,10 @@ pub struct AmendmentByCongressParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering amendments.
     pub from_date_time: Option<String>,
@@ -598,10 +598,10 @@ pub struct AmendmentByTypeParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering amendments.
     pub from_date_time: Option<String>,
@@ -632,10 +632,10 @@ pub struct AmendmentActionsParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `AmendmentCosponsors` endpoint.
@@ -647,10 +647,10 @@ pub struct AmendmentCosponsorsParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `AmendmentAmendments` endpoint.
@@ -662,10 +662,10 @@ pub struct AmendmentAmendmentsParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `AmendmentText` endpoint.
@@ -691,10 +691,10 @@ pub struct LawParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 
@@ -711,10 +711,10 @@ pub struct MemberListParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering members.
     pub from_date_time: Option<String>,
@@ -737,10 +737,10 @@ pub struct MemberByStateParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Filter to include only current members.
     pub current_member: Option<bool>,
@@ -756,10 +756,10 @@ pub struct MemberByCongressParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
     /// Filter to include only current members.
     pub current_member: Option<bool>,
 }
@@ -774,10 +774,10 @@ pub struct MemberByCongressStateDistrictParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Filter to include only current members.
     pub current_member: Option<bool>,
@@ -802,10 +802,10 @@ pub struct SponsorshipListParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `CosponsorshipList` endpoint.
@@ -817,10 +817,10 @@ pub struct CosponsorshipListParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 // ================================
@@ -836,10 +836,10 @@ pub struct CommitteeListParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering committees.
     pub from_date_time: Option<String>,
@@ -858,10 +858,10 @@ pub struct CommitteeByChamberParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering committees.
     pub from_date_time: Option<String>,
@@ -880,10 +880,10 @@ pub struct CommitteeByCongressParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering committees.
     pub from_date_time: Option<String>,
@@ -902,10 +902,10 @@ pub struct CommitteeByCongressChamberParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering committees.
     pub from_date_time: Option<String>,
@@ -933,10 +933,10 @@ pub struct CommitteeBillsParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `CommitteeReports` endpoint.
@@ -948,10 +948,10 @@ pub struct CommitteeReportsParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `CommitteeNominations` endpoint.
@@ -963,10 +963,10 @@ pub struct CommitteeNominationsParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `CommitteeHouseCommunication` endpoint.
@@ -978,10 +978,10 @@ pub struct CommitteeHouseCommunicationParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `CommitteeSenateCommunication` endpoint.
@@ -993,10 +993,10 @@ pub struct CommitteeSenateCommunicationParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 // ================================
@@ -1012,10 +1012,10 @@ pub struct NominationListParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering nominations.
     pub from_date_time: Option<String>,
@@ -1037,10 +1037,10 @@ pub struct NominationByCongressParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering nominations.
     pub from_date_time: Option<String>,
@@ -1071,10 +1071,10 @@ pub struct NomineesParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `NominationActions` endpoint.
@@ -1086,10 +1086,10 @@ pub struct NominationActionsParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `NominationCommittees` endpoint.
@@ -1101,10 +1101,10 @@ pub struct NominationCommitteesParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `NominationHearings` endpoint.
@@ -1116,10 +1116,10 @@ pub struct NominationHearingsParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 // ================================
@@ -1135,10 +1135,10 @@ pub struct TreatyListParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering treaties.
     pub from_date_time: Option<String>,
@@ -1160,10 +1160,10 @@ pub struct TreatyByCongressParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering treaties.
     pub from_date_time: Option<String>,
@@ -1204,10 +1204,10 @@ pub struct TreatyCommitteesParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `TreatyActions` endpoint.
@@ -1219,10 +1219,10 @@ pub struct TreatyActionsParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 // ----------------
@@ -1238,10 +1238,10 @@ pub struct SummariesListParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering summaries.
     pub from_date_time: Option<String>,
@@ -1263,10 +1263,10 @@ pub struct SummariesByCongressParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering summaries.
     pub from_date_time: Option<String>,
@@ -1288,10 +1288,10 @@ pub struct SummariesByTypeParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 
     /// Start date-time for filtering summaries.
     pub from_date_time: Option<String>,
@@ -1316,10 +1316,10 @@ pub struct CongressListParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }
 
 /// Parameters for the `CongressDetails` endpoint.
@@ -1342,8 +1342,8 @@ pub struct CongressCurrentParams {
     pub format: Option<FormatType>,
 
     /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
+    pub offset: Option<u32>,
 
     /// Maximum number of items to return.
-    pub limit: Option<i32>,
+    pub limit: Option<u32>,
 }

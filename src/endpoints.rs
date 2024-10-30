@@ -40,99 +40,103 @@ pub enum Endpoints {
     // ================================
 
     /// Endpoint to list bills based on provided parameters.
+    /// /bill
     BillList(BillListParams),
 
     /// Endpoint to retrieve bills by a specific congress number.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `BillByCongressParams`: Additional parameters for filtering bills.
-    BillByCongress(i32, BillByCongressParams),
+    /// /bill/{congress}
+    BillByCongress(u32, BillByCongressParams),
 
     /// Endpoint to get bills filtered by type within a specific congress.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `BillType`: The type of bill (e.g., House, Senate).
     /// - `BillByTypeParams`: Additional parameters for filtering bills by type.
-    BillByType(i32, BillType, BillByTypeParams),
+    /// /bill/{congress}/{billType}
+    BillByType(u32, BillType, BillByTypeParams),
 
     /// Endpoint to retrieve detailed information about a specific bill.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `BillType`: The type of bill.
-    /// - `String`: The bill number.
+    /// - `u32`: The bill number.
     /// - `BillDetailsParams`: Additional parameters for bill details.
-    BillDetails(i32, BillType, i32, BillDetailsParams),
+    /// /bill/{congress}/{billType}/{billNumber}
+    BillDetails(u32, BillType, u32, BillDetailsParams),
 
     /// Endpoint to fetch actions taken on a specific bill.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `BillType`: The type of bill.
     /// - `String`: The bill number.
     /// - `BillActionsParams`: Additional parameters for bill actions.
-    BillActions(i32, BillType, String, BillActionsParams),
+    BillActions(u32, BillType, String, BillActionsParams),
 
     /// Endpoint to list amendments of a specific bill.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `BillType`: The type of bill.
     /// - `String`: The bill number.
     /// - `BillAmendmentsParams`: Additional parameters for bill amendments.
-    BillAmendments(i32, BillType, String, BillAmendmentsParams),
+    BillAmendments(u32, BillType, String, BillAmendmentsParams),
 
     /// Endpoint to get committees associated with a specific bill.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `BillType`: The type of bill.
     /// - `String`: The bill number.
     /// - `BillCommitteesParams`: Additional parameters for bill committees.
-    BillCommittees(i32, BillType, String, BillCommitteesParams),
+    BillCommittees(u32, BillType, String, BillCommitteesParams),
 
     /// Endpoint to retrieve cosponsors of a specific bill.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `BillType`: The type of bill.
     /// - `String`: The bill number.
     /// - `BillCosponsorsParams`: Additional parameters for bill cosponsors.
-    BillCosponsors(i32, BillType, String, BillCosponsorsParams),
+    BillCosponsors(u32, BillType, String, BillCosponsorsParams),
 
     // ================================
     // Law Endpoints
     // ================================
 
     /// Endpoint to list laws based on provided parameters.
-    LawByType(i32, LawType, LawParams),
+    LawByType(u32, LawType, LawParams),
 
     /// Endpoint to retrieve laws by a specific congress number.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `LawParams`: Additional parameters for filtering laws.
-    LawByCongress(i32, LawParams),
+    LawByCongress(u32, LawParams),
 
     /// Endpoint to get detailed information about a specific law.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `LawType`: The type of law.
-    /// - `i32`: The law number.
+    /// - `u32`: The law number.
     /// - `LawDetailsParams`: Additional parameters for law details.
-    LawDetails(i32, LawType, i32, LawParams),
+    LawDetails(u32, LawType, u32, LawParams),
 
     // ================================
     // Amendment Endpoints
@@ -145,68 +149,68 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `AmendmentByCongressParams`: Additional parameters for filtering amendments.
-    AmendmentByCongress(i32, AmendmentByCongressParams),
+    AmendmentByCongress(u32, AmendmentByCongressParams),
 
     /// Endpoint to get amendments filtered by type within a specific congress.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `AmendmentType`: The type of amendment.
     /// - `AmendmentByTypeParams`: Additional parameters for filtering amendments by type.
-    AmendmentByType(i32, AmendmentType, AmendmentByTypeParams),
+    AmendmentByType(u32, AmendmentType, AmendmentByTypeParams),
 
     /// Endpoint to retrieve detailed information about a specific amendment.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `AmendmentType`: The type of amendment.
     /// - `String`: The amendment number.
     /// - `AmendmentDetailsParams`: Additional parameters for amendment details.
-    AmendmentDetails(i32, AmendmentType, String, AmendmentDetailsParams),
+    AmendmentDetails(u32, AmendmentType, String, AmendmentDetailsParams),
 
     /// Endpoint to fetch actions taken on a specific amendment.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `AmendmentType`: The type of amendment.
     /// - `String`: The amendment number.
     /// - `AmendmentActionsParams`: Additional parameters for amendment actions.
-    AmendmentActions(i32, AmendmentType, String, AmendmentActionsParams),
+    AmendmentActions(u32, AmendmentType, String, AmendmentActionsParams),
 
     /// Endpoint to retrieve cosponsors of a specific amendment.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `AmendmentType`: The type of amendment.
     /// - `String`: The amendment number.
     /// - `AmendmentCosponsorsParams`: Additional parameters for amendment cosponsors.
-    AmendmentCosponsors(i32, AmendmentType, String, AmendmentCosponsorsParams),
+    AmendmentCosponsors(u32, AmendmentType, String, AmendmentCosponsorsParams),
 
     /// Endpoint to list amendments of a specific amendment.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `AmendmentType`: The type of amendment.
     /// - `String`: The amendment number.
     /// - `AmendmentAmendmentsParams`: Additional parameters for amendment amendments.
-    AmendmentAmendments(i32, AmendmentType, String, AmendmentAmendmentsParams),
+    AmendmentAmendments(u32, AmendmentType, String, AmendmentAmendmentsParams),
 
     /// Endpoint to retrieve the text of a specific amendment.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `AmendmentType`: The type of amendment.
     /// - `String`: The amendment number.
     /// - `AmendmentTextParams`: Additional parameters for amendment text.
-    AmendmentText(i32, AmendmentType, String, AmendmentTextParams),
+    AmendmentText(u32, AmendmentType, String, AmendmentTextParams),
 
     // ================================
     // Summaries Endpoints
@@ -219,18 +223,18 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `SummariesByCongressParams`: Additional parameters for filtering summaries.
-    SummariesByCongress(i32, SummariesByCongressParams),
+    SummariesByCongress(u32, SummariesByCongressParams),
 
     /// Endpoint to get summaries filtered by bill type within a specific congress.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `BillType`: The type of bill.
     /// - `SummariesByTypeParams`: Additional parameters for filtering summaries by type.
-    SummariesByType(i32, BillType, SummariesByTypeParams),
+    SummariesByType(u32, BillType, SummariesByTypeParams),
 
     // ================================
     // Congress Endpoints
@@ -243,9 +247,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `CongressDetailsParams`: Additional parameters for congress details.
-    CongressDetails(i32, CongressDetailsParams),
+    CongressDetails(u32, CongressDetailsParams),
 
     /// Endpoint to get information about the current congress session.
     ///
@@ -265,9 +269,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `MemberByCongressParams`: Additional parameters for filtering members by congress.
-    MemberByCongress(i32, MemberByCongressParams),
+    MemberByCongress(u32, MemberByCongressParams),
 
     /// Endpoint to get members representing a specific state.
     ///
@@ -281,11 +285,11 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `String`: The state code.
-    /// - `i32`: The district number.
+    /// - `u32`: The district number.
     /// - `MemberByCongressStateDistrictParams`: Additional parameters for filtering.
-    MemberByCongressStateDistrict(i32, String, i32, MemberByCongressStateDistrictParams),
+    MemberByCongressStateDistrict(u32, String, u32, MemberByCongressStateDistrictParams),
 
     /// Endpoint to get detailed information about a specific member.
     ///
@@ -330,18 +334,18 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `CommitteeByCongressParams`: Additional parameters for filtering committees by congress.
-    CommitteeByCongress(i32, CommitteeByCongressParams),
+    CommitteeByCongress(u32, CommitteeByCongressParams),
 
     /// Endpoint to retrieve committees by congress and chamber.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `ChamberType`: The chamber type.
     /// - `CommitteeByCongressChamberParams`: Additional parameters for filtering.
-    CommitteeByCongressChamber(i32, ChamberType, CommitteeByCongressChamberParams),
+    CommitteeByCongressChamber(u32, ChamberType, CommitteeByCongressChamberParams),
 
     /// Endpoint to get detailed information about a specific committee.
     ///
@@ -408,55 +412,55 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `NominationByCongressParams`: Additional parameters for filtering nominations.
-    NominationByCongress(i32, NominationByCongressParams),
+    NominationByCongress(u32, NominationByCongressParams),
 
     /// Endpoint to get detailed information about a specific nomination.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `String`: The nomination number.
     /// - `NominationDetailsParams`: Additional parameters for nomination details.
-    NominationDetails(i32, String, NominationDetailsParams),
+    NominationDetails(u32, String, NominationDetailsParams),
 
     /// Endpoint to list nominees of a specific nomination.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `String`: The nomination number.
-    /// - `i32`: The ordinal number.
+    /// - `u32`: The ordinal number.
     /// - `NomineesParams`: Additional parameters for nominees.
-    Nominees(i32, String, i32, NomineesParams),
+    Nominees(u32, String, u32, NomineesParams),
 
     /// Endpoint to fetch actions taken on a specific nomination.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `String`: The nomination number.
     /// - `NominationActionsParams`: Additional parameters for nomination actions.
-    NominationActions(i32, String, NominationActionsParams),
+    NominationActions(u32, String, NominationActionsParams),
 
     /// Endpoint to retrieve committees involved in a specific nomination.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `String`: The nomination number.
     /// - `NominationCommitteesParams`: Additional parameters for nomination committees.
-    NominationCommittees(i32, String, NominationCommitteesParams),
+    NominationCommittees(u32, String, NominationCommitteesParams),
 
     /// Endpoint to list hearings related to a specific nomination.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `String`: The nomination number.
     /// - `NominationHearingsParams`: Additional parameters for nomination hearings.
-    NominationHearings(i32, String, NominationHearingsParams),
+    NominationHearings(u32, String, NominationHearingsParams),
 
     // ================================
     // Treaty Endpoints
@@ -469,46 +473,46 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `TreatyByCongressParams`: Additional parameters for filtering treaties.
-    TreatyByCongress(i32, TreatyByCongressParams),
+    TreatyByCongress(u32, TreatyByCongressParams),
 
     /// Endpoint to get detailed information about a specific treaty.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `String`: The treaty number.
     /// - `TreatyDetailsParams`: Additional parameters for treaty details.
-    TreatyDetails(i32, String, TreatyDetailsParams),
+    TreatyDetails(u32, String, TreatyDetailsParams),
 
     /// Endpoint to retrieve partitioned information about a specific treaty.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `String`: The treaty number.
     /// - `String`: The treaty suffix.
     /// - `TreatyPartitionedParams`: Additional parameters for partitioned treaties.
-    TreatyPartitioned(i32, String, String, TreatyPartitionedParams),
+    TreatyPartitioned(u32, String, String, TreatyPartitionedParams),
 
     /// Endpoint to retrieve committees associated with a specific treaty.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `String`: The treaty number.
     /// - `TreatyCommitteesParams`: Additional parameters for treaty committees.
-    TreatyCommittees(i32, String, TreatyCommitteesParams),
+    TreatyCommittees(u32, String, TreatyCommitteesParams),
 
     /// Endpoint to fetch actions taken on a specific treaty.
     ///
     /// # Parameters
     ///
-    /// - `i32`: The congress number.
+    /// - `u32`: The congress number.
     /// - `String`: The treaty number.
     /// - `TreatyActionsParams`: Additional parameters for treaty actions.
-    TreatyActions(i32, String, TreatyActionsParams),
+    TreatyActions(u32, String, TreatyActionsParams),
 }
 
 /// Trait defining constructors for creating new instances of `Endpoints`.
@@ -535,7 +539,7 @@ pub trait NewEndpoint {
     ///
     /// - `congress`: The congress number.
     /// - `params`: Parameters for filtering bills by congress.
-    fn new_bill_by_congress(congress: i32, params: BillByCongressParams) -> Self;
+    fn new_bill_by_congress(congress: u32, params: BillByCongressParams) -> Self;
 
     /// Constructs a `BillByType` endpoint variant.
     ///
@@ -544,7 +548,7 @@ pub trait NewEndpoint {
     /// - `congress`: The congress number.
     /// - `bill_type`: The type of bill.
     /// - `params`: Parameters for filtering bills by type.
-    fn new_bill_by_type(congress: i32, bill_type: BillType, params: BillByTypeParams) -> Self;
+    fn new_bill_by_type(congress: u32, bill_type: BillType, params: BillByTypeParams) -> Self;
 
     /// Constructs a `BillDetails` endpoint variant.
     ///
@@ -555,9 +559,9 @@ pub trait NewEndpoint {
     /// - `bill_number`: The bill number.
     /// - `params`: Parameters for bill details.
     fn new_bill_details(
-        congress: i32,
+        congress: u32,
         bill_type: BillType,
-        bill_number: i32,
+        bill_number: u32,
         params: BillDetailsParams,
     ) -> Self;
 
@@ -570,7 +574,7 @@ pub trait NewEndpoint {
     /// - `bill_number`: The bill number.
     /// - `params`: Parameters for bill actions.
     fn new_bill_actions(
-        congress: i32,
+        congress: u32,
         bill_type: BillType,
         bill_number: String,
         params: BillActionsParams,
@@ -585,7 +589,7 @@ pub trait NewEndpoint {
     /// - `bill_number`: The bill number.
     /// - `params`: Parameters for bill amendments.
     fn new_bill_amendments(
-        congress: i32,
+        congress: u32,
         bill_type: BillType,
         bill_number: String,
         params: BillAmendmentsParams,
@@ -600,7 +604,7 @@ pub trait NewEndpoint {
     /// - `bill_number`: The bill number.
     /// - `params`: Parameters for bill committees.
     fn new_bill_committees(
-        congress: i32,
+        congress: u32,
         bill_type: BillType,
         bill_number: String,
         params: BillCommitteesParams,
@@ -615,7 +619,7 @@ pub trait NewEndpoint {
     /// - `bill_number`: The bill number.
     /// - `params`: Parameters for bill cosponsors.
     fn new_bill_cosponsors(
-        congress: i32,
+        congress: u32,
         bill_type: BillType,
         bill_number: String,
         params: BillCosponsorsParams,
@@ -630,7 +634,7 @@ pub trait NewEndpoint {
     /// # Parameters
     ///
     /// - `params`: Parameters for listing laws.
-    fn new_law_type(congress: i32, law_type: LawType, params: LawParams) -> Self;
+    fn new_law_type(congress: u32, law_type: LawType, params: LawParams) -> Self;
 
     /// Constructs a `LawByCongress` endpoint variant.
     ///
@@ -638,7 +642,7 @@ pub trait NewEndpoint {
     ///
     /// - `congress`: The congress number.
     /// - `params`: Parameters for filtering laws by congress.
-    fn new_law_by_congress(congress: i32, params: LawParams) -> Self;
+    fn new_law_by_congress(congress: u32, params: LawParams) -> Self;
 
     /// Constructs a `LawDetails` endpoint variant.
     ///
@@ -646,7 +650,7 @@ pub trait NewEndpoint {
     ///
     /// - `congress`: The congress number.
     /// - `params`: Parameters for law details.
-    fn new_law_details(congress: i32, law_type: LawType, law_number: i32, params: LawParams) -> Self;
+    fn new_law_details(congress: u32, law_type: LawType, law_number: u32, params: LawParams) -> Self;
 
     // ================================
     // Amendment Constructors
@@ -665,7 +669,7 @@ pub trait NewEndpoint {
     ///
     /// - `congress`: The congress number.
     /// - `params`: Parameters for filtering amendments by congress.
-    fn new_amendment_by_congress(congress: i32, params: AmendmentByCongressParams) -> Self;
+    fn new_amendment_by_congress(congress: u32, params: AmendmentByCongressParams) -> Self;
 
     /// Constructs an `AmendmentByType` endpoint variant.
     ///
@@ -675,7 +679,7 @@ pub trait NewEndpoint {
     /// - `amendment_type`: The type of amendment.
     /// - `params`: Parameters for filtering amendments by type.
     fn new_amendment_by_type(
-        congress: i32,
+        congress: u32,
         amendment_type: AmendmentType,
         params: AmendmentByTypeParams,
     ) -> Self;
@@ -689,7 +693,7 @@ pub trait NewEndpoint {
     /// - `amendment_number`: The amendment number.
     /// - `params`: Parameters for amendment details.
     fn new_amendment_details(
-        congress: i32,
+        congress: u32,
         amendment_type: AmendmentType,
         amendment_number: String,
         params: AmendmentDetailsParams,
@@ -704,7 +708,7 @@ pub trait NewEndpoint {
     /// - `amendment_number`: The amendment number.
     /// - `params`: Parameters for amendment actions.
     fn new_amendment_actions(
-        congress: i32,
+        congress: u32,
         amendment_type: AmendmentType,
         amendment_number: String,
         params: AmendmentActionsParams,
@@ -719,7 +723,7 @@ pub trait NewEndpoint {
     /// - `amendment_number`: The amendment number.
     /// - `params`: Parameters for amendment cosponsors.
     fn new_amendment_cosponsors(
-        congress: i32,
+        congress: u32,
         amendment_type: AmendmentType,
         amendment_number: String,
         params: AmendmentCosponsorsParams,
@@ -734,7 +738,7 @@ pub trait NewEndpoint {
     /// - `amendment_number`: The amendment number.
     /// - `params`: Parameters for amendment amendments.
     fn new_amendment_amendments(
-        congress: i32,
+        congress: u32,
         amendment_type: AmendmentType,
         amendment_number: String,
         params: AmendmentAmendmentsParams,
@@ -749,7 +753,7 @@ pub trait NewEndpoint {
     /// - `amendment_number`: The amendment number.
     /// - `params`: Parameters for amendment text.
     fn new_amendment_text(
-        congress: i32,
+        congress: u32,
         amendment_type: AmendmentType,
         amendment_number: String,
         params: AmendmentTextParams,
@@ -772,7 +776,7 @@ pub trait NewEndpoint {
     ///
     /// - `congress`: The congress number.
     /// - `params`: Parameters for filtering summaries by congress.
-    fn new_summaries_by_congress(congress: i32, params: SummariesByCongressParams) -> Self;
+    fn new_summaries_by_congress(congress: u32, params: SummariesByCongressParams) -> Self;
 
     /// Constructs a `SummariesByType` endpoint variant.
     ///
@@ -782,7 +786,7 @@ pub trait NewEndpoint {
     /// - `bill_type`: The type of bill.
     /// - `params`: Parameters for filtering summaries by type.
     fn new_summaries_by_type(
-        congress: i32,
+        congress: u32,
         bill_type: BillType,
         params: SummariesByTypeParams,
     ) -> Self;
@@ -804,7 +808,7 @@ pub trait NewEndpoint {
     ///
     /// - `congress`: The congress number.
     /// - `params`: Parameters for congress details.
-    fn new_congress_details(congress: i32, params: CongressDetailsParams) -> Self;
+    fn new_congress_details(congress: u32, params: CongressDetailsParams) -> Self;
 
     /// Constructs a `CongressCurrent` endpoint variant.
     ///
@@ -830,7 +834,7 @@ pub trait NewEndpoint {
     ///
     /// - `congress`: The congress number.
     /// - `params`: Parameters for filtering members by congress.
-    fn new_member_by_congress(congress: i32, params: MemberByCongressParams) -> Self;
+    fn new_member_by_congress(congress: u32, params: MemberByCongressParams) -> Self;
 
     /// Constructs a `MemberByState` endpoint variant.
     ///
@@ -849,9 +853,9 @@ pub trait NewEndpoint {
     /// - `district`: The district number.
     /// - `params`: Parameters for filtering members by congress, state, and district.
     fn new_member_by_congress_state_district(
-        congress: i32,
+        congress: u32,
         state_code: String,
-        district: i32,
+        district: u32,
         params: MemberByCongressStateDistrictParams,
     ) -> Self;
 
@@ -907,7 +911,7 @@ pub trait NewEndpoint {
     ///
     /// - `congress`: The congress number.
     /// - `params`: Parameters for filtering committees by congress.
-    fn new_committee_by_congress(congress: i32, params: CommitteeByCongressParams) -> Self;
+    fn new_committee_by_congress(congress: u32, params: CommitteeByCongressParams) -> Self;
 
     /// Constructs a `CommitteeByCongressChamber` endpoint variant.
     ///
@@ -917,7 +921,7 @@ pub trait NewEndpoint {
     /// - `chamber`: The chamber type.
     /// - `params`: Parameters for filtering committees by congress and chamber.
     fn new_committee_by_congress_chamber(
-        congress: i32,
+        congress: u32,
         chamber: ChamberType,
         params: CommitteeByCongressChamberParams,
     ) -> Self;
@@ -1018,7 +1022,7 @@ pub trait NewEndpoint {
     /// - `congress`: The congress number.
     /// - `params`: Parameters for filtering nominations by congress.
     fn new_nomination_by_congress(
-        congress: i32,
+        congress: u32,
         params: NominationByCongressParams,
     ) -> Self;
 
@@ -1030,7 +1034,7 @@ pub trait NewEndpoint {
     /// - `nomination_number`: The nomination number.
     /// - `params`: Parameters for nomination details.
     fn new_nomination_details(
-        congress: i32,
+        congress: u32,
         nomination_number: String,
         params: NominationDetailsParams,
     ) -> Self;
@@ -1044,9 +1048,9 @@ pub trait NewEndpoint {
     /// - `ordinal`: The ordinal number.
     /// - `params`: Parameters for nominees.
     fn new_nominees(
-        congress: i32,
+        congress: u32,
         nomination_number: String,
-        ordinal: i32,
+        ordinal: u32,
         params: NomineesParams,
     ) -> Self;
 
@@ -1058,7 +1062,7 @@ pub trait NewEndpoint {
     /// - `nomination_number`: The nomination number.
     /// - `params`: Parameters for nomination actions.
     fn new_nomination_actions(
-        congress: i32,
+        congress: u32,
         nomination_number: String,
         params: NominationActionsParams,
     ) -> Self;
@@ -1071,7 +1075,7 @@ pub trait NewEndpoint {
     /// - `nomination_number`: The nomination number.
     /// - `params`: Parameters for nomination committees.
     fn new_nomination_committees(
-        congress: i32,
+        congress: u32,
         nomination_number: String,
         params: NominationCommitteesParams,
     ) -> Self;
@@ -1084,7 +1088,7 @@ pub trait NewEndpoint {
     /// - `nomination_number`: The nomination number.
     /// - `params`: Parameters for nomination hearings.
     fn new_nomination_hearings(
-        congress: i32,
+        congress: u32,
         nomination_number: String,
         params: NominationHearingsParams,
     ) -> Self;
@@ -1106,7 +1110,7 @@ pub trait NewEndpoint {
     ///
     /// - `congress`: The congress number.
     /// - `params`: Parameters for filtering treaties by congress.
-    fn new_treaty_by_congress(congress: i32, params: TreatyByCongressParams) -> Self;
+    fn new_treaty_by_congress(congress: u32, params: TreatyByCongressParams) -> Self;
 
     /// Constructs a `TreatyDetails` endpoint variant.
     ///
@@ -1116,7 +1120,7 @@ pub trait NewEndpoint {
     /// - `treaty_number`: The treaty number.
     /// - `params`: Parameters for treaty details.
     fn new_treaty_details(
-        congress: i32,
+        congress: u32,
         treaty_number: String,
         params: TreatyDetailsParams,
     ) -> Self;
@@ -1130,7 +1134,7 @@ pub trait NewEndpoint {
     /// - `treaty_suffix`: The treaty suffix.
     /// - `params`: Parameters for partitioned treaties.
     fn new_treaty_partitioned(
-        congress: i32,
+        congress: u32,
         treaty_number: String,
         treaty_suffix: String,
         params: TreatyPartitionedParams,
@@ -1144,7 +1148,7 @@ pub trait NewEndpoint {
     /// - `treaty_number`: The treaty number.
     /// - `params`: Parameters for treaty committees.
     fn new_treaty_committees(
-        congress: i32,
+        congress: u32,
         treaty_number: String,
         params: TreatyCommitteesParams,
     ) -> Self;
@@ -1157,7 +1161,7 @@ pub trait NewEndpoint {
     /// - `treaty_number`: The treaty number.
     /// - `params`: Parameters for treaty actions.
     fn new_treaty_actions(
-        congress: i32,
+        congress: u32,
         treaty_number: String,
         params: TreatyActionsParams,
     ) -> Self;
@@ -1177,25 +1181,25 @@ impl NewEndpoint for Endpoints {
         Endpoints::BillList(params)
     }
 
-    fn new_bill_by_congress(congress: i32, params: BillByCongressParams) -> Self {
+    fn new_bill_by_congress(congress: u32, params: BillByCongressParams) -> Self {
         Endpoints::BillByCongress(congress, params)
     }
 
-    fn new_bill_by_type(congress: i32, bill_type: BillType, params: BillByTypeParams) -> Self {
+    fn new_bill_by_type(congress: u32, bill_type: BillType, params: BillByTypeParams) -> Self {
         Endpoints::BillByType(congress, bill_type, params)
     }
 
     fn new_bill_details(
-        congress: i32,
+        congress: u32,
         bill_type: BillType,
-        bill_number: i32,
+        bill_number: u32,
         params: BillDetailsParams,
     ) -> Self {
         Endpoints::BillDetails(congress, bill_type, bill_number, params)
     }
 
     fn new_bill_actions(
-        congress: i32,
+        congress: u32,
         bill_type: BillType,
         bill_number: String,
         params: BillActionsParams,
@@ -1204,7 +1208,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_bill_amendments(
-        congress: i32,
+        congress: u32,
         bill_type: BillType,
         bill_number: String,
         params: BillAmendmentsParams,
@@ -1213,7 +1217,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_bill_committees(
-        congress: i32,
+        congress: u32,
         bill_type: BillType,
         bill_number: String,
         params: BillCommitteesParams,
@@ -1222,7 +1226,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_bill_cosponsors(
-        congress: i32,
+        congress: u32,
         bill_type: BillType,
         bill_number: String,
         params: BillCosponsorsParams,
@@ -1234,15 +1238,15 @@ impl NewEndpoint for Endpoints {
     // Law Endpoints
     // ================================
 
-    fn new_law_type(congress: i32, law_type: LawType, params: LawParams) -> Self {
+    fn new_law_type(congress: u32, law_type: LawType, params: LawParams) -> Self {
         Endpoints::LawByType(congress, law_type, params)
     }
 
-    fn new_law_by_congress(congress: i32, params: LawParams) -> Self {
+    fn new_law_by_congress(congress: u32, params: LawParams) -> Self {
         Endpoints::LawByCongress(congress, params)
     }
 
-    fn new_law_details(congress: i32, law_type: LawType, law_number: i32, params: LawParams) -> Self {
+    fn new_law_details(congress: u32, law_type: LawType, law_number: u32, params: LawParams) -> Self {
         Endpoints::LawDetails(congress, law_type, law_number, params)
     }
 
@@ -1254,12 +1258,12 @@ impl NewEndpoint for Endpoints {
         Endpoints::AmendmentList(params)
     }
 
-    fn new_amendment_by_congress(congress: i32, params: AmendmentByCongressParams) -> Self {
+    fn new_amendment_by_congress(congress: u32, params: AmendmentByCongressParams) -> Self {
         Endpoints::AmendmentByCongress(congress, params)
     }
 
     fn new_amendment_by_type(
-        congress: i32,
+        congress: u32,
         amendment_type: AmendmentType,
         params: AmendmentByTypeParams,
     ) -> Self {
@@ -1267,7 +1271,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_amendment_details(
-        congress: i32,
+        congress: u32,
         amendment_type: AmendmentType,
         amendment_number: String,
         params: AmendmentDetailsParams,
@@ -1276,7 +1280,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_amendment_actions(
-        congress: i32,
+        congress: u32,
         amendment_type: AmendmentType,
         amendment_number: String,
         params: AmendmentActionsParams,
@@ -1285,7 +1289,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_amendment_cosponsors(
-        congress: i32,
+        congress: u32,
         amendment_type: AmendmentType,
         amendment_number: String,
         params: AmendmentCosponsorsParams,
@@ -1294,7 +1298,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_amendment_amendments(
-        congress: i32,
+        congress: u32,
         amendment_type: AmendmentType,
         amendment_number: String,
         params: AmendmentAmendmentsParams,
@@ -1303,7 +1307,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_amendment_text(
-        congress: i32,
+        congress: u32,
         amendment_type: AmendmentType,
         amendment_number: String,
         params: AmendmentTextParams,
@@ -1319,12 +1323,12 @@ impl NewEndpoint for Endpoints {
         Endpoints::SummariesList(params)
     }
 
-    fn new_summaries_by_congress(congress: i32, params: SummariesByCongressParams) -> Self {
+    fn new_summaries_by_congress(congress: u32, params: SummariesByCongressParams) -> Self {
         Endpoints::SummariesByCongress(congress, params)
     }
 
     fn new_summaries_by_type(
-        congress: i32,
+        congress: u32,
         bill_type: BillType,
         params: SummariesByTypeParams,
     ) -> Self {
@@ -1339,7 +1343,7 @@ impl NewEndpoint for Endpoints {
         Endpoints::CongressList(params)
     }
 
-    fn new_congress_details(congress: i32, params: CongressDetailsParams) -> Self {
+    fn new_congress_details(congress: u32, params: CongressDetailsParams) -> Self {
         Endpoints::CongressDetails(congress, params)
     }
 
@@ -1355,7 +1359,7 @@ impl NewEndpoint for Endpoints {
         Endpoints::MemberList(params)
     }
 
-    fn new_member_by_congress(congress: i32, params: MemberByCongressParams) -> Self {
+    fn new_member_by_congress(congress: u32, params: MemberByCongressParams) -> Self {
         Endpoints::MemberByCongress(congress, params)
     }
 
@@ -1364,9 +1368,9 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_member_by_congress_state_district(
-        congress: i32,
+        congress: u32,
         state_code: String,
-        district: i32,
+        district: u32,
         params: MemberByCongressStateDistrictParams,
     ) -> Self {
         Endpoints::MemberByCongressStateDistrict(congress, state_code, district, params)
@@ -1399,12 +1403,12 @@ impl NewEndpoint for Endpoints {
         Endpoints::CommitteeByChamber(chamber, params)
     }
 
-    fn new_committee_by_congress(congress: i32, params: CommitteeByCongressParams) -> Self {
+    fn new_committee_by_congress(congress: u32, params: CommitteeByCongressParams) -> Self {
         Endpoints::CommitteeByCongress(congress, params)
     }
 
     fn new_committee_by_congress_chamber(
-        congress: i32,
+        congress: u32,
         chamber: ChamberType,
         params: CommitteeByCongressChamberParams,
     ) -> Self {
@@ -1468,14 +1472,14 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_nomination_by_congress(
-        congress: i32,
+        congress: u32,
         params: NominationByCongressParams,
     ) -> Self {
         Endpoints::NominationByCongress(congress, params)
     }
 
     fn new_nomination_details(
-        congress: i32,
+        congress: u32,
         nomination_number: String,
         params: NominationDetailsParams,
     ) -> Self {
@@ -1483,16 +1487,16 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_nominees(
-        congress: i32,
+        congress: u32,
         nomination_number: String,
-        ordinal: i32,
+        ordinal: u32,
         params: NomineesParams,
     ) -> Self {
         Endpoints::Nominees(congress, nomination_number, ordinal, params)
     }
 
     fn new_nomination_actions(
-        congress: i32,
+        congress: u32,
         nomination_number: String,
         params: NominationActionsParams,
     ) -> Self {
@@ -1500,7 +1504,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_nomination_committees(
-        congress: i32,
+        congress: u32,
         nomination_number: String,
         params: NominationCommitteesParams,
     ) -> Self {
@@ -1508,7 +1512,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_nomination_hearings(
-        congress: i32,
+        congress: u32,
         nomination_number: String,
         params: NominationHearingsParams,
     ) -> Self {
@@ -1523,12 +1527,12 @@ impl NewEndpoint for Endpoints {
         Endpoints::TreatyList(params)
     }
 
-    fn new_treaty_by_congress(congress: i32, params: TreatyByCongressParams) -> Self {
+    fn new_treaty_by_congress(congress: u32, params: TreatyByCongressParams) -> Self {
         Endpoints::TreatyByCongress(congress, params)
     }
 
     fn new_treaty_details(
-        congress: i32,
+        congress: u32,
         treaty_number: String,
         params: TreatyDetailsParams,
     ) -> Self {
@@ -1536,7 +1540,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_treaty_partitioned(
-        congress: i32,
+        congress: u32,
         treaty_number: String,
         treaty_suffix: String,
         params: TreatyPartitionedParams,
@@ -1545,7 +1549,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_treaty_committees(
-        congress: i32,
+        congress: u32,
         treaty_number: String,
         params: TreatyCommitteesParams,
     ) -> Self {
@@ -1553,7 +1557,7 @@ impl NewEndpoint for Endpoints {
     }
 
     fn new_treaty_actions(
-        congress: i32,
+        congress: u32,
         treaty_number: String,
         params: TreatyActionsParams,
     ) -> Self {

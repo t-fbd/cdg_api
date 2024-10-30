@@ -76,15 +76,15 @@ fn run() -> Result<(), Box<dyn Error>> {
                 eprintln!("Usage: cargo run -- list_bills {{amount}}");
                 return Err("Missing amount for list_bills command.".into());
             }
-            let bill_amount = args[2].parse::<i32>().unwrap_or(10);
+            let bill_amount = args[2].parse::<u32>().unwrap_or(10);
             println!("Searching for {} bills...", bill_amount);
             let limit = 250;
             let all_bills = fetch_all(
                 &client,
                 |offset, limit| Endpoints::BillList(BillListParams {
                     format: Some(cdg_api::param_models::FormatType::Json),
-                    limit: Some(limit as i32),
-                    offset: Some(offset as i32),
+                    limit: Some(limit as u32),
+                    offset: Some(offset as u32),
                     ..BillListParams::default()
                 }),
                 |response: &BillsResponse| response.bills.clone(),
@@ -104,8 +104,8 @@ fn run() -> Result<(), Box<dyn Error>> {
                 &client,
                 |offset, limit| Endpoints::NominationList(NominationListParams {
                     format: Some(cdg_api::param_models::FormatType::Json),
-                    limit: Some(limit as i32),
-                    offset: Some(offset as i32),
+                    limit: Some(limit as u32),
+                    offset: Some(offset as u32),
                     ..NominationListParams::default()
                 }),
                 |response: &NominationsResponse| response.nominations.clone(),
@@ -120,8 +120,8 @@ fn run() -> Result<(), Box<dyn Error>> {
                 &client,
                 |offset, limit| Endpoints::TreatyList(TreatyListParams {
                     format: Some(cdg_api::param_models::FormatType::Json),
-                    limit: Some(limit as i32),
-                    offset: Some(offset as i32),
+                    limit: Some(limit as u32),
+                    offset: Some(offset as u32),
                     ..TreatyListParams::default()
                 }),
                 |response: &TreatiesResponse| response.treaties.clone(),
@@ -146,9 +146,9 @@ fn run() -> Result<(), Box<dyn Error>> {
                 eprintln!("Usage: cargo run -- bill_details <congress> <bill_type> <bill_number>");
                 return Err("Missing arguments for bill_details command.".into());
             }
-            let congress: i32 = args[2].parse()?;
+            let congress: u32 = args[2].parse()?;
             let bill_type = BillType::from_str(&args[3]).unwrap_or_default();
-            let bill_number: i32 = args[4].parse()?;
+            let bill_number: u32 = args[4].parse()?;
             let params = BillDetailsParams::default();
             let endpoint = Endpoints::BillDetails(congress, bill_type, bill_number, params);
             let response: LawDetailsResponse = client.fetch(endpoint)?;
@@ -160,8 +160,8 @@ fn run() -> Result<(), Box<dyn Error>> {
                 &client,
                 |offset, limit| Endpoints::MemberList(MemberListParams {
                     format: Some(cdg_api::param_models::FormatType::Json),
-                    limit: Some(limit as i32),
-                    offset: Some(offset as i32),
+                    limit: Some(limit as u32),
+                    offset: Some(offset as u32),
                     current_member: Some(true),
                     ..MemberListParams::default()
                 }),
@@ -177,8 +177,8 @@ fn run() -> Result<(), Box<dyn Error>> {
                 &client,
                 |offset, limit| Endpoints::CommitteeList(CommitteeListParams {
                     format: Some(cdg_api::param_models::FormatType::Json),
-                    limit: Some(limit as i32),
-                    offset: Some(offset as i32),
+                    limit: Some(limit as u32),
+                    offset: Some(offset as u32),
                     ..CommitteeListParams::default()
                 }),
                 |response: &CommitteesResponse| response.committees.clone(),
@@ -194,8 +194,8 @@ fn run() -> Result<(), Box<dyn Error>> {
                 &client,
                 |offset, limit| Endpoints::LawByCongress(congress, LawParams {
                     format: Some(cdg_api::param_models::FormatType::Json),
-                    limit: Some(limit as i32),
-                    offset: Some(offset as i32),
+                    limit: Some(limit as u32),
+                    offset: Some(offset as u32),
                     ..LawParams::default()
                 }),
                 |response: &LawsResponse| response.bills.clone(),
@@ -210,8 +210,8 @@ fn run() -> Result<(), Box<dyn Error>> {
                 &client,
                 |offset, limit| Endpoints::AmendmentList(AmendmentListParams {
                     format: Some(cdg_api::param_models::FormatType::Json),
-                    limit: Some(limit as i32),
-                    offset: Some(offset as i32),
+                    limit: Some(limit as u32),
+                    offset: Some(offset as u32),
                     ..AmendmentListParams::default()
                 }),
                 |response: &AmendmentsResponse| response.amendments.clone(),
