@@ -68,6 +68,7 @@ fn run() -> Result<(), Box<dyn Error>> {
 
     // The first argument is the command
     let command = args[1].to_lowercase();
+    let results_max = 1000;
 
     match command.as_str() {
         "list_bills" => {
@@ -108,7 +109,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                     ..NominationListParams::default()
                 }),
                 |response: &NominationsResponse| response.nominations.clone(),
-                1000,
+                results_max,
                 limit,
             )?;
             display_nominations(&NominationsResponse { nominations: all_nominations, unknown: None });
@@ -124,7 +125,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                     ..TreatyListParams::default()
                 }),
                 |response: &TreatiesResponse| response.treaties.clone(),
-                1000,
+                results_max,
                 limit,
             )?;
             display_treaties(&TreatiesResponse { treaties: all_treaties, unknown: None });
@@ -165,7 +166,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                     ..MemberListParams::default()
                 }),
                 |response: &MembersResponse| response.members.clone(),
-                1000,
+                results_max,
                 limit,
             )?;
             display_members(&MembersResponse { members: all_members, unknown: None });
@@ -181,7 +182,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                     ..CommitteeListParams::default()
                 }),
                 |response: &CommitteesResponse| response.committees.clone(),
-                1000,
+                results_max,
                 limit,
             )?;
             display_committees(&CommitteesResponse { committees: all_committees });
@@ -198,7 +199,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                     ..LawParams::default()
                 }),
                 |response: &LawsResponse| response.bills.clone(),
-                1000,
+                results_max,
                 limit,
             )?;
             display_laws(&LawsResponse { bills: all_laws, unknown: None });
@@ -214,7 +215,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                     ..AmendmentListParams::default()
                 }),
                 |response: &AmendmentsResponse| response.amendments.clone(),
-                1000,
+                results_max,
                 limit,
             )?;
             display_amendments(&AmendmentsResponse { amendments: all_amendments, unknown: None });
