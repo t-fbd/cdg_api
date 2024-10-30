@@ -559,7 +559,7 @@ pub struct AmendmentTextParams {
 ///
 /// These parameters allow filtering and pagination when listing laws.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
-pub struct LawListParams {
+pub struct LawParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
 
@@ -568,51 +568,8 @@ pub struct LawListParams {
 
     /// Maximum number of items to return.
     pub limit: Option<i32>,
-
-    /// Start date-time for filtering laws.
-    pub from_date_time: Option<String>,
-
-    /// End date-time for filtering laws.
-    pub to_date_time: Option<String>,
-
-    /// Sorting option for the results.
-    pub sort: Option<SortType>,
 }
 
-/// Parameters for the `LawByCongress` endpoint.
-///
-/// These parameters allow filtering and pagination when retrieving laws
-/// for a specific congress.
-#[derive(Debug, Serialize, Deserialize, Default, Clone)]
-pub struct LawByCongressParams {
-    /// Desired response format (JSON or XML).
-    pub format: Option<FormatType>,
-
-    /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<i32>,
-
-    /// Maximum number of items to return.
-    pub limit: Option<i32>,
-
-    /// Start date-time for filtering laws.
-    pub from_date_time: Option<String>,
-
-    /// End date-time for filtering laws.
-    pub to_date_time: Option<String>,
-
-    /// Sorting option for the results.
-    pub sort: Option<SortType>,
-}
-
-/// Parameters for the `LawDetails` endpoint.
-///
-/// These parameters allow specifying the desired response format
-/// when retrieving details of a specific law.
-#[derive(Debug, Serialize, Deserialize, Default, Clone)]
-pub struct LawDetailsParams {
-    /// Desired response format (JSON or XML).
-    pub format: Option<FormatType>,
-}
 
 // ================================
 // Member Endpoints Parameters

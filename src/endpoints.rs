@@ -84,23 +84,25 @@ pub enum Endpoints {
     // ================================
 
     /// Endpoint to list laws based on provided parameters.
-    LawList(LawListParams),
+    LawByType(i32, LawType, LawParams),
 
     /// Endpoint to retrieve laws by a specific congress number.
     ///
     /// # Parameters
     ///
     /// - `i32`: The congress number.
-    /// - `LawByCongressParams`: Additional parameters for filtering laws.
-    LawByCongress(i32, LawByCongressParams),
+    /// - `LawParams`: Additional parameters for filtering laws.
+    LawByCongress(i32, LawParams),
 
     /// Endpoint to get detailed information about a specific law.
     ///
     /// # Parameters
     ///
     /// - `i32`: The congress number.
+    /// - `LawType`: The type of law.
+    /// - `i32`: The law number.
     /// - `LawDetailsParams`: Additional parameters for law details.
-    LawDetails(i32, LawDetailsParams),
+    LawDetails(i32, LawType, i32, LawParams),
 
     // ================================
     // Amendment Endpoints
@@ -596,7 +598,7 @@ pub trait NewEndpoint {
     /// # Parameters
     ///
     /// - `params`: Parameters for listing laws.
-    fn new_law_list(params: LawListParams) -> Self;
+    fn new_law_type(congress: i32, law_type: LawType, params: LawParams) -> Self;
 
     /// Constructs a `LawByCongress` endpoint variant.
     ///
@@ -604,7 +606,7 @@ pub trait NewEndpoint {
     ///
     /// - `congress`: The congress number.
     /// - `params`: Parameters for filtering laws by congress.
-    fn new_law_by_congress(congress: i32, params: LawByCongressParams) -> Self;
+    fn new_law_by_congress(congress: i32, params: LawParams) -> Self;
 
     /// Constructs a `LawDetails` endpoint variant.
     ///
@@ -612,7 +614,7 @@ pub trait NewEndpoint {
     ///
     /// - `congress`: The congress number.
     /// - `params`: Parameters for law details.
-    fn new_law_details(congress: i32, params: LawDetailsParams) -> Self;
+    fn new_law_details(congress: i32, law_type: LawType, law_number: i32, params: LawParams) -> Self;
 
     // ================================
     // Amendment Constructors
@@ -1196,16 +1198,16 @@ impl NewEndpoint for Endpoints {
     // Law Endpoints
     // ================================
 
-    fn new_law_list(params: LawListParams) -> Self {
-        Endpoints::LawList(params)
+    fn new_law_type(congress: i32, law_type: LawType, params: LawParams) -> Self {
+        Endpoints::LawByType(congress, law_type, params)
     }
 
-    fn new_law_by_congress(congress: i32, params: LawByCongressParams) -> Self {
+    fn new_law_by_congress(congress: i32, params: LawParams) -> Self {
         Endpoints::LawByCongress(congress, params)
     }
 
-    fn new_law_details(congress: i32, params: LawDetailsParams) -> Self {
-        Endpoints::LawDetails(congress, params)
+    fn new_law_details(congress: i32, law_type: LawType, law_number: i32, params: LawParams) -> Self {
+        Endpoints::LawDetails(congress, law_type, law_number, params)
     }
 
     // ================================

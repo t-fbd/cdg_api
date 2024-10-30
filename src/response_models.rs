@@ -2,37 +2,67 @@ use serde::{Deserialize, Serialize};
 
 pub trait PrimaryResponse {}
 
-impl PrimaryResponse for AmendmentsResponse {}
-impl PrimaryResponse for AmendmentDetailsResponse {}
-impl PrimaryResponse for AmendmentActionsResponse {}
-impl PrimaryResponse for AmendmentCosponsorsResponse {}
-impl PrimaryResponse for AmendmentAmendmentsResponse {}
-impl PrimaryResponse for AmendmentTextVersionsResponse {}
-impl PrimaryResponse for BillsResponse {}
-impl PrimaryResponse for BillDetailsResponse {}
-impl PrimaryResponse for BillActionsResponse {}
-impl PrimaryResponse for BillAmendmentsResponse {}
-impl PrimaryResponse for BillCommitteesResponse {}
-impl PrimaryResponse for BillCosponsorsResponse {}
-impl PrimaryResponse for RelatedBillsResponse {}
-impl PrimaryResponse for BillSubjectsResponse {}
-impl PrimaryResponse for BillSummariesResponse {}
-impl PrimaryResponse for BillTextVersionsResponse {}
-impl PrimaryResponse for BillTitlesResponse {}
-impl PrimaryResponse for SummariesResponse {}
-impl PrimaryResponse for LawsResponse {}
-impl PrimaryResponse for LawDetailsResponse {}
-impl PrimaryResponse for CongressesResponse {}
-impl PrimaryResponse for CongressDetailsResponse {}
-impl PrimaryResponse for CongressionalRecordResponse {}
-impl PrimaryResponse for DailyCongressionalRecordResponse {}
-impl PrimaryResponse for ArticlesResponse {}
-impl PrimaryResponse for MembersResponse {}
-impl PrimaryResponse for MemberDetailsResponse {}
-impl PrimaryResponse for NominationsResponse {}
-impl PrimaryResponse for NominationDetailsResponse {}
-impl PrimaryResponse for TreatiesResponse {}
-impl PrimaryResponse for TreatyDetailsResponse {}
+impl PrimaryResponse for AmendmentsResponse {} // corresponds to the /amendment endpoint
+impl PrimaryResponse for AmendmentDetailsResponse {} // corresponds to the
+                                                     // /amendment/{congress}/{amendmentType}/{amendmentNumber}
+                                                     // endpoint
+impl PrimaryResponse for AmendmentActionsResponse {} // corresponds to the
+                                                      // /amendment/{congress}/{amendmentType}/{amendmentNumber}/actions
+                                                      // endpoint
+impl PrimaryResponse for AmendmentCosponsorsResponse {} // corresponds to the
+                                                         // /amendment/{congress}/{amendmentType}/{amendmentNumber}/cosponsors
+                                                         // endpoint
+impl PrimaryResponse for AmendmentAmendmentsResponse {} // corresponds to the
+                                                         // /amendment/{congress}/{amendmentType}/{amendmentNumber}/amendments
+                                                         // endpoint
+impl PrimaryResponse for AmendmentTextVersionsResponse {} // corresponds to the
+                                                           // /amendment/{congress}/{amendmentType}/{amendmentNumber}/text
+                                                           // endpoint
+impl PrimaryResponse for BillsResponse {} // corresponds to the /bill endpoint
+impl PrimaryResponse for BillDetailsResponse {} // corresponds to the
+                                                // /bill/{congress}/{billType}/{billNumber} endpoint
+impl PrimaryResponse for BillActionsResponse {} // corresponds to the
+                                                 // /bill/{congress}/{billType}/{billNumber}/actions endpoint
+impl PrimaryResponse for BillAmendmentsResponse {} // corresponds to the
+                                                   // /bill/{congress}/{billType}/{billNumber}/amendments endpoint
+impl PrimaryResponse for BillCommitteesResponse {} // corresponds to the
+                                                    // /bill/{congress}/{billType}/{billNumber}/committees endpoint
+impl PrimaryResponse for BillCosponsorsResponse {} // corresponds to the
+                                                   // /bill/{congress}/{billType}/{billNumber}/cosponsors endpoint
+impl PrimaryResponse for RelatedBillsResponse {} // corresponds to the
+                                                 // /bill/{congress}/{billType}/{billNumber}/relatedbills endpoint
+impl PrimaryResponse for BillSubjectsResponse {} // corresponds to the
+                                                  // /bill/{congress}/{billType}/{billNumber}/subjects endpoint
+impl PrimaryResponse for BillSummariesResponse {} // corresponds to the
+                                                  // /bill/{congress}/{billType}/{billNumber}/summaries endpoint
+impl PrimaryResponse for BillTextVersionsResponse {} // corresponds to the
+                                                     // /bill/{congress}/{billType}/{billNumber}/text endpoint
+impl PrimaryResponse for BillTitlesResponse {} // corresponds to the
+                                                // /bill/{congress}/{billType}/{billNumber}/titles endpoint
+impl PrimaryResponse for SummariesResponse {} // corresponds to the /summaries endpoint
+impl PrimaryResponse for LawsResponse {} // corresponds to the /law/{congress} and /law/{congress}/{lawType}
+                                         // endpoints
+impl PrimaryResponse for LawDetailsResponse {} // corresponds to the
+                                               // /law/{congress}/{lawType}/{lawNumber} endpoint
+impl PrimaryResponse for CongressesResponse {} // corresponds to the /congress endpoint
+impl PrimaryResponse for CongressDetailsResponse {} // corresponds to the
+                                                     // /congress/{congress} and /congress/current endpoints
+impl PrimaryResponse for CongressionalRecordResponse {} // corresponds to the /congressional-record
+                                                        // endpoint
+impl PrimaryResponse for DailyCongressionalRecordResponse {} // corresponds to the
+                                                              // /daily-congressional-record endpoint
+impl PrimaryResponse for ArticlesResponse {} // corresponds to the
+                                              // /daily-congressional-record/{volumeNumber}/{issueNumber}/articles
+                                              // endpoint
+impl PrimaryResponse for MembersResponse {} // corresponds to the /member endpoint
+impl PrimaryResponse for MemberDetailsResponse {} // corresponds to the /member/{bioguideId}
+                                                  // endpoint
+impl PrimaryResponse for NominationsResponse {} // corresponds to the /nomination endpoint
+impl PrimaryResponse for NominationDetailsResponse {} // corresponds to the
+                                                      // /nomination/{congress}/{nominationNumber} endpoint
+impl PrimaryResponse for TreatiesResponse {} // corresponds to the /treaty endpoint
+impl PrimaryResponse for TreatyDetailsResponse {} // corresponds to the
+                                                   // /treaty/{congress}/{treatyNumber} endpoint
 
 /// Response model for the `/amendment` endpoint.
 #[derive(Debug, Serialize, Deserialize)]
@@ -575,7 +605,7 @@ pub struct BillReference {
     pub url: String,
 }
 
-/// Response model for the `/law/{congress}` endpoint.
+/// Response model for the `/law/{congress}` and `/law/{congress}/{lawType}` endpoints.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LawsResponse {
     pub bills: Vec<LawSummary>,
@@ -1182,5 +1212,4 @@ pub struct RelatedDoc {
     pub name: String,
     pub url: String,
 }
-
 

@@ -533,7 +533,7 @@ impl ApiParams for AmendmentTextParams {
 /// Implementation of `ApiParams` for `LawListParams`.
 ///
 /// Converts `LawListParams` into a query string suitable for the `LawList` endpoint.
-impl ApiParams for LawListParams {
+impl ApiParams for LawParams {
     /// Converts the `LawListParams` into a query string.
     ///
     /// # Returns
@@ -554,77 +554,7 @@ impl ApiParams for LawListParams {
             query_params.push(format!("limit={}", limit));
         }
 
-        if let Some(from_date_time) = &self.from_date_time {
-            query_params.push(format!("fromDateTime={}", from_date_time));
-        }
-
-        if let Some(to_date_time) = &self.to_date_time {
-            query_params.push(format!("toDateTime={}", to_date_time));
-        }
-
-        if let Some(sort) = &self.sort {
-            query_params.push(sort.to_query_param());
-        }
-
         "?".to_string() + &query_params.join("&")
-    }
-}
-
-/// Implementation of `ApiParams` for `LawByCongressParams`.
-///
-/// Converts `LawByCongressParams` into a query string suitable for the `LawByCongress` endpoint.
-impl ApiParams for LawByCongressParams {
-    /// Converts the `LawByCongressParams` into a query string.
-    ///
-    /// # Returns
-    ///
-    /// A `String` containing the query parameters for retrieving laws by congress.
-    fn to_query_string(&self) -> String {
-        let mut query_params = vec![];
-
-        if let Some(format) = &self.format {
-            query_params.push(format.to_query_param());
-        }
-
-        if let Some(offset) = &self.offset {
-            query_params.push(format!("offset={}", offset));
-        }
-
-        if let Some(limit) = &self.limit {
-            query_params.push(format!("limit={}", limit));
-        }
-
-        if let Some(from_date_time) = &self.from_date_time {
-            query_params.push(format!("fromDateTime={}", from_date_time));
-        }
-
-        if let Some(to_date_time) = &self.to_date_time {
-            query_params.push(format!("toDateTime={}", to_date_time));
-        }
-
-        if let Some(sort) = &self.sort {
-            query_params.push(sort.to_query_param());
-        }
-
-        "?".to_string() + &query_params.join("&")
-    }
-}
-
-/// Implementation of `ApiParams` for `LawDetailsParams`.
-///
-/// Converts `LawDetailsParams` into a query string suitable for the `LawDetails` endpoint.
-impl ApiParams for LawDetailsParams {
-    /// Converts the `LawDetailsParams` into a query string.
-    ///
-    /// # Returns
-    ///
-    /// A `String` containing the query parameter for law details.
-    fn to_query_string(&self) -> String {
-        if let Some(format) = &self.format {
-            format!("?{}", format.to_query_param())
-        } else {
-            "".to_string()
-        }
     }
 }
 
@@ -1662,8 +1592,8 @@ impl ApiParams for CongressCurrentParams {
     }
 }
 
-pub fn get_endpoint_url(endpoint: Endpoints) -> String {
-    let api_key = std::env::var("CDG_API_KEY").unwrap();
+/// called by the api client to generate the complete URL for the request.
+pub fn generate_url(endpoint: Endpoints, api_key: &str) -> String {
     format!("{}{}&api_key={}", crate::BASE_URL, endpoint, api_key)
 }
 
@@ -1697,12 +1627,14 @@ impl std::fmt::Display for Endpoints {
             // ================================
             // Law Endpoints
             // ================================
-            Endpoints::LawList(params) => write!(f, "law{}", params.to_query_string()),
+            Endpoints::LawByType(congress, law_type, params) => {
+                write!(f, "law/{}/{}{}", congress, law_type.to_string(), params.to_query_string())
+            }
             Endpoints::LawByCongress(congress, params) => {
                 write!(f, "law/{}{}", congress, params.to_query_string())
             }
-            Endpoints::LawDetails(congress, params) => {
-                write!(f, "law/{}/details{}", congress, params.to_query_string())
+            Endpoints::LawDetails(congress, law_type, law_number, params) => {
+                write!(f, "law/{}/{}/{}{}", congress, law_type.to_string(), law_number, params.to_query_string())
             }
 
             // ================================
