@@ -5,6 +5,10 @@ use crate::param_models::*;
 /// encapsulating the necessary parameters required to interact with that endpoint.
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub enum Endpoints {
+    /// Endpoint for manual API requests, where the user provides the entire endpoint.
+    /// The base URL, and the API key are automatically appended to the provided endpoint.
+    Manual(String),
+
     // ================================
     // Bill Endpoints
     // ================================
@@ -37,7 +41,7 @@ pub enum Endpoints {
     /// - `BillType`: The type of bill.
     /// - `String`: The bill number.
     /// - `BillDetailsParams`: Additional parameters for bill details.
-    BillDetails(i32, BillType, String, BillDetailsParams),
+    BillDetails(i32, BillType, i32, BillDetailsParams),
 
     /// Endpoint to fetch actions taken on a specific bill.
     ///
@@ -486,6 +490,8 @@ pub enum Endpoints {
 /// This trait provides a standardized way to instantiate each variant of the
 /// `Endpoints` enum by supplying the necessary parameters.
 pub trait NewEndpoint {
+    fn new_manual(manual: String) -> Self;
+
     // ================================
     // Bill Constructors
     // ================================
@@ -525,7 +531,7 @@ pub trait NewEndpoint {
     fn new_bill_details(
         congress: i32,
         bill_type: BillType,
-        bill_number: String,
+        bill_number: i32,
         params: BillDetailsParams,
     ) -> Self;
 
@@ -1133,6 +1139,10 @@ pub trait NewEndpoint {
 
 /// Implementation of the `NewEndpoint` trait for the `Endpoints` enum.
 impl NewEndpoint for Endpoints {
+    fn new_manual(manual: String) -> Self {
+        Endpoints::Manual(manual)
+    }
+
     // ================================
     // Bill Endpoints
     // ================================
@@ -1152,7 +1162,7 @@ impl NewEndpoint for Endpoints {
     fn new_bill_details(
         congress: i32,
         bill_type: BillType,
-        bill_number: String,
+        bill_number: i32,
         params: BillDetailsParams,
     ) -> Self {
         Endpoints::BillDetails(congress, bill_type, bill_number, params)

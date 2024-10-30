@@ -7,7 +7,7 @@ A simple Rust library to interact with the [US Congress API](https://api.congres
 
 ## Overview
 
-`cdg_api` provides a Rust interface for interacting with the US Congress API. It simplifies the process of constructing API endpoints, building URLs with parameters, and retrieving legislative data. Whether you're fetching information about bills, members, amendments, or laws, `cdg_api` offers a streamlined and type-safe approach to accessing this data.
+`cdg_api` provides a Rust interface for interacting with the US Congress API. It simplifies constructing API endpoints, building URLs with parameters, and retrieving legislative data. Whether fetching information about bills, members, amendments, or laws, `cdg_api` offers a streamlined and type-safe approach to accessing this data.
 
 ### Currently Unavailable Endpoints
 
@@ -40,8 +40,8 @@ The library currently supports endpoints related to:
 
 ## Features
 
-- **Modular Design**: Organized into distinct modules to separate concerns, enhancing maintainability and scalability.
-  - **`endpoints`**: Enums and functions representing the available API endpoints.
+- **Modular Design**: Organized into distinct modules for maintainability and scalability.
+  - **`endpoints`**: Enums and functions representing available API endpoints, including `Endpoints::Manual` for custom endpoints.
   - **`url_builders`**: Utility functions for constructing API URLs with query parameters.
   - **`param_models`**: Models and enums for different query parameters.
   - **`response_models`**: Data structures for API responses, including specific models and the versatile `GenericResponse`.
@@ -53,6 +53,7 @@ The library currently supports endpoints related to:
 
 - **Flexible Response Handling**:
   - **`GenericResponse`**: A catch-all response model for endpoints without a specific response type or when the response model is unknown.
+  - **`parse_generic_response`**: A method to parse `GenericResponse` into a specific response model when the structure is known.
 
 ## Installation
 
@@ -95,7 +96,7 @@ Obtain an API key from the [US Congress API](https://api.congress.gov/). Provide
 
 ### Using `CongressApiClient`
 
-`CongressApiClient` allows you to interact with various API endpoints. Below are examples demonstrating how to fetch different types of data.
+`CongressApiClient` allows you to interact with various API endpoints. Below are examples demonstrating how to fetch different types of data, including the new `Endpoints::Manual` variant.
 
 #### Example 1: Fetching Members
 
@@ -168,62 +169,99 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-### Using `GenericResponse`
+#### Example 3: Using `GenericResponse` with `parse_generic_response`
 
-When a specific response model is not defined or the response structure is unknown, use `GenericResponse` to handle the response dynamically.
-
-#### What is `GenericResponse`?
-
-`GenericResponse` is an enum-based catch-all response model that can represent any of the defined response types. It leverages the `GenericResponseModel` enum to encapsulate various possible responses, making it flexible for handling diverse API responses.
-
-#### Working Example
+Fetch detailed information about a specific bill using `GenericResponse` and parse it into a specific response model.
 
 ```rust
 use cdg_api::CongressApiClient;
-use cdg_api::endpoints::Endpoints;
-use cdg_api::param_models::{FormatType, BillListParams};
-use cdg_api::response_models::GenericResponse;
+use cdg_api::endpoints::{Endpoints, NewEndpoint};
+use cdg_api::param_models::{BillDetailsParams, BillType, FormatType};
+use cdg_api::response_models::{BillDetailsResponse, GenericResponse};
 
 use std::error::Error;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let client = CongressApiClient::new(None)?; // Use default API key
+    let client = CongressApiClient::new(None)?; // Use API key from environment
 
-    // Define parameters
-    let params = BillListParams {
+    // Define parameters for bill details
+    let params = BillDetailsParams {
         format: Some(FormatType::Json),
-        limit: Some(10),
-        ..BillListParams::default()
+        ..BillDetailsParams::default()
     };
 
-    // Create the endpoint
-    let endpoint = Endpoints::BillList(params);
+    // Specify the bill to fetch (e.g., H.R. 1234 from the 118th Congress)
+    let endpoint = Endpoints::new_bill_details(118, BillType::Hr, 148, params);
 
-    // Fetch the data
+    // Fetch the data as GenericResponse
     let response: GenericResponse = client.fetch(endpoint)?;
 
-    // Process the response
-    println!("{}", response.serialize_generic_response(true)?);
+    // Parse the response as BillDetailsResponse
+    let bill_details: BillDetailsResponse = response.parse_generic_response()?;
+    let bill = bill_details.bill;
+
+    println!("Bill: {}", bill.number);
+    println!("Title: {}", bill.title);
+    println!("Summary: {:#?}", bill.summaries);
 
     Ok(())
 }
 ```
 
-#### Advantages of Using `GenericResponse`
+#### Example 4: Using `Endpoints::Manual` for Custom Endpoints
 
-- **Flexibility**: Handle any response structure without needing a specific model.
-- **Simplicity**: Reduce the need to manage numerous specific response models.
-- **Future-Proofing**: Accommodate new or unexpected response types without immediate library updates.
+Fetch data from a manually specified endpoint string using `Endpoints::Manual`.
 
-#### Considerations
+```rust
+use cdg_api::CongressApiClient;
+use cdg_api::endpoints::{Endpoints, NewEndpoint};
+use cdg_api::response_models::{DailyCongressionalRecordResponse, GenericResponse};
 
-- **Type Safety**: While flexible, it requires handling enum variants to access specific data.
-- **Complexity**: Managing a large enum with many variants can be cumbersome.
-- **Performance**: Potential overhead due to extensive enum matching; ensure it meets your performance needs.
+use std::error::Error;
+
+fn main() -> Result<(), Box<dyn Error>> {
+    let client = CongressApiClient::new(None)?; // Use API key from environment
+
+    // Manually specify the endpoint string
+    let endpoint = Endpoints::new_manual("/daily-congressional-record?format=json".to_string());
+
+    // Fetch the data as GenericResponse
+    let response: GenericResponse = client.fetch(endpoint)?;
+
+    // Parse the response into DailyCongressionalRecordResponse
+    match response.parse_generic_response::<DailyCongressionalRecordResponse>() {
+        Ok(daily_record) => {
+            let record = daily_record.daily_congressional_record;
+            for issue in record {
+                println!("Issue Number: {}", issue.issue_number);
+                println!("Volume Number: {}", issue.volume_number);
+                println!("Issue Date: {}", issue.issue_date);
+                println!("Congress: {}", issue.congress);
+                println!("Session Number: {}", issue.session_number);
+                println!("URL: {}", issue.url);
+                println!("Sections:");
+                if let Some(full) = issue.full_issue {
+                    println!("Full Record: {:#?}", full);
+                }
+                println!("----------------------------");
+            }
+        },
+        Err(e) => {
+            println!("Failed to parse response: {}", e);
+        }
+    }
+
+    Ok(())
+}
+```
+
+### Using `GenericResponse` for Manual Endpoints
+
+When using `Endpoints::Manual`, `GenericResponse` allows you to handle responses dynamically without predefined response models. You can parse the response into any specific model if you know its structure, enhancing flexibility.
 
 ## Modules
 
-- **`endpoints`**: Enums and functions representing the available API endpoints.
+- **`endpoints`**: Enums and functions representing available API endpoints, including `Endpoints::Manual` for custom endpoint strings.
 - **`url_builders`**: Helper functions for constructing complete API URLs with query parameters.
 - **`param_models`**: Data models and enums for API query parameters, ensuring type-safe requests.
 - **`response_models`**: Data structures for API responses, including specific models and `GenericResponse`.

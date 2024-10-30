@@ -1592,6 +1592,7 @@ impl ApiParams for CongressCurrentParams {
     }
 }
 
+
 /// called by the api client to generate the complete URL for the request.
 pub fn generate_url(endpoint: Endpoints, api_key: &str) -> String {
     format!("{}{}&api_key={}", crate::BASE_URL, endpoint, api_key)
@@ -1607,6 +1608,7 @@ impl std::fmt::Display for Endpoints {
         // NOTE: A '?' is appended to the params string via the `Display`
         // implementation for the `ApiParam` enums.
         match self {
+            Endpoints::Manual(endpoint) => write!(f, "{}", endpoint),
             // ================================
             // Bill Endpoints
             // ================================
