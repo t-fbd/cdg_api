@@ -279,6 +279,10 @@ The library defines a custom error type `ApiClientError` to handle various error
 - **`ApiClientError::Url`**: Errors constructing the API URL.
 - **`ApiClientError::EnvVar`**: Missing API key in environment variables.
 
+## Other Projects
+
+- **[`loc_api`](https://crates.io/crates/loc_api)**: A Rust library for interacting with the Library of Congress API.
+
 ## License
 
 This project is licensed under the terms of the [MIT license](https://github.com/t-fbd/cdg_api/blob/master/LICENSE).
