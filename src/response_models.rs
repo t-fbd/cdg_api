@@ -84,11 +84,14 @@ impl_primary_response!(
     HearingsResponse,
     HearingDetailsResponse,
     HouseCommunicationDetailsResponse,
-    HouseCommunicationsResponse
+    HouseCommunicationsResponse,
+    CommitteesResponse,
+    CommitteeDetailsResponse,
+    CommitteeReportsResponse
 );
 
 /// Dynamic response model that can represent a variety of response types.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 pub enum GenericResponseModel {
     AmendmentsResponse(AmendmentsResponse),
@@ -173,7 +176,7 @@ pub enum GenericResponseModel {
 
 /// Generic response model that is essentially a catch-all for endpoints that don't have a specific
 /// response model, or when the response model is unknown.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct GenericResponse {
     // Fields from GenericResponse itself
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -281,7 +284,7 @@ impl GenericResponse {
 }
 
 /// Response model for the `/amendment` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentsResponse {
     pub amendments: Vec<AmendmentSummary>,
     #[serde(flatten)]
@@ -289,7 +292,7 @@ pub struct AmendmentsResponse {
 }
 
 /// Represents a summary of an amendment.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentSummary {
     pub congress: u32,
     #[serde(rename = "latestAction")]
@@ -306,7 +309,7 @@ pub struct AmendmentSummary {
 }
 
 /// Response model for the `/amendment/{congress}/{amendmentType}/{amendmentNumber}` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentDetailsResponse {
     pub amendment: AmendmentDetails,
     #[serde(flatten)]
@@ -314,7 +317,7 @@ pub struct AmendmentDetailsResponse {
 }
 
 /// Detailed information about a specific amendment.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentDetails {
     pub actions: ResourceReference,
     #[serde(rename = "amendedBill")]
@@ -342,7 +345,7 @@ pub struct AmendmentDetails {
 }
 
 /// Reference to a resource with a count and URL.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct ResourceReference {
     pub count: u32,
     pub url: String,
@@ -351,7 +354,7 @@ pub struct ResourceReference {
 }
 
 /// Reference to cosponsors with counts and URL.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CosponsorsReference {
     pub count: u32,
     #[serde(rename = "countIncludingWithdrawnCosponsors")]
@@ -362,7 +365,7 @@ pub struct CosponsorsReference {
 }
 
 /// Summary information about a member of Congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MemberSummary {
     #[serde(rename = "bioguideId")]
     pub bioguide_id: String,
@@ -378,7 +381,7 @@ pub struct MemberSummary {
 }
 
 /// Information about the bill that is being amended.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendedBill {
     pub congress: u32,
     pub number: String,
@@ -395,7 +398,7 @@ pub struct AmendedBill {
 }
 
 /// Response model for the `/amendment/{congress}/{amendmentType}/{amendmentNumber}/actions` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentActionsResponse {
     pub actions: Vec<AmendmentAction>,
     #[serde(flatten)]
@@ -403,7 +406,7 @@ pub struct AmendmentActionsResponse {
 }
 
 /// Represents an action taken on an amendment.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentAction {
     #[serde(rename = "actionDate")]
     pub action_date: String,
@@ -419,7 +422,7 @@ pub struct AmendmentAction {
 }
 
 /// Information about a recorded vote.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct RecordedVote {
     pub chamber: String,
     pub congress: u32,
@@ -434,7 +437,7 @@ pub struct RecordedVote {
 }
 
 /// Information about the source system of the action.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct SourceSystem {
     pub code: u32,
     pub name: String,
@@ -443,7 +446,7 @@ pub struct SourceSystem {
 }
 
 /// Response model for the `/amendment/{congress}/{amendmentType}/{amendmentNumber}/cosponsors` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentCosponsorsResponse {
     pub cosponsors: Vec<AmendmentCosponsor>,
     #[serde(flatten)]
@@ -451,7 +454,7 @@ pub struct AmendmentCosponsorsResponse {
 }
 
 /// Represents a cosponsor of an amendment.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentCosponsor {
     #[serde(rename = "bioguideId")]
     pub bioguide_id: String,
@@ -473,7 +476,7 @@ pub struct AmendmentCosponsor {
 }
 
 /// Response model for the `/amendment/{congress}/{amendmentType}/{amendmentNumber}/amendments` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentAmendmentsResponse {
     pub amendments: Vec<AmendmentSummary>,
     #[serde(flatten)]
@@ -481,7 +484,7 @@ pub struct AmendmentAmendmentsResponse {
 }
 
 /// Response model for the `/amendment/{congress}/{amendmentType}/{amendmentNumber}/text` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AmendmentTextVersionsResponse {
     #[serde(rename = "textVersions")]
     pub text_versions: Vec<TextVersion>,
@@ -490,7 +493,7 @@ pub struct AmendmentTextVersionsResponse {
 }
 
 /// Represents a text version of an amendment.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TextVersion {
     pub date: String,
     pub formats: Vec<TextFormat>,
@@ -501,7 +504,7 @@ pub struct TextVersion {
 }
 
 /// Represents a format of the text version.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TextFormat {
     #[serde(rename = "type")]
     pub format_type: String,
@@ -511,7 +514,7 @@ pub struct TextFormat {
 }
 
 /// Response model for the `/bill` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillsResponse {
     pub bills: Vec<BillSummary>,
     #[serde(flatten)]
@@ -519,7 +522,7 @@ pub struct BillsResponse {
 }
 
 /// Represents a summary of a bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillSummary {
     pub congress: u32,
     #[serde(rename = "latestAction")]
@@ -542,7 +545,7 @@ pub struct BillSummary {
 }
 
 /// Represents the latest action taken on a bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct LatestAction {
     #[serde(rename = "actionDate")]
     pub action_date: String,
@@ -552,7 +555,7 @@ pub struct LatestAction {
 }
 
 /// Response model for the `/bill/{congress}/{billType}/{billNumber}` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillDetailsResponse {
     pub bill: BillDetails,
     #[serde(flatten)]
@@ -560,7 +563,7 @@ pub struct BillDetailsResponse {
 }
 
 /// Detailed information about a specific bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillDetails {
     pub actions: ResourceReference,
     pub amendments: Option<ResourceReference>,
@@ -603,7 +606,7 @@ pub struct BillDetails {
 }
 
 /// Represents a Congressional Budget Office cost estimate.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CboCostEstimate {
     pub description: Option<String>,
     #[serde(rename = "pubDate")]
@@ -615,7 +618,7 @@ pub struct CboCostEstimate {
 }
 
 /// Represents a committee report reference.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteeReport {
     pub citation: String,
     pub url: String,
@@ -624,7 +627,7 @@ pub struct CommitteeReport {
 }
 
 /// Represents a law reference.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct LawReference {
     pub number: String,
     #[serde(rename = "type")]
@@ -634,7 +637,7 @@ pub struct LawReference {
 }
 
 /// Represents the policy area of a bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct PolicyArea {
     pub name: String,
     #[serde(flatten)]
@@ -642,7 +645,7 @@ pub struct PolicyArea {
 }
 
 /// Response model for the `/bill/{congress}/{billType}/{billNumber}/actions` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillActionsResponse {
     pub actions: Vec<BillAction>,
     #[serde(flatten)]
@@ -650,7 +653,7 @@ pub struct BillActionsResponse {
 }
 
 /// Represents an action taken on a bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillAction {
     #[serde(rename = "actionCode")]
     pub action_code: Option<String>,
@@ -668,7 +671,7 @@ pub struct BillAction {
 }
 
 /// Response model for the `/bill/{congress}/{billType}/{billNumber}/amendments` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillAmendmentsResponse {
     pub amendments: Vec<AmendmentSummary>,
     #[serde(flatten)]
@@ -676,7 +679,7 @@ pub struct BillAmendmentsResponse {
 }
 
 /// Response model for the `/bill/{congress}/{billType}/{billNumber}/committees` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillCommitteesResponse {
     pub committees: Vec<Committee>,
     #[serde(flatten)]
@@ -684,7 +687,7 @@ pub struct BillCommitteesResponse {
 }
 
 /// Represents a committee associated with a bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Committee {
     pub activities: Option<Vec<CommitteeActivity>>,
     pub chamber: String,
@@ -699,7 +702,7 @@ pub struct Committee {
 }
 
 /// Represents an activity of a committee.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteeActivity {
     pub date: Option<String>,
     pub name: String,
@@ -708,7 +711,7 @@ pub struct CommitteeActivity {
 }
 
 /// Response model for the `/bill/{congress}/{billType}/{billNumber}/cosponsors` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillCosponsorsResponse {
     pub cosponsors: Vec<BillCosponsor>,
     #[serde(flatten)]
@@ -716,7 +719,7 @@ pub struct BillCosponsorsResponse {
 }
 
 /// Represents a cosponsor of a bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillCosponsor {
     #[serde(rename = "bioguideId")]
     pub bioguide_id: String,
@@ -741,7 +744,7 @@ pub struct BillCosponsor {
 }
 
 /// Response model for the `/bill/{congress}/{billType}/{billNumber}/relatedbills` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct RelatedBillsResponse {
     #[serde(rename = "relatedBills")]
     pub related_bills: Vec<RelatedBill>,
@@ -750,7 +753,7 @@ pub struct RelatedBillsResponse {
 }
 
 /// Represents a related bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct RelatedBill {
     pub congress: u32,
     #[serde(rename = "latestAction")]
@@ -767,7 +770,7 @@ pub struct RelatedBill {
 }
 
 /// Represents the details of a relationship between bills.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct RelationshipDetail {
     #[serde(rename = "identifiedBy")]
     pub identified_by: String,
@@ -778,7 +781,7 @@ pub struct RelationshipDetail {
 }
 
 /// Response model for the `/bill/{congress}/{billType}/{billNumber}/subjects` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillSubjectsResponse {
     pub subjects: Subjects,
     #[serde(flatten)]
@@ -786,7 +789,7 @@ pub struct BillSubjectsResponse {
 }
 
 /// Represents the subjects of a bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Subjects {
     #[serde(rename = "legislativeSubjects")]
     pub legislative_subjects: Vec<LegislativeSubject>,
@@ -797,7 +800,7 @@ pub struct Subjects {
 }
 
 /// Represents a legislative subject.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct LegislativeSubject {
     pub name: String,
     #[serde(rename = "updateDate")]
@@ -807,7 +810,7 @@ pub struct LegislativeSubject {
 }
 
 /// Response model for the `/bill/{congress}/{billType}/{billNumber}/summaries` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillSummariesResponse {
     pub summaries: Vec<BillSummaryItem>,
     #[serde(flatten)]
@@ -815,7 +818,7 @@ pub struct BillSummariesResponse {
 }
 
 /// Represents a summary of a bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillSummaryItem {
     #[serde(rename = "actionDate")]
     pub action_date: String,
@@ -831,7 +834,7 @@ pub struct BillSummaryItem {
 }
 
 /// Response model for the `/bill/{congress}/{billType}/{billNumber}/text` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillTextVersionsResponse {
     #[serde(rename = "textVersions")]
     pub text_versions: Vec<TextVersion>,
@@ -840,7 +843,7 @@ pub struct BillTextVersionsResponse {
 }
 
 /// Response model for the `/bill/{congress}/{billType}/{billNumber}/titles` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillTitlesResponse {
     pub titles: Vec<BillTitle>,
     #[serde(flatten)]
@@ -848,7 +851,7 @@ pub struct BillTitlesResponse {
 }
 
 /// Represents a title of a bill.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillTitle {
     pub title: String,
     #[serde(rename = "titleType")]
@@ -870,7 +873,7 @@ pub struct BillTitle {
 }
 
 /// Response model for the `/summaries` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct SummariesResponse {
     pub summaries: Vec<SummaryItem>,
     #[serde(flatten)]
@@ -878,7 +881,7 @@ pub struct SummariesResponse {
 }
 
 /// Represents a summary item in the summaries response.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct SummaryItem {
     #[serde(rename = "actionDate")]
     pub action_date: String,
@@ -901,7 +904,7 @@ pub struct SummaryItem {
 }
 
 /// Represents a reference to a bill within a summary.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillReference {
     pub congress: u32,
     pub number: String,
@@ -920,7 +923,7 @@ pub struct BillReference {
 }
 
 /// Response model for the `/law/{congress}` and `/law/{congress}/{lawType}` endpoints.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct LawsResponse {
     pub bills: Vec<LawSummary>,
     #[serde(flatten)]
@@ -928,7 +931,7 @@ pub struct LawsResponse {
 }
 
 /// Represents a summary of a law (bill that became a law).
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct LawSummary {
     pub congress: u32,
     #[serde(rename = "latestAction")]
@@ -952,7 +955,7 @@ pub struct LawSummary {
 }
 
 /// Response model for the `/law/{congress}/{lawType}/{lawNumber}` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct LawDetailsResponse {
     pub bill: BillDetails,
     #[serde(flatten)]
@@ -960,7 +963,7 @@ pub struct LawDetailsResponse {
 }
 
 /// Response model for the `/congress` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CongressesResponse {
     pub congresses: Vec<CongressSummary>,
     #[serde(flatten)]
@@ -968,7 +971,7 @@ pub struct CongressesResponse {
 }
 
 /// Represents a summary of a congress session.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CongressSummary {
     #[serde(rename = "endYear")]
     pub end_year: String,
@@ -981,7 +984,7 @@ pub struct CongressSummary {
 }
 
 /// Represents a session within a congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Session {
     pub chamber: String,
     #[serde(rename = "endDate")]
@@ -996,7 +999,7 @@ pub struct Session {
 }
 
 /// Response model for the `/congress/{congress}` and `/congress/current` endpoints.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CongressDetailsResponse {
     pub congress: CongressDetails,
     #[serde(flatten)]
@@ -1004,7 +1007,7 @@ pub struct CongressDetailsResponse {
 }
 
 /// Detailed information about a specific congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CongressDetails {
     #[serde(rename = "endYear")]
     pub end_year: String,
@@ -1021,7 +1024,7 @@ pub struct CongressDetails {
 }
 
 /// Response model for the `/congressional-record` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CongressionalRecordResponse {
     pub results: Results,
     #[serde(flatten)]
@@ -1029,7 +1032,7 @@ pub struct CongressionalRecordResponse {
 }
 
 /// Container for Congressional Record issues.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Results {
     pub issues: Vec<Issue>,
     #[serde(flatten)]
@@ -1037,7 +1040,7 @@ pub struct Results {
 }
 
 /// Represents an individual Congressional Record issue.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Issue {
     pub congress: u32,
     pub issue: u32,
@@ -1051,7 +1054,7 @@ pub struct Issue {
 }
 
 /// Container for links to the individual sections of the issue.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Links {
     pub digest: Option<Section>,
     pub remarks: Option<Section>,
@@ -1064,7 +1067,7 @@ pub struct Links {
 }
 
 /// Represents a section of the Congressional Record issue.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Section {
     pub label: String,
     pub ordinal: u32,
@@ -1074,7 +1077,7 @@ pub struct Section {
 }
 
 /// Container for the PDF text format for the section.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Pdf {
     pub items: Vec<PdfItem>,
     #[serde(flatten)]
@@ -1082,7 +1085,7 @@ pub struct Pdf {
 }
 
 /// Represents an individual PDF text format for the section.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct PdfItem {
     pub part: u32,
     pub url: String,
@@ -1091,7 +1094,7 @@ pub struct PdfItem {
 }
 
 /// Response model for the `/daily-congressional-record` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct DailyCongressionalRecordResponse {
     #[serde(rename = "dailyCongressionalRecord")]
     pub daily_congressional_record: Vec<DailyIssue>,
@@ -1100,7 +1103,7 @@ pub struct DailyCongressionalRecordResponse {
 }
 
 /// Represents an individual daily Congressional Record issue.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct DailyIssue {
     #[serde(rename = "issueNumber")]
     pub issue_number: String,
@@ -1121,7 +1124,7 @@ pub struct DailyIssue {
 }
 
 /// Container for full issue, sections, and articles.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct FullIssue {
     #[serde(rename = "entireIssue")]
     pub entire_issue: Option<EntireIssue>,
@@ -1132,7 +1135,7 @@ pub struct FullIssue {
 }
 
 /// Represents the entire issue items.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct EntireIssue {
     pub items: Vec<EntireIssueItem>,
     #[serde(flatten)]
@@ -1140,7 +1143,7 @@ pub struct EntireIssue {
 }
 
 /// Represents an entire issue item.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct EntireIssueItem {
     pub part: u32,
     #[serde(rename = "type")]
@@ -1151,7 +1154,7 @@ pub struct EntireIssueItem {
 }
 
 /// Container for sections in the issue.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Sections {
     pub items: Vec<SectionItem>,
     #[serde(flatten)]
@@ -1159,7 +1162,7 @@ pub struct Sections {
 }
 
 /// Represents a section item of the daily Congressional Record issue.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct SectionItem {
     pub name: String,
     #[serde(rename = "startPage")]
@@ -1172,7 +1175,7 @@ pub struct SectionItem {
 }
 
 /// Container for section text items.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct SectionText {
     pub items: Vec<SectionTextItem>,
     #[serde(flatten)]
@@ -1180,7 +1183,7 @@ pub struct SectionText {
 }
 
 /// Represents a section text item.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct SectionTextItem {
     pub part: u32,
     #[serde(rename = "type")]
@@ -1191,7 +1194,7 @@ pub struct SectionTextItem {
 }
 
 /// Container for articles in the issue.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Articles {
     pub count: u32,
     pub url: String,
@@ -1200,7 +1203,7 @@ pub struct Articles {
 }
 
 /// Response model for the `/daily-congressional-record/{volumeNumber}/{issueNumber}/articles` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct ArticlesResponse {
     pub articles: Vec<Article>,
     #[serde(flatten)]
@@ -1208,7 +1211,7 @@ pub struct ArticlesResponse {
 }
 
 /// Represents an individual article in a section.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Article {
     pub title: String,
     #[serde(rename = "startPage")]
@@ -1221,7 +1224,7 @@ pub struct Article {
 }
 
 /// Container for article text items.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct ArticleText {
     pub items: Vec<ArticleTextItem>,
     #[serde(flatten)]
@@ -1229,7 +1232,7 @@ pub struct ArticleText {
 }
 
 /// Represents an article text item.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct ArticleTextItem {
     #[serde(rename = "type")]
     pub document_type: String,
@@ -1239,7 +1242,7 @@ pub struct ArticleTextItem {
 }
 
 /// Response model for the `/member` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MembersResponse {
     pub members: Vec<Member>,
     #[serde(flatten)]
@@ -1247,7 +1250,7 @@ pub struct MembersResponse {
 }
 
 /// Represents an individual member's entry.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Member {
     #[serde(rename = "bioguideId")]
     pub bioguide_id: String,
@@ -1263,7 +1266,7 @@ pub struct Member {
 }
 
 /// Represents a member's terms of service.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Terms {
     pub item: Vec<Term>,
     #[serde(flatten)]
@@ -1271,7 +1274,7 @@ pub struct Terms {
 }
 
 /// Represents an individual term of service for a member.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Term {
     pub chamber: String,
     #[serde(rename = "startYear")]
@@ -1283,17 +1286,17 @@ pub struct Term {
 }
 
 /// Represents the member's current official portrait.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Depiction {
     #[serde(rename = "imageUrl")]
     pub image_url: String,
-    pub attribution: String,
+    pub attribution: Option<String>,
     #[serde(flatten)]
     pub unknown: Option<Value>,
 }
 
 /// Response model for the `/member/{bioguideId}` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MemberDetailsResponse {
     pub member: MemberDetails,
     #[serde(flatten)]
@@ -1301,7 +1304,7 @@ pub struct MemberDetailsResponse {
 }
 
 /// Represents detailed information about an individual member.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MemberDetails {
     #[serde(rename = "currentMember")]
     pub current_member: bool,
@@ -1345,7 +1348,7 @@ pub struct MemberDetails {
 }
 
 /// Represents a member's term of service in a Congress.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MemberTerm {
     #[serde(rename = "memberType")]
     pub member_type: String,
@@ -1375,7 +1378,7 @@ pub struct MemberTerm {
 }
 
 /// Represents a member's contact information.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AddressInformation {
     #[serde(rename = "officeAddress")]
     pub office_address: String,
@@ -1390,7 +1393,7 @@ pub struct AddressInformation {
 }
 
 /// Represents a leadership position held by the member.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct LeadershipPosition {
     #[serde(rename = "type")]
     pub position_type: String,
@@ -1401,7 +1404,7 @@ pub struct LeadershipPosition {
 }
 
 /// Represents a reference to a member's sponsored or cosponsored legislation.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct LegislationReference {
     pub count: u32,
     pub url: String,
@@ -1410,7 +1413,7 @@ pub struct LegislationReference {
 }
 
 /// Response model for the `/nomination` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct NominationsResponse {
     pub nominations: Vec<NominationItem>,
     #[serde(flatten)]
@@ -1418,7 +1421,7 @@ pub struct NominationsResponse {
 }
 
 /// Represents an individual nomination entry.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct NominationItem {
     pub congress: u32,
     pub number: u32,
@@ -1439,7 +1442,7 @@ pub struct NominationItem {
 }
 
 /// Represents the type of nomination.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct NominationType {
     #[serde(rename = "isCivilian")]
     pub is_civilian: Option<bool>,
@@ -1450,7 +1453,7 @@ pub struct NominationType {
 }
 
 /// Response model for the `/nomination/{congress}/{number}` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct NominationDetailsResponse {
     pub nomination: NominationDetails,
     #[serde(flatten)]
@@ -1458,7 +1461,7 @@ pub struct NominationDetailsResponse {
 }
 
 /// Represents detailed information about a nomination.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct NominationDetails {
     pub congress: u32,
     pub number: u32,
@@ -1489,7 +1492,7 @@ pub struct NominationDetails {
 }
 
 /// Represents an individual nominee position within a nomination.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct Nominee {
     pub ordinal: u32,
     #[serde(rename = "introText")]
@@ -1506,7 +1509,7 @@ pub struct Nominee {
 }
 
 /// Represents a reference to committees associated with the nomination.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteesReference {
     pub count: u32,
     pub url: String,
@@ -1515,7 +1518,7 @@ pub struct CommitteesReference {
 }
 
 /// Represents a reference to actions taken on the nomination.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct ActionsReference {
     pub count: u32,
     pub url: String,
@@ -1524,7 +1527,7 @@ pub struct ActionsReference {
 }
 
 /// Represents a reference to printed hearings associated with the nomination.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HearingsReference {
     pub count: u32,
     pub url: String,
@@ -1533,7 +1536,7 @@ pub struct HearingsReference {
 }
 
 /// Response model for the `/treaty` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatiesResponse {
     pub treaties: Vec<TreatyItem>,
     #[serde(flatten)]
@@ -1541,7 +1544,7 @@ pub struct TreatiesResponse {
 }
 
 /// Represents an individual treaty entry.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatyItem {
     #[serde(rename = "congressReceived")]
     pub congress_received: u32,
@@ -1562,7 +1565,7 @@ pub struct TreatyItem {
 }
 
 /// Represents parts of a treaty.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatyParts {
     pub count: u32,
     pub urls: Vec<String>,
@@ -1571,7 +1574,7 @@ pub struct TreatyParts {
 }
 
 /// Response model for the `/treaty/{congress}/{number}` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatyDetailsResponse {
     pub treaty: TreatyDetails,
     #[serde(flatten)]
@@ -1579,7 +1582,7 @@ pub struct TreatyDetailsResponse {
 }
 
 /// Represents detailed information about a treaty.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatyDetails {
     #[serde(rename = "congressReceived")]
     pub congress_received: u32,
@@ -1608,7 +1611,7 @@ pub struct TreatyDetails {
 }
 
 /// Represents a country or party associated with the treaty.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CountryParty {
     pub name: String,
     #[serde(rename = "oldNumber")]
@@ -1620,7 +1623,7 @@ pub struct CountryParty {
 }
 
 /// Represents an index term associated with the treaty.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct IndexTerm {
     pub name: String,
     #[serde(flatten)]
@@ -1628,7 +1631,7 @@ pub struct IndexTerm {
 }
 
 /// Represents an executive report associated with the treaty.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct RelatedDoc {
     pub name: String,
     pub url: String,
@@ -1637,7 +1640,7 @@ pub struct RelatedDoc {
 }
 
 /// Response model for the `/hearing` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HearingsResponse {
     pub hearings: Vec<HearingItem>,
     #[serde(flatten)]
@@ -1645,7 +1648,7 @@ pub struct HearingsResponse {
 }
 
 /// Represents an individual hearing entry.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HearingItem {
     #[serde(rename = "jacketNumber")]
     pub jacket_number: String,
@@ -1661,7 +1664,7 @@ pub struct HearingItem {
 }
 
 /// Response model for the `/hearing/{congress}/{chamber}/{jacketNumber}` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HearingDetailsResponse {
     pub hearing: HearingDetails,
     #[serde(flatten)]
@@ -1669,7 +1672,7 @@ pub struct HearingDetailsResponse {
 }
 
 /// Represents detailed information about a hearing.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HearingDetails {
     #[serde(rename = "jacketNumber")]
     pub jacket_number: String,
@@ -1693,7 +1696,7 @@ pub struct HearingDetails {
 }
 
 /// Represents a committee that held the hearing.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HearingCommittee {
     pub name: String,
     #[serde(rename = "systemCode")]
@@ -1704,7 +1707,7 @@ pub struct HearingCommittee {
 }
 
 /// Represents a date when the hearing was held.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HearingDate {
     pub date: String,
     #[serde(flatten)]
@@ -1712,7 +1715,7 @@ pub struct HearingDate {
 }
 
 /// Represents a hearing transcript format.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HearingFormat {
     #[serde(rename = "type")]
     pub format_type: String,
@@ -1722,7 +1725,7 @@ pub struct HearingFormat {
 }
 
 /// Represents meeting information associated with the hearing.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct AssociatedMeeting {
     #[serde(rename = "eventID")]
     pub event_id: String,
@@ -1733,13 +1736,13 @@ pub struct AssociatedMeeting {
 }
 
 /// Response model for the `/house-communication` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HouseCommunicationsResponse {
     pub house_communications: Vec<HouseCommunicationItem>,
 }
 
 /// Represents an individual House communication entry.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HouseCommunicationItem {
     pub chamber: String,
     pub number: u32,
@@ -1751,21 +1754,21 @@ pub struct HouseCommunicationItem {
 }
 
 /// Represents the type of communication.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommunicationType {
     pub code: String,
     pub name: String,
 }
 
 /// Response model for the `/house-communication/{congress}/{type}/{number}` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HouseCommunicationDetailsResponse {
     #[serde(rename = "house-communication")]
     pub house_communication: HouseCommunicationDetails,
 }
 
 /// Represents detailed information about a House communication.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HouseCommunicationDetails {
     pub chamber: String,
     pub number: u32,
@@ -1789,7 +1792,7 @@ pub struct HouseCommunicationDetails {
 }
 
 /// Represents a committee associated with the communication.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommunicationCommittee {
     pub name: String,
     #[serde(rename = "referralDate")]
@@ -1799,7 +1802,7 @@ pub struct CommunicationCommittee {
 }
 
 /// Represents a matching requirement associated with the communication.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MatchingRequirement {
     pub number: String,
     #[serde(rename = "URL")]
@@ -1815,20 +1818,20 @@ pub struct MatchingRequirement {
 }
 
 /// Represents a House document associated with the communication.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HouseDocument {
     pub citation: String,
     pub title: String,
 }
 
 /// Response model for the `/house-requirement` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HouseRequirementsResponse {
     pub house_requirements: Vec<HouseRequirementItem>,
 }
 
 /// Represents an individual House requirement entry.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HouseRequirementItem {
     pub number: u32,
     #[serde(rename = "updateDate")]
@@ -1837,14 +1840,14 @@ pub struct HouseRequirementItem {
 }
 
 /// Response model for the `/house-requirement/{number}` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HouseRequirementDetailsResponse {
     #[serde(rename = "houseRequirement")]
     pub house_requirement: HouseRequirementDetails,
 }
 
 /// Represents detailed information about a House requirement.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HouseRequirementDetails {
     pub number: u32,
     #[serde(rename = "updateDate")]
@@ -1866,7 +1869,7 @@ pub struct HouseRequirementDetails {
 }
 
 /// Represents matching communications associated with a House requirement.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MatchingCommunications {
     pub count: u32,
     pub url: String,
@@ -1874,7 +1877,7 @@ pub struct MatchingCommunications {
 }
 
 /// Represents a House communication matching a House requirement.
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MatchingCommunicationItem {
     pub chamber: String,
     pub number: u32,
@@ -1884,3 +1887,371 @@ pub struct MatchingCommunicationItem {
     pub url: String,
 }
 
+/// Response model for the `/committee` endpoint.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteesResponse {
+    pub committees: Vec<CommitteeItem>,
+}
+
+/// Represents an individual committee or subcommittee.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeItem {
+    pub url: String,
+    #[serde(rename = "systemCode")]
+    pub system_code: String,
+    pub name: String,
+    pub chamber: String,
+    #[serde(rename = "committeeTypeCode")]
+    pub committee_type_code: String,
+    pub parent: Option<ParentCommittee>,
+    pub subcommittees: Option<Vec<SubcommitteeItem>>,
+}
+
+/// Represents a parent committee for a subcommittee.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct ParentCommittee {
+    pub url: String,
+    #[serde(rename = "systemCode")]
+    pub system_code: String,
+    pub name: String,
+}
+
+/// Represents an individual subcommittee.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct SubcommitteeItem {
+    pub url: String,
+    #[serde(rename = "systemCode")]
+    pub system_code: String,
+    pub name: String,
+}
+
+/// Response model for the `/committee/{systemCode}` endpoint.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeDetailsResponse {
+    pub committee: CommitteeDetails,
+}
+
+/// Represents detailed information about a committee or subcommittee.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeDetails {
+    #[serde(rename = "systemCode")]
+    pub system_code: String,
+    pub name: String,
+    #[serde(rename = "updateDate")]
+    pub update_date: String,
+    #[serde(rename = "isCurrent")]
+    pub is_current: bool,
+    pub parent: Option<ParentCommittee>,
+    pub subcommittees: Option<Vec<SubcommitteeItem>>,
+    pub reports: Option<CommitteeReports>,
+    pub communications: Option<CommitteeCommunications>,
+    pub bills: Option<CommitteeBills>,
+    pub nominations: Option<CommitteeNominations>,
+    pub history: Option<Vec<CommitteeHistoryItem>>,
+    pub committee_type: String,
+}
+
+/// Represents reports issued by a committee.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeReports {
+    pub url: String,
+    pub count: u32,
+}
+
+/// Represents communications associated with a committee.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeCommunications {
+    pub url: String,
+    pub count: u32,
+}
+
+/// Represents bills associated with a committee.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeBills {
+    pub url: String,
+    pub count: u32,
+}
+
+/// Represents nominations associated with a Senate committee.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeNominations {
+    pub url: String,
+    pub count: u32,
+}
+
+/// Represents the history of a committee.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeHistoryItem {
+    #[serde(rename = "endDate")]
+    pub end_date: Option<String>,
+    #[serde(rename = "officialName")]
+    pub official_name: String,
+    #[serde(rename = "libraryOfCongressName")]
+    pub library_of_congress_name: String,
+    #[serde(rename = "startDate")]
+    pub start_date: String,
+    #[serde(rename = "committeeTypeCode")]
+    pub committee_type_code: String,
+    #[serde(rename = "establishingAuthority")]
+    pub establishing_authority: Option<String>,
+    #[serde(rename = "locLinkedDataId")]
+    pub loc_linked_data_id: Option<String>,
+    #[serde(rename = "superintendentDocumentNumber")]
+    pub superintendent_document_number: Option<String>,
+    #[serde(rename = "naraId")]
+    pub nara_id: Option<String>,
+}
+
+/// Represents a response containing a list of committee meetings.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeMeetingsResponse {
+    #[serde(rename = "committeeMeetings")]
+    pub committee_meetings: Vec<CommitteeMeetingItem>,
+}
+
+/// Represents an individual committee meeting item.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeMeetingItem {
+    #[serde(rename = "eventId")]
+    pub event_id: u32,
+    pub url: String,
+    #[serde(rename = "updateDate")]
+    pub update_date: String,
+    pub congress: u32,
+    pub chamber: String,
+}
+
+/// Represents detailed information about a committee meeting.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeMeetingDetailsResponse {
+    #[serde(rename = "eventId")]
+    pub event_id: u32,
+    #[serde(rename = "updateDate")]
+    pub update_date: String,
+    pub congress: u32,
+    #[serde(rename = "type")]
+    pub meeting_type: String,
+    pub title: String,
+    #[serde(rename = "meetingStatus")]
+    pub meeting_status: String,
+    pub date: String,
+    pub chamber: String,
+    pub committees: Vec<CommitteeItem>,
+    pub location: Option<MeetingLocation>,
+    pub videos: Option<Vec<VideoItem>>,
+    pub witnesses: Option<Vec<WitnessItem>>,
+    #[serde(rename = "witnessDocuments")]
+    pub witness_documents: Option<Vec<WitnessDocumentItem>>,
+    #[serde(rename = "meetingDocuments")]
+    pub meeting_documents: Option<Vec<MeetingDocumentItem>>,
+    #[serde(rename = "hearingTranscript")]
+    pub hearing_transcript: Option<HearingTranscript>,
+    #[serde(rename = "relatedItems")]
+    pub related_items: Option<RelatedItems>,
+}
+
+/// Represents the location of a committee meeting.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct MeetingLocation {
+    pub room: Option<String>,
+    pub building: Option<String>,
+    pub address: Option<String>,
+}
+
+/// Represents a video related to a committee meeting.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct VideoItem {
+    pub name: String,
+    pub url: String,
+}
+
+/// Represents a witness associated with a committee meeting.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct WitnessItem {
+    pub name: String,
+    pub position: String,
+    pub organization: String,
+}
+
+/// Represents a document provided by a witness.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct WitnessDocumentItem {
+    #[serde(rename = "documentType")]
+    pub document_type: String,
+    pub format: String,
+    pub url: String,
+}
+
+/// Represents a document related to a committee meeting.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct MeetingDocumentItem {
+    pub name: String,
+    pub description: Option<String>,
+    #[serde(rename = "documentType")]
+    pub document_type: String,
+    pub url: String,
+    pub format: String,
+}
+
+/// Represents a hearing transcript associated with a committee meeting.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct HearingTranscript {
+    #[serde(rename = "jacketNumber")]
+    pub jacket_number: String,
+    pub url: String,
+}
+
+/// Represents items related to a committee meeting, such as bills, treaties, or nominations.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct RelatedItems {
+    pub bills: Option<Vec<BillItem>>,
+    pub treaties: Option<Vec<TreatyItem>>,
+    pub nominations: Option<Vec<NominationItem>>,
+}
+
+/// Represents a bill or resolution associated with a committee meeting.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct BillItem {
+    #[serde(rename = "billType")]
+    pub bill_type: String,
+    pub number: u32,
+    pub congress: u32,
+    pub url: String,
+}
+
+/// Represents a response containing a list of committee prints.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteePrintsResponse {
+    #[serde(rename = "committeePrints")]
+    pub committee_prints: Vec<CommitteePrintItem>,
+}
+
+/// Represents an individual committee print item.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteePrintItem {
+    #[serde(rename = "jacketNumber")]
+    pub jacket_number: String,
+    pub url: String,
+    #[serde(rename = "updateDate")]
+    pub update_date: String,
+    pub congress: u32,
+    pub chamber: String,
+}
+
+/// Represents detailed information about a committee print.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteePrintDetailsResponse {
+    #[serde(rename = "jacketNumber")]
+    pub jacket_number: String,
+    pub citation: Option<String>,
+    pub congress: u32,
+    pub number: Option<u32>,
+    pub title: String,
+    pub chamber: String,
+    pub committees: Vec<CommitteeItem>,
+    #[serde(rename = "associatedBills")]
+    pub associated_bills: Option<Vec<AssociatedBillItem>>,
+    pub text: Option<CommitteePrintText>,
+}
+
+/// Represents a bill associated with a committee print.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct AssociatedBillItem {
+    pub congress: u32,
+    #[serde(rename = "type")]
+    pub bill_type: String,
+    pub number: u32,
+    pub url: String,
+}
+
+/// Represents the text formats available for a committee print.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteePrintText {
+    pub count: u32,
+    pub url: String,
+}
+
+/// Represents a text format of a committee print.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteePrintTextItem {
+    pub url: String,
+    #[serde(rename = "type")]
+    pub format_type: String,
+}
+
+/// Represents a response containing a list of committee reports.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeReportsResponse {
+    #[serde(rename = "reports")]
+    pub reports: Vec<CommitteeReportItem>,
+}
+
+/// Represents an individual committee report item.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeReportItem {
+    pub citation: String,
+    pub url: String,
+    #[serde(rename = "updateDate")]
+    pub update_date: String,
+    pub congress: u32,
+    pub chamber: String,
+    #[serde(rename = "type")]
+    pub report_type: String,
+    pub number: u32,
+    pub part: Option<u32>,
+}
+
+/// Represents detailed information about a committee report.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeReportDetailsResponse {
+    pub committees: Vec<CommitteeItem>,
+    pub congress: u32,
+    pub chamber: String,
+    #[serde(rename = "sessionNumber")]
+    pub session_number: u32,
+    pub citation: String,
+    pub number: u32,
+    pub part: Option<u32>,
+    #[serde(rename = "type")]
+    pub report_type: String,
+    #[serde(rename = "updateDate")]
+    pub update_date: String,
+    #[serde(rename = "isConferenceReport")]
+    pub is_conference_report: bool,
+    pub title: String,
+    #[serde(rename = "issueDate")]
+    pub issue_date: String,
+    #[serde(rename = "reportType")]
+    pub report_type_full: String,
+    pub text: Option<CommitteeReportText>,
+    #[serde(rename = "associatedTreaties")]
+    pub associated_treaties: Option<Vec<AssociatedTreatyItem>>,
+    #[serde(rename = "associatedBill")]
+    pub associated_bills: Option<Vec<AssociatedBillItem>>,
+}
+
+/// Represents a treaty associated with an executive report.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct AssociatedTreatyItem {
+    pub congress: u32,
+    pub number: u32,
+    pub part: Option<String>,
+    pub url: String,
+}
+
+/// Represents the text formats available for a committee report.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeReportText {
+    pub count: u32,
+    pub url: String,
+}
+
+/// Represents a text format of a committee report.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeReportTextItem {
+    pub url: String,
+    #[serde(rename = "type")]
+    pub format_type: String,
+    #[serde(rename = "isErrata")]
+    pub is_errata: String,
+}
