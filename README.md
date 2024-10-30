@@ -46,6 +46,7 @@ The library currently supports endpoints related to:
   - **`param_models`**: Defines models and enums for different query parameters, facilitating type-safe request building.
   - **`response_models`**: Data structures representing the API's response data, enabling easy deserialization and manipulation of returned JSON data.
   - **`client`**: Contains the `CongressApiClient` struct and its associated methods for interacting with the API.
+  - **`request_handlers`**: Provides functions for making HTTP requests and handling responses, with support for both `reqwest` and `curl+jq` request methods.
 
 - **Convenient Request Utilities**:
   - **`CongressApiClient`**: A centralized client for interacting with the US Congress API, managing API keys, constructing URLs, making requests, and deserializing responses.
