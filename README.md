@@ -41,15 +41,18 @@ The library currently supports endpoints related to:
 ## Features
 
 - **Modular Design**: Organized into distinct modules to separate concerns, enhancing maintainability and scalability.
-  - **`endpoints`**: Contains enums and functions representing the available API endpoints, allowing you to fetch data about bills, members, and more.
-  - **`url_builders`**: Utility functions for constructing proper API URLs with query parameters.
-  - **`param_models`**: Defines models and enums for different query parameters, facilitating type-safe request building.
-  - **`response_models`**: Data structures representing the API's response data, enabling easy deserialization and manipulation of returned JSON data.
-  - **`client`**: Contains the `CongressApiClient` struct and its associated methods for interacting with the API.
-  - **`request_handlers`**: Provides functions for making HTTP requests and handling responses, with support for both `reqwest` and `curl+jq` request methods.
+  - **`endpoints`**: Enums and functions representing the available API endpoints.
+  - **`url_builders`**: Utility functions for constructing API URLs with query parameters.
+  - **`param_models`**: Models and enums for different query parameters.
+  - **`response_models`**: Data structures for API responses, including specific models and the versatile `GenericResponse`.
+  - **`client`**: `CongressApiClient` struct for interacting with the API.
+  - **`request_handlers`**: Functions for making HTTP requests and handling responses.
 
 - **Convenient Request Utilities**:
-  - **`CongressApiClient`**: A centralized client for interacting with the US Congress API, managing API keys, constructing URLs, making requests, and deserializing responses.
+  - **`CongressApiClient`**: Centralized client managing API keys, constructing URLs, making requests, and deserializing responses.
+
+- **Flexible Response Handling**:
+  - **`GenericResponse`**: A catch-all response model for endpoints without a specific response type or when the response model is unknown.
 
 ## Installation
 
@@ -70,15 +73,15 @@ cargo add cdg_api
 
 ### Setting Up Your API Key
 
-Before using the library, you need to obtain an API key from the [US Congress API](https://api.congress.gov/). Once you have your API key, you can provide it to the `CongressApiClient` in one of two ways:
+Obtain an API key from the [US Congress API](https://api.congress.gov/). Provide it to the `CongressApiClient` either via an environment variable or direct initialization:
 
-1. **Environment Variable**: Set the `CDG_API_KEY` environment variable with your API key.
+1. **Environment Variable**:
 
    ```bash
    export CDG_API_KEY="your_api_key_here"
    ```
 
-2. **Direct Initialization**: Pass the API key directly when creating a new instance of `CongressApiClient`.
+2. **Direct Initialization**:
 
    ```rust
    use cdg_api::CongressApiClient;
@@ -86,31 +89,28 @@ Before using the library, you need to obtain an API key from the [US Congress AP
    let client = CongressApiClient::new(Some("your_api_key_here".to_string())).unwrap();
    ```
 
-**Note**: Setting the API key via environment variables ensures that you don't have to hardcode sensitive information in your code.
+**Note**: Using environment variables is recommended to avoid hardcoding sensitive information.
 
 ## Usage
 
 ### Using `CongressApiClient`
 
-The `CongressApiClient` provides a streamlined way to interact with various API endpoints. Below are examples of how to use the client to fetch different types of data, leveraging the `NewEndpoint` trait and enums for parameter values to ensure type safety.
+`CongressApiClient` allows you to interact with various API endpoints. Below are examples demonstrating how to fetch different types of data.
 
 #### Example 1: Fetching Members
 
-Here's an example of how to fetch a list of current members of Congress and display their names, party affiliations, and states.
+Fetch a list of current members of Congress and display their names, party affiliations, and states.
 
 ```rust
-
 use cdg_api::CongressApiClient;
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
 use cdg_api::param_models::{FormatType, MemberListParams};
 use cdg_api::response_models::MembersResponse;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let client = CongressApiClient::new(None)?; // Use API key from environment
 
-    let client = CongressApiClient::new(None)?; // Use default API key from environment
-                                               // Set the API key explicitly with:
-                                               // CongressApiClient::new(Some("api_key_here".to_string()))?;
-    // Define parameters using enums
+    // Define parameters
     let params = MemberListParams {
         format: Some(FormatType::Json),
         limit: Some(10),
@@ -118,10 +118,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         ..MemberListParams::default()
     };
 
-    // Create the endpoint using the NewEndpoint trait
+    // Create the endpoint
     let endpoint = Endpoints::new_member_list(params);
 
-    // Fetch the data, casting it to the appropriate response type
+    // Fetch the data
     let response: MembersResponse = client.fetch(endpoint)?;
 
     // Process the response
@@ -135,7 +135,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 #### Example 2: Fetching Bills
 
-Here's how to fetch a list of bills and display their titles, types, and numbers, utilizing the `BillType` enum.
+Fetch a list of bills and display their titles, types, and numbers.
 
 ```rust
 use cdg_api::CongressApiClient;
@@ -146,17 +146,17 @@ use cdg_api::response_models::BillsResponse;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let client = CongressApiClient::new(None)?;
 
-    // Define parameters using enums
+    // Define parameters
     let params = BillByTypeParams {
         format: Some(FormatType::Json),
         limit: Some(10),
         ..BillByTypeParams::default()
     };
 
-    // Create the endpoint using the NewEndpoint trait
+    // Create the endpoint
     let endpoint = Endpoints::new_bill_by_type(118, BillType::Hr, params);
 
-    // Fetch the data, casting it to the appropriate response type
+    // Fetch the data
     let response: BillsResponse = client.fetch(endpoint)?;
 
     // Process the response
@@ -168,31 +168,78 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
+### Using `GenericResponse`
+
+When a specific response model is not defined or the response structure is unknown, use `GenericResponse` to handle the response dynamically.
+
+#### What is `GenericResponse`?
+
+`GenericResponse` is an enum-based catch-all response model that can represent any of the defined response types. It leverages the `GenericResponseModel` enum to encapsulate various possible responses, making it flexible for handling diverse API responses.
+
+#### Working Example
+
+```rust
+use cdg_api::CongressApiClient;
+use cdg_api::endpoints::Endpoints;
+use cdg_api::param_models::{FormatType, BillListParams};
+use cdg_api::response_models::GenericResponse;
+
+use std::error::Error;
+
+fn main() -> Result<(), Box<dyn Error>> {
+    let client = CongressApiClient::new(None)?; // Use default API key
+
+    // Define parameters
+    let params = BillListParams {
+        format: Some(FormatType::Json),
+        limit: Some(10),
+        ..BillListParams::default()
+    };
+
+    // Create the endpoint
+    let endpoint = Endpoints::BillList(params);
+
+    // Fetch the data
+    let response: GenericResponse = client.fetch(endpoint)?;
+
+    // Process the response
+    println!("{}", response.serialize_generic_response(true)?);
+
+    Ok(())
+}
+```
+
+#### Advantages of Using `GenericResponse`
+
+- **Flexibility**: Handle any response structure without needing a specific model.
+- **Simplicity**: Reduce the need to manage numerous specific response models.
+- **Future-Proofing**: Accommodate new or unexpected response types without immediate library updates.
+
+#### Considerations
+
+- **Type Safety**: While flexible, it requires handling enum variants to access specific data.
+- **Complexity**: Managing a large enum with many variants can be cumbersome.
+- **Performance**: Potential overhead due to extensive enum matching; ensure it meets your performance needs.
+
 ## Modules
 
-- **`endpoints`**: Contains enums and functions representing the available API endpoints. It provides constructors (via the `NewEndpoint` trait) for each endpoint variant, allowing you to specify which endpoint you want to interact with and define the necessary parameters.
-
-- **`url_builders`**: Provides helper functions, such as `generate_url`, for constructing complete API URLs with necessary query parameters.
-
-- **`param_models`**: Includes data models and enums for API query parameters, ensuring type-safe and flexible request customization. Enums like `FormatType`, `SortType`, `BillType`, `AmendmentType`, `ChamberType`, `CommunicationType`, and `LawType` are defined here to represent specific parameter values.
-
-- **`response_models`**: Defines the data structures corresponding to API responses, leveraging `serde` for seamless JSON deserialization.
-
-- **`client`**: Contains the `CongressApiClient` struct and its associated methods for interacting with the API.
-
-- **`request_handlers`**: Provides functions for making HTTP requests and handling responses. Reqwest or curl+jq entry points are available for making requests. Typically, the `reqwest` is the better choice due to ease of use with the response models.
-
+- **`endpoints`**: Enums and functions representing the available API endpoints.
+- **`url_builders`**: Helper functions for constructing complete API URLs with query parameters.
+- **`param_models`**: Data models and enums for API query parameters, ensuring type-safe requests.
+- **`response_models`**: Data structures for API responses, including specific models and `GenericResponse`.
+- **`client`**: `CongressApiClient` struct and methods for interacting with the API.
+- **`request_handlers`**: Functions for making HTTP requests and handling responses, supporting `reqwest` and `curl+jq`.
 
 ## Error Handling
 
-The library defines a custom error type `ApiClientError` to handle various error scenarios, including HTTP errors, URL construction issues, deserialization failures, and environment variable access problems. The `fetch` method returns `Result<T, ApiClientError>`, allowing for more granular and precise error handling.
+The library defines a custom error type `ApiClientError` to handle various error scenarios, including HTTP errors, URL construction issues, deserialization failures, and environment variable access problems. The `fetch` method returns `Result<T, ApiClientError>`, allowing for precise error handling.
 
 ### Error Variants
 
-- **`ApiClientError::Http`**: Represents HTTP-related errors, including network issues and non-success status codes.
-- **`ApiClientError::Deserialization`**: Occurs when there is an error deserializing the API response into the desired Rust struct.
-- **`ApiClientError::Url`**: Triggered when there is an error constructing the API URL.
-- **`ApiClientError::EnvVar`**: Happens when the API key is not found in the environment variables.
+- **`ApiClientError::Http`**: HTTP-related errors, including network issues and non-success status codes.
+- **`ApiClientError::Deserialization`**: Errors during deserializing the API response.
+- **`ApiClientError::Url`**: Errors constructing the API URL.
+- **`ApiClientError::EnvVar`**: Missing API key in environment variables.
 
 ## License
 

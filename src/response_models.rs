@@ -1,7 +1,10 @@
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
 pub trait PrimaryResponse {}
 
+impl PrimaryResponse for GenericResponse {} // catch-all for endpoints that don't have a specific
+                                            // response model
 impl PrimaryResponse for AmendmentsResponse {} // corresponds to the /amendment endpoint
 impl PrimaryResponse for AmendmentDetailsResponse {} // corresponds to the
                                                      // /amendment/{congress}/{amendmentType}/{amendmentNumber}
@@ -63,6 +66,217 @@ impl PrimaryResponse for NominationDetailsResponse {} // corresponds to the
 impl PrimaryResponse for TreatiesResponse {} // corresponds to the /treaty endpoint
 impl PrimaryResponse for TreatyDetailsResponse {} // corresponds to the
                                                    // /treaty/{congress}/{treatyNumber} endpoint
+
+/// Dynamic response model that can represent a variety of response types.
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GenericResponseModel {
+    AmendmentsResponse(AmendmentsResponse),
+    AmendmentDetailsResponse(AmendmentDetailsResponse),
+    AmendmentActionsResponse(AmendmentActionsResponse),
+    AmendmentCosponsorsResponse(AmendmentCosponsorsResponse),
+    AmendmentAmendmentsResponse(AmendmentAmendmentsResponse),
+    AmendmentTextVersionsResponse(AmendmentTextVersionsResponse),
+    BillsResponse(BillsResponse),
+    BillDetailsResponse(BillDetailsResponse),
+    BillActionsResponse(BillActionsResponse),
+    BillAmendmentsResponse(BillAmendmentsResponse),
+    BillCommitteesResponse(BillCommitteesResponse),
+    BillCosponsorsResponse(BillCosponsorsResponse),
+    RelatedBillsResponse(RelatedBillsResponse),
+    BillSubjectsResponse(BillSubjectsResponse),
+    BillSummariesResponse(BillSummariesResponse),
+    BillTextVersionsResponse(BillTextVersionsResponse),
+    BillTitlesResponse(BillTitlesResponse),
+    SummariesResponse(SummariesResponse),
+    LawsResponse(LawsResponse),
+    LawDetailsResponse(LawDetailsResponse),
+    CongressesResponse(CongressesResponse),
+    CongressDetailsResponse(CongressDetailsResponse),
+    CongressionalRecordResponse(CongressionalRecordResponse),
+    DailyCongressionalRecordResponse(DailyCongressionalRecordResponse),
+    ArticlesResponse(ArticlesResponse),
+    MembersResponse(MembersResponse),
+    MemberDetailsResponse(MemberDetailsResponse),
+    NominationsResponse(NominationsResponse),
+    NominationDetailsResponse(NominationDetailsResponse),
+    TreatiesResponse(TreatiesResponse),
+    TreatyDetailsResponse(TreatyDetailsResponse),
+    LatestAction(LatestAction),
+    ResourceReference(ResourceReference),
+    CosponsorsReference(CosponsorsReference),
+    MemberSummary(MemberSummary),
+    AmendedBill(AmendedBill),
+    AmendmentDetails(AmendmentDetails),
+    AmendmentAction(AmendmentAction),
+    RecordedVote(RecordedVote),
+    SourceSystem(SourceSystem),
+    AmendmentCosponsor(AmendmentCosponsor),
+    TextVersion(TextVersion),
+    TextFormat(TextFormat),
+    CboCostEstimate(CboCostEstimate),
+    CommitteeReport(CommitteeReport),
+    LawReference(LawReference),
+    PolicyArea(PolicyArea),
+    RelationshipDetail(RelationshipDetail),
+    LegislativeSubject(LegislativeSubject),
+    BillSummaryItem(BillSummaryItem),
+    BillTitle(BillTitle),
+    SummaryItem(SummaryItem),
+    CongressSummary(CongressSummary),
+    Session(Session),
+    Results(Results),
+    Issue(Issue),
+    Links(Links),
+    Section(Section),
+    Pdf(Pdf),
+    PdfItem(PdfItem),
+    DailyIssue(DailyIssue),
+    FullIssue(FullIssue),
+    EntireIssue(EntireIssue),
+    EntireIssueItem(EntireIssueItem),
+    Sections(Sections),
+    SectionItem(SectionItem),
+    SectionText(SectionText),
+    SectionTextItem(SectionTextItem),
+    Articles(Articles),
+    BillAction(BillAction),
+    Committee(Committee),
+    CommitteeActivity(CommitteeActivity),
+    BillCosponsor(BillCosponsor),
+    RelatedBill(RelatedBill),
+    BillReference(BillReference),
+    LawSummary(LawSummary),
+    Number(u32),
+}
+
+/// Generic response model that is essentially a catch-all for endpoints that don't have a specific
+/// response model, or when the response model is unknown.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GenericResponse {
+    // Fields from GenericResponse itself
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub congress: Option<GenericResponseModel>,
+    #[serde(rename = "latestAction")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub latest_action: Option<LatestAction>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub number: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub purpose: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "type")]
+    pub amendment_type: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "updateDate")]
+    pub update_date: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub amendment: Option<AmendmentDetails>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub actions: Option<GenericResponseModel>,
+    #[serde(rename = "amendedBill")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub amended_bill: Option<AmendedBill>,
+    #[serde(rename = "amendmentsToAmendment")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub amendments_to_amendment: Option<ResourceReference>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub chamber: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub cosponsors: Option<CosponsorsReference>,
+    #[serde(rename = "proposedDate")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub proposed_date: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sponsors: Option<Vec<MemberSummary>>,
+    #[serde(rename = "submittedDate")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub submitted_date: Option<String>,
+    #[serde(rename = "amendments")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub amendments: Option<Vec<AmendmentSummary>>,
+    #[serde(rename = "amendment")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub amendment_details: Option<AmendmentDetails>,
+    #[serde(rename = "cosponsors")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub amendment_cosponsors: Option<Vec<AmendmentCosponsor>>,
+    #[serde(rename = "textVersions")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub amendment_text_versions_response_text_versions: Option<Vec<TextVersion>>,
+    #[serde(rename = "bills")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bills_response_bills: Option<Vec<BillSummary>>,
+    #[serde(rename = "bill")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bill_details_response_bill: Option<BillDetails>,
+    #[serde(rename = "committees")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bill_committees_response_committees: Option<Vec<Committee>>,
+    #[serde(rename = "cosponsors")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bill_cosponsors_response_cosponsors: Option<Vec<BillCosponsor>>,
+    #[serde(rename = "relatedBills")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub related_bills_response_related_bills: Option<Vec<RelatedBill>>,
+    #[serde(rename = "subjects")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bill_subjects_response_subjects: Option<Subjects>,
+    #[serde(rename = "summaries")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bill_summaries_response_summaries: Option<Vec<BillSummaryItem>>,
+    #[serde(rename = "textVersions")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bill_text_versions_response_text_versions: Option<Vec<TextVersion>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub titles: Option<Vec<BillTitle>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub summaries: Option<Vec<SummaryItem>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub congresses: Option<Vec<CongressSummary>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "results")]
+    pub congressional_record_results: Option<Results>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "daily_congressional_record")]
+    pub daily_congressional_record: Option<DailyCongressionalRecord>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "articles")]
+    pub articles_response_articles: Option<Vec<Article>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "members")]
+    pub members_response_members: Option<Vec<Member>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "member")]
+    pub member_details: Option<MemberDetails>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub nominations: Option<Vec<NominationItem>>,
+    #[serde(rename = "nomination")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub nomination_details: Option<NominationDetails>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub treaties: Option<Vec<TreatyItem>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "treaty")]
+    pub treaty_details: Option<TreatyDetails>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(flatten)]
+    pub extra: Option<Value>,
+}
+
+impl GenericResponse {
+    /// Serializes the generic response model to a JSON string.
+    /// If `pretty` is true, the JSON will be pretty-printed.
+    pub fn serialize_generic_response(&self, pretty: bool) -> Result<String, serde_json::Error> {
+        if pretty {
+            serde_json::to_string_pretty(&self)
+        } else {
+            serde_json::to_string(&self)
+        }
+    }
+}
 
 /// Response model for the `/amendment` endpoint.
 #[derive(Debug, Serialize, Deserialize)]
