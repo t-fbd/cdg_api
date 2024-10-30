@@ -201,9 +201,10 @@ impl SortType {
 ///
 /// This enum categorizes bills based on their origin and nature within
 /// the legislative system.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, Default)]
 pub enum BillType {
     /// House Resolution (`hr`).
+    #[default]
     Hr, // House Resolution
 
     /// Senate Bill (`s`).
@@ -244,6 +245,21 @@ impl BillType {
             BillType::Sconres => "sconres".to_string(),
             BillType::Hres => "hres".to_string(),
             BillType::Sres => "sres".to_string(),
+        }
+    }
+
+    /// Converts a `&str` to the corresponding `BillType` variant.
+    pub fn from_str(s: &str) -> Option<BillType> {
+        match s.to_lowercase().as_str() {
+            "hr" => Some(BillType::Hr),
+            "s" => Some(BillType::S),
+            "hjres" => Some(BillType::Hjres),
+            "sjres" => Some(BillType::Sjres),
+            "hconres" => Some(BillType::Hconres),
+            "sconres" => Some(BillType::Sconres),
+            "hres" => Some(BillType::Hres),
+            "sres" => Some(BillType::Sres),
+            _ => None,
         }
     }
 }

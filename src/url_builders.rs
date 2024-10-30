@@ -1650,7 +1650,11 @@ impl ApiParams for CongressCurrentParams {
 
 /// called by the api client to generate the complete URL for the request.
 pub fn generate_url(endpoint: Endpoints, api_key: &str) -> String {
-    format!("{}{}&api_key={}", crate::BASE_URL, endpoint, api_key)
+    if endpoint.to_string().contains("?") {
+        format!("{}{}&api_key={}", crate::BASE_URL, endpoint, api_key)
+    } else {
+        format!("{}{}?api_key={}", crate::BASE_URL, endpoint, api_key)
+    }
 }
 
 /// Implementation of the `Display` trait for the `Endpoints` enum.

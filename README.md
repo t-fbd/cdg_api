@@ -280,6 +280,78 @@ The library defines a custom error type `ApiClientError` to handle various error
 - **`ApiClientError::Url`**: Errors constructing the API URL.
 - **`ApiClientError::EnvVar`**: Missing API key in environment variables.
 
+## Command-Line Interface (`main.rs`)
+
+The `main.rs` file serves as a simple CLI for interacting with the `cdg_api` library. It allows users to execute various commands to fetch and display data from the US Congress API in a user-friendly format.
+
+### Available Commands
+
+- **`current_members`**  
+  *Fetch and display all current members of Congress.*
+
+- **`list_bills`**  
+  *List recent bills introduced in Congress.*
+
+- **`list_committees`**  
+  *List all congressional committees.*
+
+- **`current_congress`**  
+  *Display information about the current congress session.*
+
+- **`list_laws`**  
+  *List recently passed laws.*
+
+- **`list_nominations`**  
+  *List recent nominations.*
+
+- **`list_treaties`**  
+  *List recent treaties.*
+
+- **`member_details <bioguide_id>`**  
+  *Get detailed information about a specific member using their `bioguide_id`.*
+
+- **`bill_details <congress> <bill_type> <bill_number>`**  
+  *Get detailed information about a specific bill by specifying the congress number, bill type (e.g., `H` for House, `S` for Senate), and bill number.*
+
+### Usage
+
+1. **Set the API Key**  
+   Ensure that the `CDG_API_KEY` environment variable is set with your Congress API key:
+   ```bash
+   export CDG_API_KEY="your_api_key_here"
+   ```
+
+2. Run the Application
+
+
+Use the following command structure to execute the application with the desired command:
+
+```bash
+cargo run -- <command> [additional arguments]
+```
+
+Examples
+
+Fetch Current Members of Congress
+```bash
+cargo run -- current_members
+```
+
+List Recent Bills
+```bash
+cargo run -- list_bills
+```
+
+Get Member Details
+```bash
+cargo run -- member_details A000360
+```
+
+Get Bill Details
+```bash
+cargo run -- bill_details 117 H 1150
+```
+
 ## Other Projects
 
 - **[`loc_api`](https://crates.io/crates/loc_api)**: A Rust library for interacting with the Library of Congress API.

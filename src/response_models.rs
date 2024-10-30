@@ -1423,9 +1423,9 @@ pub struct NominationItem {
     pub congress: u32,
     pub number: u32,
     #[serde(rename = "partNumber")]
-    pub part_number: Option<u32>,
+    pub part_number: Option<String>,
     pub citation: String,
-    pub description: String,
+    pub description: Option<String>,
     #[serde(rename = "receivedDate")]
     pub received_date: String,
     #[serde(rename = "nominationType")]
@@ -1442,9 +1442,9 @@ pub struct NominationItem {
 #[derive(Debug, Serialize, Deserialize, Default)]
 pub struct NominationType {
     #[serde(rename = "isCivilian")]
-    pub is_civilian: bool,
+    pub is_civilian: Option<bool>,
     #[serde(rename = "isMilitary")]
-    pub is_military: bool,
+    pub is_military: Option<bool>,
     #[serde(flatten)]
     pub unknown: Option<Value>,
 }
