@@ -286,20 +286,11 @@ The `main.rs` file serves as a simple CLI for interacting with the `cdg_api` lib
 
 ### Available Commands
 
-- **`current_members`**  
-  *Fetch and display all current members of Congress.*
-
 - **`list_bills`**  
   *List recent bills introduced in Congress.*
 
-- **`list_committees`**  
-  *List all congressional committees.*
-
 - **`current_congress`**  
   *Display information about the current congress session.*
-
-- **`list_laws`**  
-  *List recently passed laws.*
 
 - **`list_nominations`**  
   *List recent nominations.*
@@ -311,7 +302,7 @@ The `main.rs` file serves as a simple CLI for interacting with the `cdg_api` lib
   *Get detailed information about a specific member using their `bioguide_id`.*
 
 - **`bill_details <congress> <bill_type> <bill_number>`**  
-  *Get detailed information about a specific bill by specifying the congress number, bill type (e.g., `H` for House, `S` for Senate), and bill number.*
+  *Get detailed information about a specific bill by specifying the congress number, bill type (see `BillType`), and bill number.*
 
 ### Usage
 
@@ -331,11 +322,6 @@ cargo run -- <command> [additional arguments]
 ```
 
 Examples
-
-Fetch Current Members of Congress
-```bash
-cargo run -- current_members
-```
 
 List Recent Bills
 ```bash
