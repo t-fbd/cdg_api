@@ -13,6 +13,59 @@ pub const BASE_URL: &str = "https://api.congress.gov/v3/";
 pub use request_handlers::get_congress_data;
 
 pub mod request_handlers {
+//! # `request_handlers` Module
+//! 
+//! The `request_handlers` module provides utility functions for interacting with the US Congress API.
+//! It includes methods for fetching data via HTTP requests and processing responses using external tools.
+//! 
+//! ## Functions
+//! 
+//! - **`get_congress_data`**: Sends an HTTP GET request to a specified URL and deserializes the JSON response into the desired type.
+//! - **`curl_and_jq`**: Executes a `curl` command to retrieve data from a URL and processes the JSON output with `jq`.
+//! 
+//! ## Usage
+//! 
+//! ```rust
+//! use cdg_api::request_handlers::{get_congress_data, curl_and_jq};
+//! use cdg_api::response_models::BillsResponse;
+//! 
+//! fn main() -> Result<(), Box<dyn std::error::Error>> {
+//!     let url = "https://api.congress.gov/v3/bill/?format=json&limit=10&api_key=YOUR_API_KEY";
+//!     
+//!     // Fetch and deserialize data
+//!     // Note:
+//!     // In this example it will fail because the api key is not valid
+//!     // otherwise it will return the data and attempt to deserialize it
+//!     // into the BillsResponse struct
+//!     let bills: BillsResponse = match get_congress_data(url) {
+//!         Ok(data) => data,
+//!         Err(err) => {
+//!             eprintln!("Error: {}", err);
+//!             BillsResponse::default()
+//!         }
+//!     };
+//!     
+//!     // Fetch and process data with jq
+//!     // Note:
+//!     // In this example it will fail because the api key is not valid
+//!     // otherwise it will return the data and process it with jq
+//!     // using the provided filter
+//!     match curl_and_jq(url, ".bills[] | {number, title}") {
+//!         Ok(_) => println!("Data processed successfully."),
+//!         Err(err) => eprintln!("Error: {}", err),
+//!     }
+//!     
+//!     Ok(())
+//! }
+//! ```
+//! 
+//! ## Summary
+//! 
+//! - **`get_congress_data`**: Ideal for Rust applications that require type-safe deserialization of API responses.
+//! - **`curl_and_jq`**: Useful for command-line applications or scripts where external processing of JSON data is preferred.
+//! - **Dependencies**: Ensure that `reqwest` and `serde` are included for `get_congress_data`, and that `curl` and `jq` are installed for `curl_and_jq`.
+
+
     use reqwest::blocking::Client;
     use serde::de::DeserializeOwned;
     use super::response_models::PrimaryResponse;

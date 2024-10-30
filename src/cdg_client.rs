@@ -1,3 +1,91 @@
+//! ### `client` Module
+//! 
+//! #### Overview
+//! 
+//! The `client` module provides the `CongressApiClient` struct, which serves as the primary interface for interacting with the US Congress API. It handles API key management, URL construction, making HTTP requests, and deserializing responses.
+//! 
+//! #### Structures
+//! 
+//! - **`CongressApiClient`**
+//! 
+//!   A client for interacting with the US Congress API.
+//! 
+//!   - **Fields**:
+//!     - `api_key`: Stores the API key used for authenticating requests.
+//!     - `client`: An instance of `reqwest::blocking::Client` used to perform HTTP requests.
+//! 
+//!   - **Methods**:
+//!     - `new(api_key: Option<String>) -> Result<Self, Box<dyn Error>>`  
+//!       Creates a new `CongressApiClient` instance. If no API key is provided, it attempts to read the `CDG_API_KEY` environment variable.
+//!       
+//!       **Parameters**:
+//!       - `api_key`: An optional API key. If `None`, the client will attempt to read the `CDG_API_KEY` environment variable.
+//!       
+//!       **Returns**:
+//!       - `Ok(CongressApiClient)`: A new client instance.
+//!       - `Err`: If the API key is not provided and not found in the environment.
+//! 
+//!     - `fetch<T: PrimaryResponse + DeserializeOwned>(&self, endpoint: Endpoints) -> Result<T, ApiClientError>`  
+//!       Fetches data from a specified API endpoint and deserializes the response into the given type `T`.
+//!       
+//!       **Parameters**:
+//!       - `endpoint`: The API endpoint variant.
+//!       - `T`: The type of the response data. This type must implement `PrimaryResponse` and `DeserializeOwned`.
+//!       
+//!       **Returns**:
+//!       - `Result<T, ApiClientError>`: The fetched data, deserialized into the appropriate response type.
+//!       
+//!       **Errors**:
+//!       - `ApiClientError::Http`: If an HTTP error occurs.
+//!       - `ApiClientError::Deserialization`: If an error occurs during deserialization.
+//!       - `ApiClientError::Url`: If an error occurs while building the URL.
+//!       - `ApiClientError::EnvVar`: If the API key is not found in the environment.
+//! 
+//! #### Enums
+//! 
+//! - **`ApiClientError`**
+//! 
+//!   A custom error type for handling various error scenarios within `CongressApiClient`.
+//! 
+//!   - **Variants**:
+//!     - `Http(reqwest::Error)`: Represents HTTP-related errors, including network issues and non-success status codes.
+//!     - `Url(String)`: Represents errors related to URL construction.
+//!     - `Deserialization(serde_json::Error)`: Represents errors during response deserialization.
+//!     - `EnvVar(String)`: Represents errors when accessing environment variables for API keys.
+//!   
+//!   - **Implementations**:
+//!     - **`Display`**: Provides user-friendly error messages for each variant.
+//!     - **`Error`**: Implements the standard `Error` trait for compatibility with Rust's error handling mechanisms.
+//! 
+//! #### Usage Example
+//! 
+//! ```rust
+//! use cdg_api::CongressApiClient;
+//! use cdg_api::endpoints::{Endpoints, NewEndpoint};
+//! use cdg_api::param_models::{MemberListParams, FormatType};
+//! use cdg_api::response_models::MembersResponse;
+//! 
+//! fn main() -> Result<(), Box<dyn std::error::Error>> {
+//!     let client = CongressApiClient::new(None)?; // Uses API key from environment
+//! 
+//!     let params = MemberListParams {
+//!         format: Some(FormatType::Json),
+//!         limit: Some(10),
+//!         current_member: Some(true),
+//!         ..MemberListParams::default()
+//!     };
+//! 
+//!     let endpoint = Endpoints::new_member_list(params);
+//!     let response: MembersResponse = client.fetch(endpoint)?;
+//! 
+//!     for member in response.members {
+//!         println!("{}, {}, {}", member.name, member.state, member.party_name);
+//!     }
+//! 
+//!     Ok(())
+//! }
+//! ```
+
 use reqwest::blocking::Client;
 use std::env;
 use std::error::Error;

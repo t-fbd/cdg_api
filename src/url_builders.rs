@@ -1,3 +1,58 @@
+//! # `url_builders` Module
+//! 
+//! The `url_builders` module constructs complete URLs for API requests to the US Congress API. It leverages
+//! the `ApiParams` trait to convert parameter structs into query strings and integrates them with endpoint
+//! paths using the `Endpoints` enum.
+//! 
+//! ## Traits
+//! 
+//! - **`ApiParams`**: Defines a method to convert parameters into a query string.
+//! 
+//! ## Implementations
+//! 
+//! `ApiParams` is implemented for various parameter structs (e.g., `BillListParams`, `AmendmentListParams`),
+//! enabling each to generate its corresponding query string.
+//! 
+//! The `Display` trait is implemented for `Endpoints`, allowing seamless URL construction by combining
+//! endpoint paths with their query parameters.
+//! 
+//! ## Key Functions
+//! 
+//! - **`generate_url`**: Combines the base URL, endpoint, query parameters, and API key to form the full request URL.
+//! 
+//! ## Example
+//! 
+//! ```rust
+//! use cdg_api::param_models::{BillListParams, FormatType, SortType};
+//! use cdg_api::endpoints::Endpoints;
+//! use cdg_api::url_builders::generate_url;
+//! 
+//! fn main() {
+//!     let params = BillListParams {
+//!         format: Some(FormatType::Json),
+//!         limit: Some(10),
+//!         from_date_time: Some("2023-01-01".to_string()),
+//!         to_date_time: Some("2023-12-31".to_string()),
+//!         sort: Some(SortType::UpdateDateDesc),
+//!         ..Default::default()
+//!     };
+//! 
+//!     let endpoint = Endpoints::BillList(params);
+//!     let api_key = "YOUR_API_KEY";
+//!     let url = generate_url(endpoint, api_key);
+//! 
+//!     println!("URL: {}", url);
+//!     // Output: https://api.congress.gov/v3/bill/?format=json&limit=10&fromDateTime=2023-01-01&toDateTime=2023-12-31&sort=updateDateDesc&api_key=YOUR_API_KEY
+//! }
+//! ```
+//! 
+//! ## Summary
+//! 
+//! - **Type Safety**: Ensures correct URL formation through trait implementations and enums.
+//! - **Extensibility**: Easily add new endpoints by implementing `ApiParams` for new parameter structs.
+//! - **Convenience**: Simplifies URL construction using Rust's formatting capabilities.
+
+
 use std::fmt::Display;
 use crate::param_models::*;
 use crate::endpoints::Endpoints;

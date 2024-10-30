@@ -1,3 +1,29 @@
+//! # `endpoints` Module
+//! 
+//! This module defines the `Endpoints` enum, which represents the various API endpoints
+//! available in the US Congress API. Each variant encapsulates the necessary parameters
+//! required to interact with a specific endpoint.
+//! 
+//! Additionally, the `NewEndpoint` trait provides constructor methods for creating
+//! instances of each `Endpoints` variant in a standardized manner.
+//! 
+//! ## Example
+//! 
+//! ```rust
+//! use cdg_api::endpoints::{Endpoints, NewEndpoint};
+//! use cdg_api::param_models::{BillListParams, FormatType};
+//! 
+//! fn main() {
+//!     let params = BillListParams {
+//!         format: Some(FormatType::Json),
+//!         limit: Some(20),
+//!         ..BillListParams::default()
+//!     };
+//!     let endpoint = Endpoints::new_bill_list(params);
+//!     // Use the endpoint with CongressApiClient
+//! }
+//! ```
+
 use serde::{Deserialize, Serialize};
 use crate::param_models::*;
 

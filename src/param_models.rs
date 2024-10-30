@@ -1,3 +1,114 @@
+//! # `param_models` Module
+//! 
+//! This module defines the parameter models used for constructing API requests to various endpoints
+//! of the US Congress API. It includes enums for standardized parameter values and structs for
+//! endpoint-specific parameters, facilitating type-safe and structured API interactions.
+//! 
+//! ## Enums
+//! 
+//! - **`FormatType`**: Specifies the response format (`json` or `xml`).
+//! - **`SortType`**: Defines sorting options (e.g., `updateDateAsc`, `updateDateDesc`).
+//! - **`BillType`**: Categorizes different types of bills (e.g., `Hr`, `S`, `Hjres`).
+//! - **`AmendmentType`**: Categorizes amendment types (e.g., `Hamdt`, `Samdt`).
+//! - **`ChamberType`**: Distinguishes between legislative chambers (`House`, `Senate`, `Joint`).
+//! - **`CommunicationType`**: Defines types of committee communications (e.g., `Ec`, `Pm`).
+//! - **`LawType`**: Differentiates between public and private laws (`Pub`, `Priv`).
+//! 
+//! ## Parameter Structs
+//! 
+//! Each API endpoint has a corresponding parameter struct that allows filtering, pagination, and sorting:
+//! 
+//! - **Bill Endpoints**:
+//!   - `BillListParams`
+//!   - `BillByCongressParams`
+//!   - `BillByTypeParams`
+//!   - `BillDetailsParams`
+//!   - `BillActionsParams`
+//!   - `BillAmendmentsParams`
+//!   - `BillCommitteesParams`
+//!   - `BillCosponsorsParams`
+//! 
+//! - **Amendment Endpoints**:
+//!   - `AmendmentListParams`
+//!   - `AmendmentByCongressParams`
+//!   - `AmendmentByTypeParams`
+//!   - `AmendmentDetailsParams`
+//!   - `AmendmentActionsParams`
+//!   - `AmendmentCosponsorsParams`
+//!   - `AmendmentAmendmentsParams`
+//!   - `AmendmentTextParams`
+//! 
+//! - **Law Endpoints**:
+//!   - `LawParams`
+//! 
+//! - **Member Endpoints**:
+//!   - `MemberListParams`
+//!   - `MemberByStateParams`
+//!   - `MemberByCongressParams`
+//!   - `MemberByCongressStateDistrictParams`
+//!   - `MemberDetailsParams`
+//!   - `SponsorshipListParams`
+//!   - `CosponsorshipListParams`
+//! 
+//! - **Committee Endpoints**:
+//!   - `CommitteeListParams`
+//!   - `CommitteeByChamberParams`
+//!   - `CommitteeByCongressParams`
+//!   - `CommitteeByCongressChamberParams`
+//!   - `CommitteeDetailsParams`
+//!   - `CommitteeBillsParams`
+//!   - `CommitteeReportsParams`
+//!   - `CommitteeNominationsParams`
+//!   - `CommitteeHouseCommunicationParams`
+//!   - `CommitteeSenateCommunicationParams`
+//! 
+//! - **Nomination Endpoints**:
+//!   - `NominationListParams`
+//!   - `NominationByCongressParams`
+//!   - `NominationDetailsParams`
+//!   - `NomineesParams`
+//!   - `NominationActionsParams`
+//!   - `NominationCommitteesParams`
+//!   - `NominationHearingsParams`
+//! 
+//! - **Treaty Endpoints**:
+//!   - `TreatyListParams`
+//!   - `TreatyByCongressParams`
+//!   - `TreatyDetailsParams`
+//!   - `TreatyPartitionedParams`
+//!   - `TreatyCommitteesParams`
+//!   - `TreatyActionsParams`
+//! 
+//! - **Summaries Endpoints**:
+//!   - `SummariesListParams`
+//!   - `SummariesByCongressParams`
+//!   - `SummariesByTypeParams`
+//! 
+//! - **Congress Endpoints**:
+//!   - `CongressListParams`
+//!   - `CongressDetailsParams`
+//!   - `CongressCurrentParams`
+//! 
+//! Each parameter struct typically includes fields such as `format`, `offset`, `limit`, `from_date_time`, `to_date_time`, and `sort` to control the API request behavior.
+//! 
+//! ## Example
+//! 
+//! ```rust
+//! use cdg_api::param_models::{BillListParams, FormatType, SortType};
+//! 
+//! fn main() {
+//!     let params = BillListParams {
+//!         format: Some(FormatType::Json),
+//!         limit: Some(10),
+//!         from_date_time: Some("2023-01-01".to_string()),
+//!         to_date_time: Some("2023-12-31".to_string()),
+//!         sort: Some(SortType::UpdateDateDesc),
+//!         ..BillListParams::default()
+//!     };
+//!     // Use `params` with an endpoint constructor
+//! }
+//! ```
+
 use serde::{Deserialize, Serialize};
 
 // =========================================
