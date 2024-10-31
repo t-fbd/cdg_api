@@ -996,37 +996,37 @@ pub enum Endpoints {
     /// # Parameters
     ///
     /// - `u32`: The congress number.
-    /// - `String`: The treaty number.
+    /// - `u32`: The treaty number.
     /// - `TreatyDetailsParams`: Additional parameters for treaty details.
-    TreatyDetails(u32, String, TreatyDetailsParams),
+    TreatyDetails(u32, u32, TreatyDetailsParams),
 
     /// Endpoint to retrieve partitioned information about a specific treaty.
     ///
     /// # Parameters
     ///
     /// - `u32`: The congress number.
-    /// - `String`: The treaty number.
+    /// - `u32`: The treaty number.
     /// - `String`: The treaty suffix.
     /// - `TreatyPartitionedParams`: Additional parameters for partitioned treaties.
-    TreatyPartitioned(u32, String, String, TreatyPartitionedParams),
+    TreatyPartitioned(u32, u32, String, TreatyPartitionedParams),
 
     /// Endpoint to retrieve committees associated with a specific treaty.
     ///
     /// # Parameters
     ///
     /// - `u32`: The congress number.
-    /// - `String`: The treaty number.
+    /// - `u32`: The treaty number.
     /// - `TreatyCommitteesParams`: Additional parameters for treaty committees.
-    TreatyCommittees(u32, String, TreatyCommitteesParams),
+    TreatyCommittees(u32, u32, TreatyCommitteesParams),
 
     /// Endpoint to fetch actions taken on a specific treaty.
     ///
     /// # Parameters
     ///
     /// - `u32`: The congress number.
-    /// - `String`: The treaty number.
+    /// - `u32`: The treaty number.
     /// - `TreatyActionsParams`: Additional parameters for treaty actions.
-    TreatyActions(u32, String, TreatyActionsParams),
+    TreatyActions(u32, u32, TreatyActionsParams),
 }
 
 /// Trait defining constructors for creating new instances of `Endpoints`.
@@ -1635,7 +1635,7 @@ pub trait NewEndpoint {
     /// - `params`: Parameters for treaty details.
     fn new_treaty_details(
         congress: u32,
-        treaty_number: String,
+        treaty_number: u32,
         params: TreatyDetailsParams,
     ) -> Self;
 
@@ -1649,7 +1649,7 @@ pub trait NewEndpoint {
     /// - `params`: Parameters for partitioned treaties.
     fn new_treaty_partitioned(
         congress: u32,
-        treaty_number: String,
+        treaty_number: u32,
         treaty_suffix: String,
         params: TreatyPartitionedParams,
     ) -> Self;
@@ -1663,7 +1663,7 @@ pub trait NewEndpoint {
     /// - `params`: Parameters for treaty committees.
     fn new_treaty_committees(
         congress: u32,
-        treaty_number: String,
+        treaty_number: u32,
         params: TreatyCommitteesParams,
     ) -> Self;
 
@@ -1676,7 +1676,7 @@ pub trait NewEndpoint {
     /// - `params`: Parameters for treaty actions.
     fn new_treaty_actions(
         congress: u32,
-        treaty_number: String,
+        treaty_number: u32,
         params: TreatyActionsParams,
     ) -> Self;
 
@@ -2349,7 +2349,7 @@ impl NewEndpoint for Endpoints {
 
     fn new_treaty_details(
         congress: u32,
-        treaty_number: String,
+        treaty_number: u32,
         params: TreatyDetailsParams,
     ) -> Self {
         Endpoints::TreatyDetails(congress, treaty_number, params)
@@ -2357,7 +2357,7 @@ impl NewEndpoint for Endpoints {
 
     fn new_treaty_partitioned(
         congress: u32,
-        treaty_number: String,
+        treaty_number: u32,
         treaty_suffix: String,
         params: TreatyPartitionedParams,
     ) -> Self {
@@ -2366,7 +2366,7 @@ impl NewEndpoint for Endpoints {
 
     fn new_treaty_committees(
         congress: u32,
-        treaty_number: String,
+        treaty_number: u32,
         params: TreatyCommitteesParams,
     ) -> Self {
         Endpoints::TreatyCommittees(congress, treaty_number, params)
@@ -2374,7 +2374,7 @@ impl NewEndpoint for Endpoints {
 
     fn new_treaty_actions(
         congress: u32,
-        treaty_number: String,
+        treaty_number: u32,
         params: TreatyActionsParams,
     ) -> Self {
         Endpoints::TreatyActions(congress, treaty_number, params)

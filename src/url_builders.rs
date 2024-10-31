@@ -2680,7 +2680,7 @@ impl std::fmt::Display for Endpoints {
                 write!(f, "bill/{}/{}/{}/cosponsors{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
             }
             Endpoints::BillRelated(congress, bill_type, bill_number, params) => {
-                write!(f, "bill/{}/{}/{}/related{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
+                write!(f, "bill/{}/{}/{}/relatedbills{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
             }
             Endpoints::BillSubjects(congress, bill_type, bill_number, params) => {
                 write!(f, "bill/{}/{}/{}/subjects{}", congress, bill_type.to_string(), bill_number, params.to_query_string())

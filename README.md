@@ -9,6 +9,8 @@ A simple Rust library to interact with the [US Congress API](https://api.congres
 
 `cdg_api` provides a Rust interface for interacting with the US Congress API. It simplifies constructing API endpoints, building URLs with parameters, and retrieving legislative data. Whether fetching information about bills, members, amendments, or laws, `cdg_api` offers a streamlined and type-safe approach to accessing this data.
 
+The library is a work in progress but is very much functional. It is designed to be modular, extensible, and easy to use. The `CongressApiClient` struct serves as the central component for making requests, handling responses, and managing API keys. The library includes specific models for various API responses, such as bills, members, nominations, and treaties, as well as a versatile `GenericResponse` for handling unknown response structures.
+
 ## Features
 
 - **Modular Design**: Organized into distinct modules for maintainability and scalability.

@@ -388,9 +388,9 @@ fn display_treaties(response: &TreatiesResponse) {
         println!("Congress Considered : {}", treaty.congress_considered);
         let def_treaty_parts = TreatyParts::default();
         let parts = treaty.parts.as_ref().unwrap_or(&def_treaty_parts);
-        println!("Parts Count         : {}", parts.count);
-        if !parts.urls.is_empty() {
-            println!("Parts URLs          : {}", parts.urls.join(", "));
+        println!("Parts Count         : {}", parts.count.unwrap_or(0));
+        if !parts.urls.is_none() {
+            println!("Parts URLs          : {}", parts.urls.clone().unwrap_or_default().join(", "));
         }
     }
     println!("----------------------------------------");
