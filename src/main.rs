@@ -38,8 +38,9 @@ use cdg_api::endpoints::Endpoints;
 use cdg_api::param_models::{
     AmendmentListParams, BillDetailsParams, BillListParams, CommitteeListParams,
     LawParams, MemberDetailsParams, MemberListParams, NominationListParams,
-    TreatyListParams, BillType,
+    TreatyListParams
 };
+use cdg_api::cdg_types::*;
 use cdg_api::response_models::{
     AmendmentsResponse, BillsResponse, CommitteesResponse, CongressDetailsResponse, Depiction, LawDetailsResponse, LawsResponse, MemberDetailsResponse, MembersResponse, NominationsResponse, PrimaryResponse, TreatiesResponse, TreatyParts
 };
@@ -82,7 +83,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_bills = fetch_all(
                 &client,
                 |offset, limit| Endpoints::BillList(BillListParams {
-                    format: Some(cdg_api::param_models::FormatType::Json),
+                    format: Some(FormatType::Json),
                     limit: Some(limit as u32),
                     offset: Some(offset as u32),
                     ..BillListParams::default()
@@ -103,7 +104,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_nominations = fetch_all(
                 &client,
                 |offset, limit| Endpoints::NominationList(NominationListParams {
-                    format: Some(cdg_api::param_models::FormatType::Json),
+                    format: Some(FormatType::Json),
                     limit: Some(limit as u32),
                     offset: Some(offset as u32),
                     ..NominationListParams::default()
@@ -119,7 +120,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_treaties = fetch_all(
                 &client,
                 |offset, limit| Endpoints::TreatyList(TreatyListParams {
-                    format: Some(cdg_api::param_models::FormatType::Json),
+                    format: Some(FormatType::Json),
                     limit: Some(limit as u32),
                     offset: Some(offset as u32),
                     ..TreatyListParams::default()
@@ -159,7 +160,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_members = fetch_all(
                 &client,
                 |offset, limit| Endpoints::MemberList(MemberListParams {
-                    format: Some(cdg_api::param_models::FormatType::Json),
+                    format: Some(FormatType::Json),
                     limit: Some(limit as u32),
                     offset: Some(offset as u32),
                     current_member: Some(true),
@@ -176,7 +177,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_committees = fetch_all(
                 &client,
                 |offset, limit| Endpoints::CommitteeList(CommitteeListParams {
-                    format: Some(cdg_api::param_models::FormatType::Json),
+                    format: Some(FormatType::Json),
                     limit: Some(limit as u32),
                     offset: Some(offset as u32),
                     ..CommitteeListParams::default()
@@ -193,7 +194,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_laws = fetch_all(
                 &client,
                 |offset, limit| Endpoints::LawByCongress(congress, LawParams {
-                    format: Some(cdg_api::param_models::FormatType::Json),
+                    format: Some(FormatType::Json),
                     limit: Some(limit as u32),
                     offset: Some(offset as u32),
                     ..LawParams::default()
@@ -209,7 +210,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_amendments = fetch_all(
                 &client,
                 |offset, limit| Endpoints::AmendmentList(AmendmentListParams {
-                    format: Some(cdg_api::param_models::FormatType::Json),
+                    format: Some(FormatType::Json),
                     limit: Some(limit as u32),
                     offset: Some(offset as u32),
                     ..AmendmentListParams::default()
@@ -281,16 +282,19 @@ where
 fn print_usage() {
     println!("Usage: cargo run -- <command> [additional arguments]");
     println!("\nAvailable commands:");
-    println!("  list_bills              - List recent bills introduced in Congress.");
-    println!("  current_congress        - Display information about the current congress session.");
-    println!("  list_nominations        - List recent nominations.");
-    println!("  list_treaties           - List recent treaties.");
-    println!("  member_details <id>     - Get detailed information about a specific member (bioguide_id).");
-    println!("  bill_details <congress> <type> <number> - Get detailed information about a specific bill.");
-    println!("  current_members         - Fetch and display all current members of Congress.");
-    println!("  list_committees         - List all congressional committees.");
-    println!("  list_laws               - List recently passed laws.");
-    println!("  list_amendments         - List recent amendments.");
+    println!("  list_bills {{amount}}           : List recent bills introduced in Congress.");
+    println!("  current_congress                : Display information about the current congress session.");
+    println!("  list_nominations                : List recent nominations.");
+    println!("  list_treaties                   : List recent treaties.");
+    println!("  member_details {{bioguide_id}}  : Get detailed information about a specific member.");
+    println!("  bill_details                    : Get detailed information about a specific bill.");
+    println!("    {{congress}}");
+    println!("     {{bill_type}}");
+    println!("      {{bill_number}}");
+    println!("  current_members                 : Fetch and display all current members of Congress.");
+    println!("  list_committees                 : List all congressional committees.");
+    println!("  list_laws                       : List recently passed laws.");
+    println!("  list_amendments                 : List recent amendments.");
 }
 
 /// Displays the list of members in a formatted manner.

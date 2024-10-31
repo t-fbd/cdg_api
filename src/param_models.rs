@@ -1,100 +1,14 @@
 //! # `param_models` Module
 //! 
 //! This module defines the parameter models used for constructing API requests to various endpoints
-//! of the US Congress API. It includes enums for standardized parameter values and structs for
-//! endpoint-specific parameters, facilitating type-safe and structured API interactions.
-//! 
-//! ## Enums
-//! 
-//! - **`FormatType`**: Specifies the response format (`json` or `xml`).
-//! - **`SortType`**: Defines sorting options (e.g., `updateDateAsc`, `updateDateDesc`).
-//! - **`BillType`**: Categorizes different types of bills (e.g., `Hr`, `S`, `Hjres`).
-//! - **`AmendmentType`**: Categorizes amendment types (e.g., `Hamdt`, `Samdt`).
-//! - **`ChamberType`**: Distinguishes between legislative chambers (`House`, `Senate`, `Joint`).
-//! - **`CommunicationType`**: Defines types of committee communications (e.g., `Ec`, `Pm`).
-//! - **`LawType`**: Differentiates between public and private laws (`Pub`, `Priv`).
-//! 
-//! ## Parameter Structs
-//! 
-//! Each API endpoint has a corresponding parameter struct that allows filtering, pagination, and sorting:
-//! 
-//! - **Bill Endpoints**:
-//!   - `BillListParams`
-//!   - `BillByCongressParams`
-//!   - `BillByTypeParams`
-//!   - `BillDetailsParams`
-//!   - `BillActionsParams`
-//!   - `BillAmendmentsParams`
-//!   - `BillCommitteesParams`
-//!   - `BillCosponsorsParams`
-//! 
-//! - **Amendment Endpoints**:
-//!   - `AmendmentListParams`
-//!   - `AmendmentByCongressParams`
-//!   - `AmendmentByTypeParams`
-//!   - `AmendmentDetailsParams`
-//!   - `AmendmentActionsParams`
-//!   - `AmendmentCosponsorsParams`
-//!   - `AmendmentAmendmentsParams`
-//!   - `AmendmentTextParams`
-//! 
-//! - **Law Endpoints**:
-//!   - `LawParams`
-//! 
-//! - **Member Endpoints**:
-//!   - `MemberListParams`
-//!   - `MemberByStateParams`
-//!   - `MemberByCongressParams`
-//!   - `MemberByCongressStateDistrictParams`
-//!   - `MemberDetailsParams`
-//!   - `SponsorshipListParams`
-//!   - `CosponsorshipListParams`
-//! 
-//! - **Committee Endpoints**:
-//!   - `CommitteeListParams`
-//!   - `CommitteeByChamberParams`
-//!   - `CommitteeByCongressParams`
-//!   - `CommitteeByCongressChamberParams`
-//!   - `CommitteeDetailsParams`
-//!   - `CommitteeBillsParams`
-//!   - `CommitteeReportsParams`
-//!   - `CommitteeNominationsParams`
-//!   - `CommitteeHouseCommunicationParams`
-//!   - `CommitteeSenateCommunicationParams`
-//! 
-//! - **Nomination Endpoints**:
-//!   - `NominationListParams`
-//!   - `NominationByCongressParams`
-//!   - `NominationDetailsParams`
-//!   - `NomineesParams`
-//!   - `NominationActionsParams`
-//!   - `NominationCommitteesParams`
-//!   - `NominationHearingsParams`
-//! 
-//! - **Treaty Endpoints**:
-//!   - `TreatyListParams`
-//!   - `TreatyByCongressParams`
-//!   - `TreatyDetailsParams`
-//!   - `TreatyPartitionedParams`
-//!   - `TreatyCommitteesParams`
-//!   - `TreatyActionsParams`
-//! 
-//! - **Summaries Endpoints**:
-//!   - `SummariesListParams`
-//!   - `SummariesByCongressParams`
-//!   - `SummariesByTypeParams`
-//! 
-//! - **Congress Endpoints**:
-//!   - `CongressListParams`
-//!   - `CongressDetailsParams`
-//!   - `CongressCurrentParams`
-//! 
-//! Each parameter struct typically includes fields such as `format`, `offset`, `limit`, `from_date_time`, `to_date_time`, and `sort` to control the API request behavior.
+//! of the US Congress API. It includes structs for endpoint-specific parameters, facilitating 
+//! type-safe and structured API interactions.
 //! 
 //! ## Example
 //! 
 //! ```rust
-//! use cdg_api::param_models::{BillListParams, FormatType, SortType};
+//! use cdg_api::param_models::BillListParams;
+//! use cdg_api::cdg_types::{FormatType, SortType};
 //! 
 //! fn main() {
 //!     let params = BillListParams {
@@ -110,282 +24,7 @@
 //! ```
 
 use serde::{Deserialize, Serialize};
-
-// =========================================
-// Enums for API Endpoint Parameters Values
-// =========================================
-
-/// Enum representing the response formats available for API endpoints.
-///
-/// This enum is used to specify the desired format of the API response,
-/// allowing consumers to choose between JSON and XML formats.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, Default)]
-#[serde(rename_all = "lowercase")]
-pub enum FormatType {
-    /// JSON format.
-    #[default]
-    Json,
-
-    /// XML format.
-    Xml,
-}
-
-impl FormatType {
-    /// Converts the `FormatType` variant to its corresponding query parameter string.
-    ///
-    /// # Returns
-    ///
-    /// A `String` representing the query parameter (e.g., `"format=json"`).
-    pub fn to_query_param(&self) -> String {
-        match self {
-            FormatType::Json => "format=json".to_string(),
-            FormatType::Xml => "format=xml".to_string(),
-        }
-    }
-
-    /// Converts the `FormatType` variant to its lowercase string representation.
-    ///
-    /// # Returns
-    ///
-    /// A `String` representing the format type (e.g., `"json"` or `"xml"`).
-    pub fn to_string(&self) -> String {
-        match self {
-            FormatType::Json => "json".to_string(),
-            FormatType::Xml => "xml".to_string(),
-        }
-    }
-}
-
-/// Enum representing the sorting options available for API endpoints.
-///
-/// This enum allows consumers to sort responses based on update dates
-/// in ascending or descending order.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
-#[serde(rename_all = "lowercase")]
-pub enum SortType {
-    /// SortType by update date in ascending order.
-    UpdateDateAsc,
-
-    /// SortType by update date in descending order.
-    UpdateDateDesc,
-}
-
-impl SortType {
-    /// Converts the `SortType` variant to its corresponding query parameter string.
-    ///
-    /// # Returns
-    ///
-    /// A `String` representing the sort query parameter
-    /// (e.g., `"sort=updateDate+asc"`).
-    pub fn to_query_param(&self) -> String {
-        match self {
-            SortType::UpdateDateAsc => "sort=updateDate+asc".to_string(),
-            SortType::UpdateDateDesc => "sort=updateDate+desc".to_string(),
-        }
-    }
-
-    /// Converts the `SortType` variant to its lowercase string representation.
-    ///
-    /// # Returns
-    ///
-    /// A `String` representing the sort order (`"asc"` or `"desc"`).
-    pub fn to_string(&self) -> String {
-        match self {
-            SortType::UpdateDateAsc => "asc".to_string(),
-            SortType::UpdateDateDesc => "desc".to_string(),
-        }
-    }
-}
-
-/// Enum representing various bill types in legislative processes.
-///
-/// This enum categorizes bills based on their origin and nature within
-/// the legislative system.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, Default)]
-pub enum BillType {
-    /// House Resolution (`hr`).
-    #[default]
-    Hr, // House Resolution
-
-    /// Senate Bill (`s`).
-    S, // Senate
-
-    /// House Joint Resolution (`hjres`).
-    Hjres, // House Joint Resolution
-
-    /// Senate Joint Resolution (`sjres`).
-    Sjres, // Senate Joint Resolution
-
-    /// House Concurrent Resolution (`hconres`).
-    Hconres, // House Concurrent Resolution
-
-    /// Senate Concurrent Resolution (`sconres`).
-    Sconres, // Senate Concurrent Resolution
-
-    /// House Simple Resolution (`hres`).
-    Hres, // House Simple Resolution
-
-    /// Senate Simple Resolution (`sres`).
-    Sres, // Senate Simple Resolution
-}
-
-impl BillType {
-    /// Converts the `BillType` variant to its lowercase string representation.
-    ///
-    /// # Returns
-    ///
-    /// A `String` representing the bill type (e.g., `"hr"`, `"s"`, etc.).
-    pub fn to_string(&self) -> String {
-        match self {
-            BillType::Hr => "hr".to_string(),
-            BillType::S => "s".to_string(),
-            BillType::Hjres => "hjres".to_string(),
-            BillType::Sjres => "sjres".to_string(),
-            BillType::Hconres => "hconres".to_string(),
-            BillType::Sconres => "sconres".to_string(),
-            BillType::Hres => "hres".to_string(),
-            BillType::Sres => "sres".to_string(),
-        }
-    }
-
-    /// Converts a `&str` to the corresponding `BillType` variant.
-    pub fn from_str(s: &str) -> Option<BillType> {
-        match s.to_lowercase().as_str() {
-            "hr" => Some(BillType::Hr),
-            "s" => Some(BillType::S),
-            "hjres" => Some(BillType::Hjres),
-            "sjres" => Some(BillType::Sjres),
-            "hconres" => Some(BillType::Hconres),
-            "sconres" => Some(BillType::Sconres),
-            "hres" => Some(BillType::Hres),
-            "sres" => Some(BillType::Sres),
-            _ => None,
-        }
-    }
-}
-
-/// Enum representing the types of amendments in legislative processes.
-///
-/// This enum categorizes amendments based on their origin within
-/// the legislative chambers.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
-pub enum AmendmentType {
-    /// House Amendment (`hamdt`).
-    Hamdt, // House Amendment
-
-    /// Senate Amendment (`samdt`).
-    Samdt, // Senate Amendment
-
-    /// Senate Unnumbered Amendment (`suamdt`).
-    Suamdt, // Senate Unnumbered Amendment
-}
-
-impl AmendmentType {
-    /// Converts the `AmendmentType` variant to its lowercase string representation.
-    ///
-    /// # Returns
-    ///
-    /// A `String` representing the amendment type (e.g., `"hamdt"`, `"samdt"`, etc.).
-    pub fn to_string(&self) -> String {
-        match self {
-            AmendmentType::Hamdt => "hamdt".to_string(),
-            AmendmentType::Samdt => "samdt".to_string(),
-            AmendmentType::Suamdt => "suamdt".to_string(),
-        }
-    }
-}
-
-/// Enum representing the chambers of Congress.
-///
-/// This enum distinguishes between the House, Senate, and Joint committees
-/// within the legislative body.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
-pub enum ChamberType {
-    /// House chamber.
-    House,
-
-    /// Senate chamber.
-    Senate,
-
-    /// Joint chamber (both House and Senate).
-    Joint,
-}
-
-impl ChamberType {
-    /// Converts the `ChamberType` variant to its lowercase string representation.
-    ///
-    /// # Returns
-    ///
-    /// A `String` representing the chamber type (e.g., `"house"`, `"senate"`, `"joint"`).
-    pub fn to_string(&self) -> String {
-        match self {
-            ChamberType::House => "house".to_string(),
-            ChamberType::Senate => "senate".to_string(),
-            ChamberType::Joint => "joint".to_string(),
-        }
-    }
-}
-
-/// Enum representing different types of communications handled by committees.
-///
-/// This enum categorizes the various communication types such as executive
-/// communications, presidential messages, petitions, etc.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
-pub enum CommunicationType {
-    /// Executive Communication (`ec`).
-    Ec, // Executive Communication
-
-    /// Message from the President (`ml`).
-    Ml, // Message from the President
-
-    /// Presidential Message (`pm`).
-    Pm, // Presidential Message
-
-    /// Petition (`pt`).
-    Pt, // Petition
-}
-
-impl CommunicationType {
-    /// Converts the `CommunicationType` variant to its lowercase string representation.
-    ///
-    /// # Returns
-    ///
-    /// A `String` representing the communication type (e.g., `"ec"`, `"ml"`, etc.).
-    pub fn to_string(&self) -> String {
-        match self {
-            CommunicationType::Ec => "ec".to_string(),
-            CommunicationType::Ml => "ml".to_string(),
-            CommunicationType::Pm => "pm".to_string(),
-            CommunicationType::Pt => "pt".to_string(),
-        }
-    }
-}
-
-/// Enum representing different types of laws.
-///
-/// This enum distinguishes between public and private laws.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
-pub enum LawType {
-    /// Public Law (`pub`).
-    Pub,  // Public Law
-
-    /// Private Law (`priv`).
-    Priv, // Private Law
-}
-
-impl LawType {
-    /// Converts the `LawType` variant to its lowercase string representation.
-    ///
-    /// # Returns
-    ///
-    /// A `String` representing the law type (`"pub"` or `"priv"`).
-    pub fn to_string(&self) -> String {
-        match self {
-            LawType::Pub => "pub".to_string(),
-            LawType::Priv => "priv".to_string(),
-        }
-    }
-}
+use crate::cdg_types::*;
 
 // ================================
 // Endpoint-Specific Parameter Structs
@@ -525,6 +164,118 @@ pub struct BillCommitteesParams {
 /// These parameters allow pagination when retrieving cosponsors of a specific bill.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct BillCosponsorsParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `BillRelated` endpoint.
+///
+/// These parameters allow pagination when listing related bills of a specific bill.
+/// Related bills include companion bills, identical bills, etc.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct BillRelatedParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `BillSubjects` endpoint.
+///
+/// These parameters allow pagination when listing legislative subjects associated with a specific bill.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct BillSubjectsParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+
+    /// Start date-time for filtering subjects.
+    #[serde(rename = "fromDateTime")]
+    pub from_date_time: Option<String>,
+
+    /// End date-time for filtering subjects.
+    #[serde(rename = "toDateTime")]
+    pub to_date_time: Option<String>,
+}
+
+/// Parameters for the `BillSummaries` endpoint.
+///
+/// These parameters allow pagination when listing summaries of a specific bill.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct BillSummariesParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `BillText` endpoint.
+///
+/// These parameters allow specifying the desired response format
+/// when retrieving the text of a specific bill.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct BillTextParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `BillTitles` endpoint.
+///
+/// These parameters allow pagination when listing titles of a specific bill.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct BillTitlesParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+
+    /// Start date-time for filtering titles.
+    #[serde(rename = "fromDateTime")]
+    pub from_date_time: Option<String>,
+
+    /// End date-time for filtering titles.
+    #[serde(rename = "toDateTime")]
+    pub to_date_time: Option<String>,
+}
+
+// ================================
+// Law Endpoints Parameters
+// ================================
+
+/// Parameters for all law endpoints.
+///
+/// These parameters allow filtering and pagination when listing laws.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct LawParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
 
@@ -678,24 +429,6 @@ pub struct AmendmentTextParams {
     pub format: Option<FormatType>,
 }
 
-// ================================
-// Law Endpoints Parameters
-// ================================
-
-/// Parameters for the `LawList` endpoint.
-///
-/// These parameters allow filtering and pagination when listing laws.
-#[derive(Debug, Serialize, Deserialize, Default, Clone)]
-pub struct LawParams {
-    /// Desired response format (JSON or XML).
-    pub format: Option<FormatType>,
-
-    /// Number of items to skip before starting to collect the result set.
-    pub offset: Option<u32>,
-
-    /// Maximum number of items to return.
-    pub limit: Option<u32>,
-}
 
 
 // ================================
@@ -752,6 +485,24 @@ pub struct MemberByStateParams {
 /// associated with a specific congress.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct MemberByCongressParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+    /// Filter to include only current members.
+    pub current_member: Option<bool>,
+}
+
+/// Parameters for the `MemberByStateDistrict` endpoint.
+///
+/// These parameters allow filtering and pagination when retrieving members
+/// by state and district.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct MemberByStateDistrictParams {
     /// Desired response format (JSON or XML).
     pub format: Option<FormatType>,
 
@@ -997,6 +748,492 @@ pub struct CommitteeSenateCommunicationParams {
 
     /// Maximum number of items to return.
     pub limit: Option<u32>,
+}
+
+// ================================
+// Committee Report Endpoints Parameters
+// ================================
+
+/// Parameters for the `ReportList` endpoint.
+///
+/// These parameters allow filtering and pagination when listing committee reports.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeReportListParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    pub conference: Option<bool>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+
+    /// Start date-time for filtering reports.
+    pub from_date_time: Option<String>,
+
+    /// End date-time for filtering reports.
+    pub to_date_time: Option<String>,
+}
+
+/// Parameters for the `CommitteeReportByCongress` endpoint.
+///
+/// These parameters allow filtering and pagination when retrieving committee reports
+/// for a specific congress.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeReportByCongressParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    pub conference: Option<bool>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+
+    /// Start date-time for filtering reports.
+    pub from_date_time: Option<String>,
+
+    /// End date-time for filtering reports.
+    pub to_date_time: Option<String>,
+}
+
+/// Parameters for the `CommitteeReportByType` endpoint.
+///
+/// These parameters allow filtering and pagination when retrieving committee reports
+/// of a specific type within a congress.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeReportByTypeParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    pub conference: Option<bool>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+
+    /// Start date-time for filtering reports.
+    pub from_date_time: Option<String>,
+
+    /// End date-time for filtering reports.
+    pub to_date_time: Option<String>,
+}
+
+/// Parameters for the `CommitteeReportDetails` endpoint.
+///
+/// These parameters allow specifying the desired response format
+/// when retrieving details of a specific committee report.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeReportDetailsParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+}
+
+
+/// Parameters for the `CommitteeReportText` endpoint.
+///
+/// These parameters allow specifying the desired response format
+/// when retrieving the text of a specific committee report.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeReportTextParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+// ====================================
+// Committee Print Endpoints Parameters
+// ====================================
+
+/// Parameters for the `CommitteePrintList` endpoint.
+/// 
+/// These parameters allow filtering and pagination when listing committee prints.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteePrintListParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+
+    /// Start date-time for filtering prints.
+    pub from_date_time: Option<String>,
+
+    /// End date-time for filtering prints.
+    pub to_date_time: Option<String>,
+}
+
+/// Parameters for the `CommitteePrintByCongress` endpoint.
+///
+/// These parameters allow filtering and pagination when retrieving committee prints
+/// for a specific congress.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteePrintByCongressParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+
+    /// Start date-time for filtering prints.
+    pub from_date_time: Option<String>,
+
+    /// End date-time for filtering prints.
+    pub to_date_time: Option<String>,
+}
+
+/// Parameters for the `CommitteePrintByCongressChamber` endpoint.
+///
+/// These parameters allow filtering and pagination when retrieving committee prints
+/// by congress and chamber.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteePrintByCongressChamberParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+
+    /// Start date-time for filtering prints.
+    pub from_date_time: Option<String>,
+
+    /// End date-time for filtering prints.
+    pub to_date_time: Option<String>,
+}
+
+/// Parameters for the `CommitteePrintByJacketNumber` endpoint.
+///
+/// These parameters allow specifying the desired response format
+/// when retrieving committee prints by jacket number.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteePrintByJacketNumberParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+}
+
+/// Parameters for the `CommitteePrintDetails` endpoint.
+///
+/// These parameters allow specifying the desired response format
+/// when retrieving details of a specific committee print.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteePrintDetailsParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+// ======================================
+// Committee Meeting Endpoints Parameters
+// ======================================
+
+/// Parameters for the `CommitteeMeetingList` endpoint.
+///
+/// These parameters allow filtering and pagination when listing committee meetings.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeMeetingListParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `CommitteeMeetingByCongress` endpoint.
+///
+/// These parameters allow filtering and pagination when retrieving committee meetings
+/// for a specific congress.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeMeetingByCongressParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `CommitteeMeetingByChamber` endpoint.
+///
+/// These parameters allow filtering and pagination when retrieving committee meetings
+/// by chamber (House, Senate, or Joint).
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeMeetingByChamberParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+
+/// Parameters for the `CommitteeMeetingByEvent` endpoint.
+///
+/// These parameters allow filtering and pagination when retrieving committee meetings
+/// by event.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommitteeMeetingByEventParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+}
+
+// ================================
+// Hearing Endpoints Parameters
+// ================================
+
+/// Parameters for the `HearingList` endpoint.
+///
+/// These parameters allow filtering and pagination when listing hearings.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct HearingListParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `HearingByCongress` endpoint.
+///
+/// These parameters allow filtering and pagination when retrieving hearings
+/// for a specific congress.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct HearingByCongressParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `HearingByChamber` endpoint.
+///
+/// These parameters allow filtering and pagination when retrieving hearings
+/// by chamber (House, Senate, or Joint).
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct HearingByChamberParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `HearingByJacketNumber` endpoint.
+///
+/// These parameters allow specifying the desired response format
+/// when retrieving hearings by jacket number.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct HearingByJacketNumberParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+}
+
+// =========================================
+// Congressional Record Endpoints Parameters
+// =========================================
+
+/// Parameters for the `CongressionalRecordList` endpoint.
+///
+/// These parameters allow filtering and pagination when listing congressional records.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CongressionalRecordListParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Year of the congressional record.
+    pub year: Option<u32>,
+
+    /// Month of the congressional record.
+    pub month: Option<u32>,
+
+    /// Day of the congressional record.
+    pub day: Option<u32>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+// ===============================================
+// Daily Congressional Record Endpoints Parameters
+// ===============================================
+
+/// Parameters for the `DailyCongressionalRecordList` endpoint.
+///
+/// These parameters allow filtering and pagination when listing daily congressional records.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct DailyCongressionalRecordListParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `DailyCongressionalRecordVolume` endpoint.
+///
+/// These parameters allow specifying the desired response format
+/// when retrieving daily congressional records by volume.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct DailyCongressionalVolumeNumberParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `DailyCongressionalRecordVolumeIssue` endpoint and
+/// the `DailyCongressionalRecordArticles` endpoint.
+///
+/// These parameters allow specifying the desired response format
+/// when retrieving daily congressional records by volume and issue.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct DailyCongressionalVolumeNumberIssueNumberParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+// ===============================================
+// Bound Congressional Record Endpoints Parameters
+// ===============================================
+
+/// Parameters for the `BoundCongressionalRecord` endpoints.
+///
+/// These parameters allow specifying the desired response format
+/// when retrieving bound congressional records.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct BoundCongressionalRecordParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+// ======================================
+// House Requirement Endpoints Parameters
+// ======================================
+
+/// Parameters for the `HouseRequirementList` endpoint.
+///
+/// These parameters allow filtering and pagination when listing house requirements.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct RequirementParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `HouseRequirementByCongress` endpoint.
+///
+/// These parameters allow filtering and pagination when retrieving house requirements
+/// for a specific congress.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct RequirementDetailsParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+}
+
+// ==================================================
+// House and Senate Communication Endpoint Parameters
+// ==================================================
+
+/// Parameters for the much of the House and Senate Communication endpoints.
+///
+/// These parameters allow filtering and pagination when listing communications.
+/// These parameters are used by the following endpoints:
+/// - `HouseCommunicationList`
+/// - `HouseCommunicationByCongress`
+/// - `HouseCommunicationByType`
+///
+/// - `SenateCommunicationList`
+/// - `SenateCommunicationByCongress`
+/// - `SenateCommunicationByType`
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommunicationParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
+
+    /// Number of items to skip before starting to collect the result set.
+    pub offset: Option<u32>,
+
+    /// Maximum number of items to return.
+    pub limit: Option<u32>,
+}
+
+/// Parameters for the `HouseCommunicationDetails` and `SenateCommunicationDetails` endpoints.
+///
+/// These parameters allow specifying the desired response format
+/// when retrieving details of a specific communication.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct CommunicationDetailsParams {
+    /// Desired response format (JSON or XML).
+    pub format: Option<FormatType>,
 }
 
 // ================================

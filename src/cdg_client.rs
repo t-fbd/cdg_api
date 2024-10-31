@@ -62,7 +62,8 @@
 //! ```rust
 //! use cdg_api::CongressApiClient;
 //! use cdg_api::endpoints::{Endpoints, NewEndpoint};
-//! use cdg_api::param_models::{MemberListParams, FormatType};
+//! use cdg_api::param_models::MemberListParams;
+//! use cdg_api::cdg_types::FormatType;
 //! use cdg_api::response_models::MembersResponse;
 //! 
 //! fn main() -> Result<(), Box<dyn std::error::Error>> {

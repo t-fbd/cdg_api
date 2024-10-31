@@ -5,12 +5,13 @@ pub mod url_builders;
 pub mod param_models;
 pub mod response_models;
 pub mod cdg_client;
+pub mod cdg_types;
 
+pub use request_handlers::get_congress_data;
 pub use cdg_client::CongressApiClient;
 
 pub const BASE_URL: &str = "https://api.congress.gov/v3/";
 
-pub use request_handlers::get_congress_data;
 
 pub mod request_handlers {
 //! # `request_handlers` Module

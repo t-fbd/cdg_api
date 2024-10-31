@@ -9,36 +9,6 @@ A simple Rust library to interact with the [US Congress API](https://api.congres
 
 `cdg_api` provides a Rust interface for interacting with the US Congress API. It simplifies constructing API endpoints, building URLs with parameters, and retrieving legislative data. Whether fetching information about bills, members, amendments, or laws, `cdg_api` offers a streamlined and type-safe approach to accessing this data.
 
-### Currently Unavailable Endpoints for Making Non-Manual Calls
-
-The following API endpoints are currently unavailable for making calls, although response objects may be available for most, if not all, of them.
-Manual calls can still be made to these endpoints using the `Endpoints::Manual` variant. For more information, refer to the [Using `Endpoints::Manual` for Custom Endpoints](#example-4-using-endpointsmanual-for-custom-endpoints) example.
-
-- `/committee-report`
-- `/committee-print`
-- `/committee-meeting`
-- `/hearing`
-- `/congressional-record`
-- `/daily-congressional-record`
-- `/bound-congressional-record`
-- `/house-communication`
-- `/house-requirement`
-- `/senate-communication`
-
-### Fully Supported Endpoints
-
-The library fully supports the following API endpoints:
-
-- `/member`
-- `/bill`
-- `/law`
-- `/amendment`
-- `/committee`
-- `/nomination`
-- `/treaty`
-- `/summaries`
-- `/congress`
-
 ## Features
 
 - **Modular Design**: Organized into distinct modules for maintainability and scalability.
@@ -106,7 +76,8 @@ Fetch a list of current members of Congress and display their names, party affil
 ```rust
 use cdg_api::CongressApiClient;
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
-use cdg_api::param_models::{FormatType, MemberListParams};
+use cdg_api::param_models::MemberListParams;
+use cdg_api::cdg_types::FormatType;
 use cdg_api::response_models::MembersResponse;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -142,7 +113,8 @@ Fetch a list of bills and display their titles, types, and numbers.
 ```rust
 use cdg_api::CongressApiClient;
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
-use cdg_api::param_models::{FormatType, BillByTypeParams, BillType};
+use cdg_api::param_models::BillByTypeParams;
+use cdg_api::cdg_types::{BillType, FormatType};
 use cdg_api::response_models::BillsResponse;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -177,7 +149,8 @@ Fetch detailed information about a specific bill using `GenericResponse` and par
 ```rust
 use cdg_api::CongressApiClient;
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
-use cdg_api::param_models::{BillDetailsParams, BillType, FormatType};
+use cdg_api::param_models::BillDetailsParams;
+use cdg_api::cdg_types::{BillType, FormatType};
 use cdg_api::response_models::{BillDetailsResponse, GenericResponse};
 
 use std::error::Error;

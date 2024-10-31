@@ -1,5 +1,9 @@
 use cdg_api::{
-    endpoints::{Endpoints, NewEndpoint}, param_models::{BillListParams, FormatType, LawType, MemberListParams}, response_models::{BillsResponse, MembersResponse}, CongressApiClient
+    endpoints::{Endpoints, NewEndpoint}, 
+    param_models::*,
+    cdg_types::{FormatType, LawType, AmendmentType, BillType, SortType, ChamberType, CommunicationType, CommitteeReportType},
+    response_models::{BillsResponse, MembersResponse, GenericResponseModel, TreatyDetailsResponse, RelatedBillsResponse},
+    CongressApiClient
 };
 
 #[test]
