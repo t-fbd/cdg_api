@@ -728,9 +728,13 @@ fn display_member_details(response: &MemberDetailsResponse) {
             .unwrap_or_else(|| "N/A".to_string())
     );
     println!(
+        "Bioguide ID        : {}",
+        member.bioguide_id.clone().unwrap_or_else(|| "N/A".to_string())
+    );
+    println!(
         "Official URL       : {}",
         member
-            .official_url
+            .official_website_url
             .clone()
             .unwrap_or_else(|| "N/A".to_string())
     );
@@ -756,9 +760,7 @@ fn display_member_details(response: &MemberDetailsResponse) {
         println!(
             "ZIP Code           : {}",
             address
-                .zip_code
-                .clone()
-                .unwrap_or_else(|| "N/A".to_string())
+                .zip_code.unwrap_or(00000)
         );
         println!(
             "Phone Number       : {}",
@@ -788,7 +790,27 @@ fn display_member_details(response: &MemberDetailsResponse) {
     } else {
         println!("Depiction          : N/A");
     }
-    println!("Terms of Service:");
+    println!("\nParty Affiliation:");
+    if let Some(party_history) = &member.party_history {
+        for party in party_history {
+            println!("----------------------------------------");
+            println!(
+                "  - Party: {}",
+                party.party_name.clone().unwrap_or_else(|| "N/A".to_string())
+            );
+            println!(
+                "    Start: {}",
+                party.start_year.unwrap_or(0)
+            );
+            println!(
+                "    End  : {}",
+                party.end_year.unwrap_or(0)
+            );
+        }
+    } else {
+        println!("Party: N/A");
+    }
+    println!("\nTerms of Service:");
     if let Some(terms) = &member.terms {
         for term in terms {
             println!("----------------------------------------");
@@ -810,7 +832,10 @@ fn display_member_details(response: &MemberDetailsResponse) {
                 term.end_year.unwrap_or(0)
             );
         }
+    } else {
+        println!("Terms: N/A");
     }
+    println!("\n");
     println!(
         "Sponsored Legislation: {} bills",
         member.sponsored_legislation.clone().unwrap_or_default().count.unwrap_or(0)
@@ -825,7 +850,7 @@ fn display_member_details(response: &MemberDetailsResponse) {
 /// Displays detailed information about a specific bill.
 fn display_bill_details(response: &LawDetailsResponse) {
     let bill = &response.bill;
-    println!("Bill Details:");
+    println!("\nBill Details:");
     println!("----------------------------------------");
     println!(
         "Number             : {}",

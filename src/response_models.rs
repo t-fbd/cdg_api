@@ -1308,6 +1308,8 @@ pub struct MemberDetailsResponse {
 pub struct MemberDetails {
     #[serde(rename = "currentMember")]
     pub current_member: Option<bool>,
+    #[serde(rename = "bioguideId")]
+    pub bioguide_id: Option<String>,
     #[serde(rename = "birthYear")]
     pub birth_year: Option<String>,
     #[serde(rename = "deathYear")]
@@ -1316,8 +1318,9 @@ pub struct MemberDetails {
     pub update_date: Option<String>,
     pub depiction: Option<Depiction>,
     pub terms: Option<Vec<MemberTerm>>,
-    #[serde(rename = "officialUrl")]
-    pub official_url: Option<String>,
+    pub district: Option<u32>,
+    #[serde(rename = "officialWebsiteUrl")]
+    pub official_website_url: Option<String>,
     #[serde(rename = "honorificName")]
     pub honorific_name: Option<String>,
     #[serde(rename = "firstName")]
@@ -1343,6 +1346,23 @@ pub struct MemberDetails {
     pub cosponsored_legislation: Option<LegislationReference>,
     #[serde(rename = "updateDate")]
     pub update_date_member: Option<String>,
+    #[serde(rename = "partyHistory")]
+    pub party_history: Option<Vec<PartyHistory>>,
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Represents a member's party history.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct PartyHistory {
+    #[serde(rename = "partyName")]
+    pub party_name: Option<String>,
+    #[serde(rename = "partyAbbreveation")]
+    pub party_abbr: Option<String>,
+    #[serde(rename = "startYear")]
+    pub start_year: Option<u32>,
+    #[serde(rename = "endYear")]
+    pub end_year: Option<u32>,
     #[serde(flatten)]
     pub unknown: Option<Value>,
 }
@@ -1385,7 +1405,7 @@ pub struct AddressInformation {
     pub city: Option<String>,
     pub district: Option<String>,
     #[serde(rename = "zipCode")]
-    pub zip_code: Option<String>,
+    pub zip_code: Option<u32>,
     #[serde(rename = "phoneNumber")]
     pub phone_number: Option<String>,
     #[serde(flatten)]
