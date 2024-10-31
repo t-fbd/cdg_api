@@ -24,7 +24,11 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     // Process the response
     for bill in response.bills {
-        println!("{}, {}, {}\n", bill.title, bill.bill_type, bill.number);
+        println!("{}, {}, {}\n", 
+            bill.title.unwrap_or("".to_string()),
+            bill.bill_type.unwrap_or("".to_string()),
+            bill.number.unwrap_or("".to_string())
+        );
     }
 
     Ok(())

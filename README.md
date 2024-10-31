@@ -85,23 +85,26 @@ use cdg_api::response_models::MembersResponse;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let client = CongressApiClient::new(None)?; // Use API key from environment
 
-    // Define parameters
-    let params = MemberListParams {
-        format: Some(FormatType::Json),
-        limit: Some(10),
-        current_member: Some(true),
-        ..MemberListParams::default()
-    };
-
-    // Create the endpoint
-    let endpoint = Endpoints::new_member_list(params);
+    // Create the endpoint and define parameters
+    let endpoint = Endpoints::new_member_list(
+        MemberListParams {
+            format: Some(FormatType::Json),
+            limit: Some(10),
+            current_member: Some(true),
+            ..MemberListParams::default()
+        }
+    );
 
     // Fetch the data
     let response: MembersResponse = client.fetch(endpoint)?;
 
     // Process the response
     for member in response.members {
-        println!("{}, {}, {}\n", member.name, member.state, member.party_name);
+        println!("{}, {}, {}\n", 
+            member.name.unwrap_or("".to_string()),
+            member.state.unwrap_or("".to_string()),
+            member.party_name.unwrap_or("".to_string())
+        );
     }
 
     Ok(())
@@ -122,22 +125,28 @@ use cdg_api::response_models::BillsResponse;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let client = CongressApiClient::new(None)?;
 
-    // Define parameters
-    let params = BillByTypeParams {
-        format: Some(FormatType::Json),
-        limit: Some(10),
+    // Create the endpoint and define parameters
+    let endpoint = Endpoints::new_bill_by_type(
+      118, 
+      BillType::Hr, 
+      BillByTypeParams {
+        format: FormatType::Json.into(),
+        limit: 10.into(),
         ..BillByTypeParams::default()
-    };
-
-    // Create the endpoint
-    let endpoint = Endpoints::new_bill_by_type(118, BillType::Hr, params);
+      }
+    );
 
     // Fetch the data
     let response: BillsResponse = client.fetch(endpoint)?;
 
     // Process the response
     for bill in response.bills {
-        println!("{}, {}, {}\n", bill.title, bill.bill_type, bill.number);
+        println!(
+            "{}, {}, {}\n", 
+            bill.title.unwrap_or("".to_string()),
+            bill.bill_type.unwrap_or("".to_string()),
+            bill.number.unwrap_or("".to_string())
+        );
     }
 
     Ok(())
@@ -176,9 +185,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     let bill_details: BillDetailsResponse = response.parse_generic_response()?;
     let bill = bill_details.bill;
 
-    println!("Bill: {}", bill.number);
-    println!("Title: {}", bill.title);
-    println!("Summary: {:#?}", bill.summaries);
+    println!("Bill: {}", bill.number.unwrap_or("".to_string()));
+    println!("Title: {}", bill.title.unwrap_or("".to_string()));
+    println!("Summary: {:#?}", bill.summaries.unwrap_or_default());
 
     Ok(())
 }
@@ -192,6 +201,8 @@ Fetch data from a manually specified endpoint string using `Endpoints::Manual`.
 use cdg_api::CongressApiClient;
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
 use cdg_api::response_models::{DailyCongressionalRecordResponse, GenericResponse};
+use cdg_api::param_models::GenericParams;
+use cdg_api::cdg_types::*;
 
 use std::error::Error;
 
@@ -199,7 +210,23 @@ fn main() -> Result<(), Box<dyn Error>> {
     let client = CongressApiClient::new(None)?; // Use API key from environment
 
     // Manually specify the endpoint string
-    let endpoint = Endpoints::new_manual("/daily-congressional-record?format=json".to_string());
+    let endpoint = Endpoints::new_generic(
+      "/daily-congressional-record?format=json".to_string(),
+      GenericParams::new(
+        FormatType::Json.into(),
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+      )
+    );
 
     // Fetch the data as GenericResponse
     let response: GenericResponse = client.fetch(endpoint)?;
@@ -209,12 +236,12 @@ fn main() -> Result<(), Box<dyn Error>> {
         Ok(daily_record) => {
             let record = daily_record.daily_congressional_record;
             for issue in record {
-                println!("Issue Number: {}", issue.issue_number);
-                println!("Volume Number: {}", issue.volume_number);
-                println!("Issue Date: {}", issue.issue_date);
-                println!("Congress: {}", issue.congress);
-                println!("Session Number: {}", issue.session_number);
-                println!("URL: {}", issue.url);
+                println!("Issue Number: {}", issue.issue_number.unwrap_or("".to_string()));
+                println!("Volume Number: {}", issue.volume_number.unwrap_or(0));
+                println!("Issue Date: {}", issue.issue_date.unwrap_or("".to_string()));
+                println!("Congress: {}", issue.congress.unwrap_or(0));
+                println!("Session Number: {}", issue.session_number.unwrap_or(0));
+                println!("URL: {}", issue.url.unwrap_or("".to_string()));
                 println!("Sections:");
                 if let Some(full) = issue.full_issue {
                     println!("Full Record: {:#?}", full);
@@ -234,84 +261,6 @@ fn main() -> Result<(), Box<dyn Error>> {
 ### Using `GenericResponse` for Manual Endpoints
 
 When using `Endpoints::Manual`, `GenericResponse` allows you to handle responses dynamically without predefined response models. You can parse the response into any specific model if you know its structure, enhancing flexibility.
-
-## Modules
-
-- **`endpoints`**: Enums and functions representing available API endpoints, including `Endpoints::Manual` for custom endpoint strings.
-- **`url_builders`**: Helper functions for constructing complete API URLs with query parameters.
-- **`param_models`**: Data models and enums for API query parameters, ensuring type-safe requests.
-- **`response_models`**: Data structures for API responses, including specific models and `GenericResponse`.
-- **`client`**: `CongressApiClient` struct and methods for interacting with the API.
-- **`request_handlers`**: Functions for making HTTP requests and handling responses, supporting `reqwest` and `curl+jq`.
-
-## Error Handling
-
-The library defines a custom error type `ApiClientError` to handle various error scenarios, including HTTP errors, URL construction issues, deserialization failures, and environment variable access problems. The `fetch` method returns `Result<T, ApiClientError>`, allowing for precise error handling.
-
-### Error Variants
-
-- **`ApiClientError::Http`**: HTTP-related errors, including network issues and non-success status codes.
-- **`ApiClientError::Deserialization`**: Errors during deserializing the API response.
-- **`ApiClientError::Url`**: Errors constructing the API URL.
-- **`ApiClientError::EnvVar`**: Missing API key in environment variables.
-
-## Command-Line Interface (`main.rs`)
-
-The `main.rs` file serves as a simple CLI for interacting with the `cdg_api` library. It allows users to execute various commands to fetch and display data from the US Congress API in a user-friendly format.
-
-### Available Commands
-
-- **`list_bills`**  
-  *List recent bills introduced in Congress.*
-
-- **`current_congress`**  
-  *Display information about the current congress session.*
-
-- **`list_nominations`**  
-  *List recent nominations.*
-
-- **`list_treaties`**  
-  *List recent treaties.*
-
-- **`member_details <bioguide_id>`**  
-  *Get detailed information about a specific member using their `bioguide_id`.*
-
-- **`bill_details <congress> <bill_type> <bill_number>`**  
-  *Get detailed information about a specific bill by specifying the congress number, bill type (see `BillType`), and bill number.*
-
-### Usage
-
-1. **Set the API Key**  
-   Ensure that the `CDG_API_KEY` environment variable is set with your Congress API key:
-   ```bash
-   export CDG_API_KEY="your_api_key_here"
-   ```
-
-2. Run the Application
-
-
-Use the following command structure to execute the application with the desired command:
-
-```bash
-cargo run -- <command> [additional arguments]
-```
-
-Examples
-
-List Recent Bills
-```bash
-cargo run -- list_bills
-```
-
-Get Member Details
-```bash
-cargo run -- member_details A000360
-```
-
-Get Bill Details
-```bash
-cargo run -- bill_details 117 H 1150
-```
 
 ## Other Projects
 

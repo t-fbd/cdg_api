@@ -34,7 +34,7 @@ use crate::{param_models::*, cdg_types::*};
 pub enum Endpoints {
     /// Endpoint for manual API requests, where the user provides the entire endpoint.
     /// The base URL, and the API key are automatically appended to the provided endpoint.
-    Manual(String),
+    Generic(String, GenericParams),
 
     // ================================
     // Bill Endpoints
@@ -1034,7 +1034,7 @@ pub enum Endpoints {
 /// This trait provides a standardized way to instantiate each variant of the
 /// `Endpoints` enum by supplying the necessary parameters.
 pub trait NewEndpoint {
-    fn new_manual(manual: String) -> Self;
+    fn new_generic(endpoint: String, params: GenericParams) -> Self;
 
     // ================================
     // Bill Constructors
@@ -1985,8 +1985,8 @@ pub trait NewEndpoint {
 
 /// Implementation of the `NewEndpoint` trait for the `Endpoints` enum.
 impl NewEndpoint for Endpoints {
-    fn new_manual(manual: String) -> Self {
-        Endpoints::Manual(manual)
+    fn new_generic(endpoint: String, params: GenericParams) -> Self {
+        Endpoints::Generic(endpoint, params)
     }
 
     // ================================

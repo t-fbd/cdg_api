@@ -43,7 +43,7 @@ fn test_fetch_members() {
 
     // Optionally, print out the fetched members for manual verification.
     for member in response.members {
-        println!("{}, {}, {}", member.name, member.state, member.party_name);
+        println!("{}, {}, {}", member.name.unwrap_or("".to_string()), member.party_name.unwrap_or("".to_string()), member.state.unwrap_or("".to_string()));
     }
 }
 
@@ -70,7 +70,12 @@ fn test_fetch_bills() {
 
     // Optionally, print out the fetched bills for manual verification.
     for bill in response.bills {
-        println!("{}, {}, {}", bill.title, bill.bill_type, bill.number);
+        println!(
+            "{}, {}, {}", 
+            bill.title.unwrap_or("".to_string()),
+            bill.bill_type.unwrap_or_default(),
+            bill.number.unwrap_or_default()
+        );
     }
 }
 
@@ -97,7 +102,11 @@ fn test_fetch_law_by_congress_and_type() {
 
     // Optionally, print out the fetched laws for manual verification.
     for law in response.bills {
-        println!("{}, {}, {}", law.title, law.bill_type, law.number);
+        println!("{}, {}, {}", 
+            law.title.unwrap_or("".to_string()),
+            law.bill_type.unwrap_or_default(),
+            law.number.unwrap_or_default()
+        );
     }
 }
 
@@ -130,7 +139,9 @@ fn test_fetch_amendments() {
     for amendment in response.amendments {
         println!(
             "{:#?}, {}, {}",
-            amendment.latest_action, amendment.amendment_type, amendment.number
+            amendment.latest_action, 
+            amendment.amendment_type.unwrap_or_default(),
+            amendment.number.unwrap_or("".to_string())
         );
     }
 }
@@ -208,7 +219,7 @@ fn test_fetch_treaty_details() {
 
     // Assert that the treaty number matches.
     assert_eq!(
-        response.treaty.number, treaty_number,
+        response.treaty.number.unwrap_or(0), treaty_number,
         "Treaty number should match"
     );
 
@@ -242,7 +253,7 @@ fn test_fetch_hearings() {
 
     // Optionally, print out the fetched hearings for manual verification.
     for hearing in response.hearings {
-        println!("num: {}, jacket_num: {}", hearing.number.unwrap_or_default(), hearing.jacket_number);
+        println!("num: {}, jacket_num: {}", hearing.number.unwrap_or_default(), hearing.jacket_number.unwrap_or(0));
     }
 }
 
@@ -263,12 +274,12 @@ fn test_fetch_current_congress() {
 
     // Assert that the congress number is greater than zero.
     assert!(
-        response.congress.number > 0,
+        response.congress.number.unwrap_or(0) > 0,
         "Congress number should be greater than zero"
     );
 
     // Optionally, print out the fetched congress details for manual verification.
-    println!("Current Congress Number: {}", response.congress.number);
+    println!("Current Congress Number: {}", response.congress.number.unwrap_or(0));
 }
 
 #[test]
@@ -298,7 +309,7 @@ fn test_fetch_committee_reports() {
 
     // Optionally, print out the fetched reports for manual verification.
     for report in response.reports {
-        println!("Report Number: {}, url: {}", report.number, report.url);
+        println!("Report Number: {}, url: {}", report.number.unwrap_or(0), report.url.unwrap_or("".to_string()));
     }
 }
 
@@ -367,7 +378,11 @@ fn test_fetch_house_communications() {
         println!("Communication Number: {}", communication.number.unwrap_or(0000));
         println!("Chamber: {}", communication.chamber.unwrap_or("".to_string()));
         println!("Congress Number: {}", communication.congress_number.unwrap_or(0000));
-        println!("Communication Type: {}, {}", communication.communication_type.clone().unwrap_or_default().name, communication.communication_type.unwrap_or_default().code);
+        println!(
+            "Communication Type: {}, {}", 
+            communication.communication_type.clone().unwrap_or_default().name.unwrap_or("".to_string()),
+            communication.communication_type.unwrap_or_default().code.unwrap_or("".to_string())
+        );
         println!("url: {}", communication.url.unwrap_or("".to_string()));
     }
 }
@@ -399,6 +414,6 @@ fn test_fetch_daily_congressional_records() {
 
     // Optionally, print out the fetched records for manual verification.
     for record in response.daily_congressional_record {
-        println!("vol #: {}, iss #: {}", record.volume_number, record.issue_number);
+        println!("vol #: {}, iss #: {}", record.volume_number.unwrap_or(0), record.issue_number.unwrap_or("".to_string()));
     }
 }

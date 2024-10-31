@@ -30,6 +30,79 @@ use crate::cdg_types::*;
 // Endpoint-Specific Parameter Structs
 // ================================
 
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct GenericParams {
+    /// Desired response format (JSON or XML).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub format: Option<FormatType>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub offset: Option<u32>,
+    
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub limit: Option<u32>,
+    
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub from_date_time: Option<String>,
+    
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub to_date_time: Option<String>,
+    
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sort: Option<SortType>,
+    
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub conference: Option<bool>,
+    
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub current_member: Option<bool>,
+    
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub year: Option<u32>,
+    
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub month: Option<u32>,
+    
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub day: Option<u32>,
+    
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub chamber: Option<ChamberType>,
+
+}
+
+impl GenericParams {
+    pub fn new(
+        format: Option<FormatType>,
+        offset: Option<u32>,
+        limit: Option<u32>,
+        from_date_time: Option<String>,
+        to_date_time: Option<String>,
+        sort: Option<SortType>,
+        conference: Option<bool>,
+        current_member: Option<bool>,
+        year: Option<u32>,
+        month: Option<u32>,
+        day: Option<u32>,
+        chamber: Option<ChamberType>,
+    ) -> Self {
+        Self {
+            format,
+            offset,
+            limit,
+            from_date_time,
+            to_date_time,
+            sort,
+            conference,
+            current_member,
+            year,
+            month,
+            day,
+            chamber,
+        }
+    }
+}
+
 /// Parameters for the `BillList` endpoint.
 ///
 /// These parameters allow filtering and pagination when listing bills.

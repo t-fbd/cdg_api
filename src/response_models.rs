@@ -29,9 +29,9 @@
 //! 
 //! fn handle_response(response: BillsResponse) {
 //!     for bill in response.bills {
-//!         println!("Bill Number: {}", bill.number);
+//!         println!("Bill Number: {}", bill.number.unwrap_or("N/A".to_string()));
 //!         if let Some(action) = bill.latest_action {
-//!             println!("Latest Action: {}", action.text);
+//!             println!("Latest Action: {}", action.text.unwrap_or("N/A".to_string()));
 //!         }
 //!     }
 //! }

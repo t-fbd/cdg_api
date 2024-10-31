@@ -2630,6 +2630,59 @@ impl ApiParams for RequirementDetailsParams {
     }
 }
 
+impl ApiParams for GenericParams {
+    /// Converts the `GenericParams` into a query string.
+    ///
+    /// # Returns
+    ///
+    /// A `String` containing the query parameters for generic endpoints.
+    fn to_query_string(&self) -> String {
+        let mut query_params = vec![];
+
+        if let Some(format) = &self.format {
+            query_params.push(format.to_query_param());
+        }
+
+        if let Some(offset) = self.offset {
+            query_params.push(format!("offset={}", offset));
+        }
+
+        if let Some(limit) = self.limit {
+            query_params.push(format!("limit={}", limit));
+        }
+
+        if let Some(from_date_time) = &self.from_date_time {
+            query_params.push(format!("fromDateTime={}", from_date_time));
+        }
+
+        if let Some(to_date_time) = &self.to_date_time {
+            query_params.push(format!("toDateTime={}", to_date_time));
+        }
+
+        if let Some(conference) = self.conference {
+            query_params.push(format!("conference={}", conference));
+        }
+
+        if let Some(year) = self.year {
+            query_params.push(format!("year={}", year));
+        }
+
+        if let Some(month) = self.month {
+            query_params.push(format!("month={}", month));
+        }
+
+        if let Some(day) = self.day {
+            query_params.push(format!("day={}", day));
+        }
+
+        if let Some(sort) = &self.sort {
+            query_params.push(format!("sort={}", sort.to_string()));
+        }
+
+        "?".to_string() + &query_params.join("&")
+    }
+}
+
 /// Called by the api client to generate the complete URL for the request.
 /// If the endpoint contains a '?' character, the URL is generated with '&'
 /// as the separator for the query parameters.
@@ -2653,7 +2706,7 @@ impl std::fmt::Display for Endpoints {
         // NOTE: A '?' is appended to the params string via the `Display`
         // implementation for the `ApiParam` enums.
         match self {
-            Endpoints::Manual(endpoint) => write!(f, "{}", endpoint),
+            Endpoints::Generic(endpoint, params) => write!(f, "{}/{}", endpoint, params.to_query_string()),
             // ================================
             // Bill Endpoints
             // ================================

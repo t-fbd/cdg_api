@@ -80,7 +80,12 @@
 //!     let response: MembersResponse = client.fetch(endpoint)?;
 //! 
 //!     for member in response.members {
-//!         println!("{}, {}, {}", member.name, member.state, member.party_name);
+//!         println!(
+//!             "{}, {}, {}", 
+//!             member.name.unwrap_or("".to_string()),
+//!             member.state.unwrap_or("".to_string()),
+//!             member.party_name.unwrap_or("".to_string())
+//!         );
 //!     }
 //! 
 //!     Ok(())
