@@ -1,5 +1,3 @@
-//! # main.rs
-//! 
 //! ## Available Commands
 //! 
 //! - `list_bills`        : List recent bills introduced in Congress.

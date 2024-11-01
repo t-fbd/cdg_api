@@ -1,61 +1,6 @@
-//! ### `client` Module
+//! ### [`client`] Module
 //! 
-//! #### Overview
-//! 
-//! The `client` module provides the `CongressApiClient` struct, which serves as the primary interface for interacting with the US Congress API. It handles API key management, URL construction, making HTTP requests, and deserializing responses.
-//! 
-//! #### Structures
-//! 
-//! - **`CongressApiClient`**
-//! 
-//!   A client for interacting with the US Congress API.
-//! 
-//!   - **Fields**:
-//!     - `api_key`: Stores the API key used for authenticating requests.
-//!     - `client`: An instance of `reqwest::blocking::Client` used to perform HTTP requests.
-//! 
-//!   - **Methods**:
-//!     - `new(api_key: Option<String>) -> Result<Self, Box<dyn Error>>`  
-//!       Creates a new `CongressApiClient` instance. If no API key is provided, it attempts to read the `CDG_API_KEY` environment variable.
-//!       
-//!       **Parameters**:
-//!       - `api_key`: An optional API key. If `None`, the client will attempt to read the `CDG_API_KEY` environment variable.
-//!       
-//!       **Returns**:
-//!       - `Ok(CongressApiClient)`: A new client instance.
-//!       - `Err`: If the API key is not provided and not found in the environment.
-//! 
-//!     - `fetch<T: PrimaryResponse + DeserializeOwned>(&self, endpoint: Endpoints) -> Result<T, ApiClientError>`  
-//!       Fetches data from a specified API endpoint and deserializes the response into the given type `T`.
-//!       
-//!       **Parameters**:
-//!       - `endpoint`: The API endpoint variant.
-//!       - `T`: The type of the response data. This type must implement `PrimaryResponse` and `DeserializeOwned`.
-//!       
-//!       **Returns**:
-//!       - `Result<T, ApiClientError>`: The fetched data, deserialized into the appropriate response type.
-//!       
-//!       **Errors**:
-//!       - `ApiClientError::Http`: If an HTTP error occurs.
-//!       - `ApiClientError::Deserialization`: If an error occurs during deserialization.
-//!       - `ApiClientError::Url`: If an error occurs while building the URL.
-//!       - `ApiClientError::EnvVar`: If the API key is not found in the environment.
-//! 
-//! #### Enums
-//! 
-//! - **`ApiClientError`**
-//! 
-//!   A custom error type for handling various error scenarios within `CongressApiClient`.
-//! 
-//!   - **Variants**:
-//!     - `Http(reqwest::Error)`: Represents HTTP-related errors, including network issues and non-success status codes.
-//!     - `Url(String)`: Represents errors related to URL construction.
-//!     - `Deserialization(serde_json::Error)`: Represents errors during response deserialization.
-//!     - `EnvVar(String)`: Represents errors when accessing environment variables for API keys.
-//!   
-//!   - **Implementations**:
-//!     - **`Display`**: Provides user-friendly error messages for each variant.
-//!     - **`Error`**: Implements the standard `Error` trait for compatibility with Rust's error handling mechanisms.
+//! The [`client`] module provides the [`CongressApiClient`] struct, which serves as the primary interface for interacting with the US Congress API. It handles API key management, URL construction, making HTTP requests, and deserializing responses.
 //! 
 //! #### Usage Example
 //! 
@@ -110,21 +55,21 @@ pub struct CongressApiClient {
 }
 
 impl CongressApiClient {
-    /// Creates a new instance of `CongressApiClient`.
+    /// Creates a new instance of [`CongressApiClient`].
     ///
     /// # Parameters
     ///
-    /// - `api_key`: An optional API key. If `None`, the client will attempt to read the `CDG_API_KEY` environment variable.
+    /// - [`api_key`]: An optional API key. If [`None`], the client will attempt to read the [`CDG_API_KEY`] environment variable.
     ///
     /// # Returns
     ///
     /// - `Ok(CongressApiClient)`: A new client instance.
-    /// - `Err`: If the API key is not provided and not found in the environment.
+    /// - [`Err`]: If the API key is not provided and not found in the environment.
     pub fn new(api_key: Option<String>) -> Result<Self, Box<dyn Error>> {
         let api_key = match api_key {
             Some(key) => key,
             None => env::var("CDG_API_KEY")
-                .map_err(|_| "CDG_API_KEY environment variable not set.")?,
+                .map_err(|_| "CDG_API_KEY environment variable not set. Alternatively, provide an API key as an argument.")?,
         };
 
         Ok(Self {
@@ -137,10 +82,10 @@ impl CongressApiClient {
     ///
     /// # Parameters
     ///
-    /// - `endpoint`: The API endpoint variant.
+    /// - [`endpoint`]: The API endpoint variant.
     ///
-    /// - `T`: The type of the response data. This type must implement `PrimaryResponse` and
-    /// `DeserializeOwned`.
+    /// - [`T`]: The type of the response data. This type must implement [`PrimaryResponse`] and
+    /// [`DeserializeOwned`].
     ///
     /// # Returns
     ///
@@ -166,7 +111,7 @@ impl CongressApiClient {
     }
 }
 
-/// Custom error type for `CongressApiClient`.
+/// Custom error type for [`CongressApiClient`].
 #[derive(Debug)]
 pub enum ApiClientError {
     Http(reqwest::Error),

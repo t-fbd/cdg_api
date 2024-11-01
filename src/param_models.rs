@@ -1,4 +1,4 @@
-//! # `param_models` Module
+//! # [`param_models`] Module
 //! 
 //! This module defines the parameter models used for constructing API requests to various endpoints
 //! of the US Congress API. It includes structs for endpoint-specific parameters, facilitating 
@@ -19,7 +19,7 @@
 //!         sort: Some(SortType::UpdateDateDesc),
 //!         ..BillListParams::default()
 //!     };
-//!     // Use `params` with an endpoint constructor
+//!     // Use [`params`] with an endpoint constructor
 //! }
 //! ```
 
@@ -103,7 +103,7 @@ impl GenericParams {
     }
 }
 
-/// Parameters for the `BillList` endpoint.
+/// Parameters for the [`BillList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing bills.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -127,7 +127,7 @@ pub struct BillListParams {
     pub sort: Option<SortType>,
 }
 
-/// Parameters for the `BillByCongress` endpoint.
+/// Parameters for the [`BillByCongress`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving bills
 /// for a specific congress.
@@ -152,7 +152,7 @@ pub struct BillByCongressParams {
     pub sort: Option<SortType>,
 }
 
-/// Parameters for the `BillByType` endpoint.
+/// Parameters for the [`BillByType`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving bills
 /// of a specific type within a congress.
@@ -177,7 +177,7 @@ pub struct BillByTypeParams {
     pub sort: Option<SortType>,
 }
 
-/// Parameters for the `BillDetails` endpoint.
+/// Parameters for the [`BillDetails`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific bill.
@@ -187,7 +187,7 @@ pub struct BillDetailsParams {
     pub format: Option<FormatType>,
 }
 
-/// Parameters for the `BillActions` endpoint.
+/// Parameters for the [`BillActions`] endpoint.
 ///
 /// These parameters allow pagination when fetching actions taken on a specific bill.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -202,7 +202,7 @@ pub struct BillActionsParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `BillAmendments` endpoint.
+/// Parameters for the [`BillAmendments`] endpoint.
 ///
 /// These parameters allow pagination when listing amendments of a specific bill.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -217,7 +217,7 @@ pub struct BillAmendmentsParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `BillCommittees` endpoint.
+/// Parameters for the [`BillCommittees`] endpoint.
 ///
 /// These parameters allow pagination when retrieving committees associated with a specific bill.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -232,7 +232,7 @@ pub struct BillCommitteesParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `BillCosponsors` endpoint.
+/// Parameters for the [`BillCosponsors`] endpoint.
 ///
 /// These parameters allow pagination when retrieving cosponsors of a specific bill.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -247,7 +247,7 @@ pub struct BillCosponsorsParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `BillRelated` endpoint.
+/// Parameters for the [`BillRelated`] endpoint.
 ///
 /// These parameters allow pagination when listing related bills of a specific bill.
 /// Related bills include companion bills, identical bills, etc.
@@ -263,7 +263,7 @@ pub struct BillRelatedParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `BillSubjects` endpoint.
+/// Parameters for the [`BillSubjects`] endpoint.
 ///
 /// These parameters allow pagination when listing legislative subjects associated with a specific bill.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -286,7 +286,7 @@ pub struct BillSubjectsParams {
     pub to_date_time: Option<String>,
 }
 
-/// Parameters for the `BillSummaries` endpoint.
+/// Parameters for the [`BillSummaries`] endpoint.
 ///
 /// These parameters allow pagination when listing summaries of a specific bill.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -301,7 +301,7 @@ pub struct BillSummariesParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `BillText` endpoint.
+/// Parameters for the [`BillText`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving the text of a specific bill.
@@ -317,7 +317,7 @@ pub struct BillTextParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `BillTitles` endpoint.
+/// Parameters for the [`BillTitles`] endpoint.
 ///
 /// These parameters allow pagination when listing titles of a specific bill.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -363,7 +363,7 @@ pub struct LawParams {
 // Amendment Endpoints Parameters
 // ================================
 
-/// Parameters for the `AmendmentList` endpoint.
+/// Parameters for the [`AmendmentList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing amendments.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -387,7 +387,7 @@ pub struct AmendmentListParams {
     pub sort: Option<SortType>,
 }
 
-/// Parameters for the `AmendmentByCongress` endpoint.
+/// Parameters for the [`AmendmentByCongress`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving amendments
 /// for a specific congress.
@@ -412,7 +412,7 @@ pub struct AmendmentByCongressParams {
     pub sort: Option<SortType>,
 }
 
-/// Parameters for the `AmendmentByType` endpoint.
+/// Parameters for the [`AmendmentByType`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving amendments
 /// of a specific type within a congress.
@@ -437,7 +437,7 @@ pub struct AmendmentByTypeParams {
     pub sort: Option<SortType>,
 }
 
-/// Parameters for the `AmendmentDetails` endpoint.
+/// Parameters for the [`AmendmentDetails`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific amendment.
@@ -447,7 +447,7 @@ pub struct AmendmentDetailsParams {
     pub format: Option<FormatType>,
 }
 
-/// Parameters for the `AmendmentActions` endpoint.
+/// Parameters for the [`AmendmentActions`] endpoint.
 ///
 /// These parameters allow pagination when fetching actions taken on a specific amendment.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -462,7 +462,7 @@ pub struct AmendmentActionsParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `AmendmentCosponsors` endpoint.
+/// Parameters for the [`AmendmentCosponsors`] endpoint.
 ///
 /// These parameters allow pagination when retrieving cosponsors of a specific amendment.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -477,7 +477,7 @@ pub struct AmendmentCosponsorsParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `AmendmentAmendments` endpoint.
+/// Parameters for the [`AmendmentAmendments`] endpoint.
 ///
 /// These parameters allow pagination when listing amendments of a specific amendment.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -492,7 +492,7 @@ pub struct AmendmentAmendmentsParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `AmendmentText` endpoint.
+/// Parameters for the [`AmendmentText`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving the text of a specific amendment.
@@ -508,7 +508,7 @@ pub struct AmendmentTextParams {
 // Member Endpoints Parameters
 // ================================
 
-/// Parameters for the `MemberList` endpoint.
+/// Parameters for the [`MemberList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing members of Congress.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -533,7 +533,7 @@ pub struct MemberListParams {
     pub current_member: Option<bool>,
 }
 
-/// Parameters for the `MemberByState` endpoint.
+/// Parameters for the [`MemberByState`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving members
 /// representing a specific state.
@@ -552,7 +552,7 @@ pub struct MemberByStateParams {
     pub current_member: Option<bool>,
 }
 
-/// Parameters for the `MemberByCongress` endpoint.
+/// Parameters for the [`MemberByCongress`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving members
 /// associated with a specific congress.
@@ -570,7 +570,7 @@ pub struct MemberByCongressParams {
     pub current_member: Option<bool>,
 }
 
-/// Parameters for the `MemberByStateDistrict` endpoint.
+/// Parameters for the [`MemberByStateDistrict`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving members
 /// by state and district.
@@ -588,7 +588,7 @@ pub struct MemberByStateDistrictParams {
     pub current_member: Option<bool>,
 }
 
-/// Parameters for the `MemberByCongressStateDistrict` endpoint.
+/// Parameters for the [`MemberByCongressStateDistrict`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving members
 /// by congress, state, and district.
@@ -607,7 +607,7 @@ pub struct MemberByCongressStateDistrictParams {
     pub current_member: Option<bool>,
 }
 
-/// Parameters for the `MemberDetails` endpoint.
+/// Parameters for the [`MemberDetails`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific member.
@@ -617,7 +617,7 @@ pub struct MemberDetailsParams {
     pub format: Option<FormatType>,
 }
 
-/// Parameters for the `SponsorshipList` endpoint.
+/// Parameters for the [`SponsorshipList`] endpoint.
 ///
 /// These parameters allow pagination when listing sponsorships of a specific member.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -632,7 +632,7 @@ pub struct SponsorshipListParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `CosponsorshipList` endpoint.
+/// Parameters for the [`CosponsorshipList`] endpoint.
 ///
 /// These parameters allow pagination when listing cosponsorships of a specific member.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -651,7 +651,7 @@ pub struct CosponsorshipListParams {
 // Committee Endpoints Parameters
 // ================================
 
-/// Parameters for the `CommitteeList` endpoint.
+/// Parameters for the [`CommitteeList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing committees.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -672,7 +672,7 @@ pub struct CommitteeListParams {
     pub to_date_time: Option<String>,
 }
 
-/// Parameters for the `CommitteeByChamber` endpoint.
+/// Parameters for the [`CommitteeByChamber`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving committees
 /// by chamber (House, Senate, or Joint).
@@ -694,7 +694,7 @@ pub struct CommitteeByChamberParams {
     pub to_date_time: Option<String>,
 }
 
-/// Parameters for the `CommitteeByCongress` endpoint.
+/// Parameters for the [`CommitteeByCongress`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving committees
 /// associated with a specific congress.
@@ -716,7 +716,7 @@ pub struct CommitteeByCongressParams {
     pub to_date_time: Option<String>,
 }
 
-/// Parameters for the `CommitteeByCongressChamber` endpoint.
+/// Parameters for the [`CommitteeByCongressChamber`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving committees
 /// by both congress and chamber.
@@ -738,7 +738,7 @@ pub struct CommitteeByCongressChamberParams {
     pub to_date_time: Option<String>,
 }
 
-/// Parameters for the `CommitteeDetails` endpoint.
+/// Parameters for the [`CommitteeDetails`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific committee.
@@ -748,7 +748,7 @@ pub struct CommitteeDetailsParams {
     pub format: Option<FormatType>,
 }
 
-/// Parameters for the `CommitteeBills` endpoint.
+/// Parameters for the [`CommitteeBills`] endpoint.
 ///
 /// These parameters allow pagination when listing bills under a specific committee.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -763,7 +763,7 @@ pub struct CommitteeBillsParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `CommitteeReports` endpoint.
+/// Parameters for the [`CommitteeReports`] endpoint.
 ///
 /// These parameters allow pagination when retrieving reports from a specific committee.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -778,7 +778,7 @@ pub struct CommitteeReportsParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `CommitteeNominations` endpoint.
+/// Parameters for the [`CommitteeNominations`] endpoint.
 ///
 /// These parameters allow pagination when listing nominations handled by a specific committee.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -793,7 +793,7 @@ pub struct CommitteeNominationsParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `CommitteeHouseCommunication` endpoint.
+/// Parameters for the [`CommitteeHouseCommunication`] endpoint.
 ///
 /// These parameters allow pagination when retrieving house communications handled by a specific committee.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -808,7 +808,7 @@ pub struct CommitteeHouseCommunicationParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `CommitteeSenateCommunication` endpoint.
+/// Parameters for the [`CommitteeSenateCommunication`] endpoint.
 ///
 /// These parameters allow pagination when retrieving senate communications handled by a specific committee.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -827,7 +827,7 @@ pub struct CommitteeSenateCommunicationParams {
 // Committee Report Endpoints Parameters
 // ================================
 
-/// Parameters for the `ReportList` endpoint.
+/// Parameters for the [`ReportList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing committee reports.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -850,7 +850,7 @@ pub struct CommitteeReportListParams {
     pub to_date_time: Option<String>,
 }
 
-/// Parameters for the `CommitteeReportByCongress` endpoint.
+/// Parameters for the [`CommitteeReportByCongress`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving committee reports
 /// for a specific congress.
@@ -874,7 +874,7 @@ pub struct CommitteeReportByCongressParams {
     pub to_date_time: Option<String>,
 }
 
-/// Parameters for the `CommitteeReportByType` endpoint.
+/// Parameters for the [`CommitteeReportByType`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving committee reports
 /// of a specific type within a congress.
@@ -898,7 +898,7 @@ pub struct CommitteeReportByTypeParams {
     pub to_date_time: Option<String>,
 }
 
-/// Parameters for the `CommitteeReportDetails` endpoint.
+/// Parameters for the [`CommitteeReportDetails`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific committee report.
@@ -909,7 +909,7 @@ pub struct CommitteeReportDetailsParams {
 }
 
 
-/// Parameters for the `CommitteeReportText` endpoint.
+/// Parameters for the [`CommitteeReportText`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving the text of a specific committee report.
@@ -929,7 +929,7 @@ pub struct CommitteeReportTextParams {
 // Committee Print Endpoints Parameters
 // ====================================
 
-/// Parameters for the `CommitteePrintList` endpoint.
+/// Parameters for the [`CommitteePrintList`] endpoint.
 /// 
 /// These parameters allow filtering and pagination when listing committee prints.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -950,7 +950,7 @@ pub struct CommitteePrintListParams {
     pub to_date_time: Option<String>,
 }
 
-/// Parameters for the `CommitteePrintByCongress` endpoint.
+/// Parameters for the [`CommitteePrintByCongress`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving committee prints
 /// for a specific congress.
@@ -972,7 +972,7 @@ pub struct CommitteePrintByCongressParams {
     pub to_date_time: Option<String>,
 }
 
-/// Parameters for the `CommitteePrintByCongressChamber` endpoint.
+/// Parameters for the [`CommitteePrintByCongressChamber`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving committee prints
 /// by congress and chamber.
@@ -994,7 +994,7 @@ pub struct CommitteePrintByCongressChamberParams {
     pub to_date_time: Option<String>,
 }
 
-/// Parameters for the `CommitteePrintByJacketNumber` endpoint.
+/// Parameters for the [`CommitteePrintByJacketNumber`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving committee prints by jacket number.
@@ -1004,7 +1004,7 @@ pub struct CommitteePrintByJacketNumberParams {
     pub format: Option<FormatType>,
 }
 
-/// Parameters for the `CommitteePrintDetails` endpoint.
+/// Parameters for the [`CommitteePrintDetails`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific committee print.
@@ -1024,7 +1024,7 @@ pub struct CommitteePrintDetailsParams {
 // Committee Meeting Endpoints Parameters
 // ======================================
 
-/// Parameters for the `CommitteeMeetingList` endpoint.
+/// Parameters for the [`CommitteeMeetingList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing committee meetings.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1039,7 +1039,7 @@ pub struct CommitteeMeetingListParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `CommitteeMeetingByCongress` endpoint.
+/// Parameters for the [`CommitteeMeetingByCongress`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving committee meetings
 /// for a specific congress.
@@ -1055,7 +1055,7 @@ pub struct CommitteeMeetingByCongressParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `CommitteeMeetingByChamber` endpoint.
+/// Parameters for the [`CommitteeMeetingByChamber`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving committee meetings
 /// by chamber (House, Senate, or Joint).
@@ -1072,7 +1072,7 @@ pub struct CommitteeMeetingByChamberParams {
 }
 
 
-/// Parameters for the `CommitteeMeetingByEvent` endpoint.
+/// Parameters for the [`CommitteeMeetingByEvent`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving committee meetings
 /// by event.
@@ -1086,7 +1086,7 @@ pub struct CommitteeMeetingByEventParams {
 // Hearing Endpoints Parameters
 // ================================
 
-/// Parameters for the `HearingList` endpoint.
+/// Parameters for the [`HearingList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing hearings.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1101,7 +1101,7 @@ pub struct HearingListParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `HearingByCongress` endpoint.
+/// Parameters for the [`HearingByCongress`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving hearings
 /// for a specific congress.
@@ -1117,7 +1117,7 @@ pub struct HearingByCongressParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `HearingByChamber` endpoint.
+/// Parameters for the [`HearingByChamber`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving hearings
 /// by chamber (House, Senate, or Joint).
@@ -1133,7 +1133,7 @@ pub struct HearingByChamberParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `HearingByJacketNumber` endpoint.
+/// Parameters for the [`HearingByJacketNumber`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving hearings by jacket number.
@@ -1147,7 +1147,7 @@ pub struct HearingByJacketNumberParams {
 // Congressional Record Endpoints Parameters
 // =========================================
 
-/// Parameters for the `CongressionalRecordList` endpoint.
+/// Parameters for the [`CongressionalRecordList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing congressional records.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1175,7 +1175,7 @@ pub struct CongressionalRecordListParams {
 // Daily Congressional Record Endpoints Parameters
 // ===============================================
 
-/// Parameters for the `DailyCongressionalRecordList` endpoint.
+/// Parameters for the [`DailyCongressionalRecordList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing daily congressional records.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1190,7 +1190,7 @@ pub struct DailyCongressionalRecordListParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `DailyCongressionalRecordVolume` endpoint.
+/// Parameters for the [`DailyCongressionalRecordVolume`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving daily congressional records by volume.
@@ -1206,8 +1206,8 @@ pub struct DailyCongressionalVolumeNumberParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `DailyCongressionalRecordVolumeIssue` endpoint and
-/// the `DailyCongressionalRecordArticles` endpoint.
+/// Parameters for the [`DailyCongressionalRecordVolumeIssue`] endpoint and
+/// the [`DailyCongressionalRecordArticles`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving daily congressional records by volume and issue.
@@ -1227,7 +1227,7 @@ pub struct DailyCongressionalVolumeNumberIssueNumberParams {
 // Bound Congressional Record Endpoints Parameters
 // ===============================================
 
-/// Parameters for the `BoundCongressionalRecord` endpoints.
+/// Parameters for the [`BoundCongressionalRecord`] endpoints.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving bound congressional records.
@@ -1247,7 +1247,7 @@ pub struct BoundCongressionalRecordParams {
 // House Requirement Endpoints Parameters
 // ======================================
 
-/// Parameters for the `HouseRequirementList` endpoint.
+/// Parameters for the [`HouseRequirementList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing house requirements.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1262,7 +1262,7 @@ pub struct RequirementParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `HouseRequirementByCongress` endpoint.
+/// Parameters for the [`HouseRequirementByCongress`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving house requirements
 /// for a specific congress.
@@ -1280,13 +1280,13 @@ pub struct RequirementDetailsParams {
 ///
 /// These parameters allow filtering and pagination when listing communications.
 /// These parameters are used by the following endpoints:
-/// - `HouseCommunicationList`
-/// - `HouseCommunicationByCongress`
-/// - `HouseCommunicationByType`
+/// - [`HouseCommunicationList`]
+/// - [`HouseCommunicationByCongress`]
+/// - [`HouseCommunicationByType`]
 ///
-/// - `SenateCommunicationList`
-/// - `SenateCommunicationByCongress`
-/// - `SenateCommunicationByType`
+/// - [`SenateCommunicationList`]
+/// - [`SenateCommunicationByCongress`]
+/// - [`SenateCommunicationByType`]
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommunicationParams {
     /// Desired response format (JSON or XML).
@@ -1299,7 +1299,7 @@ pub struct CommunicationParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `HouseCommunicationDetails` and `SenateCommunicationDetails` endpoints.
+/// Parameters for the [`HouseCommunicationDetails`] and [`SenateCommunicationDetails`] endpoints.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific communication.
@@ -1313,7 +1313,7 @@ pub struct CommunicationDetailsParams {
 // Nomination Endpoints Parameters
 // ================================
 
-/// Parameters for the `NominationList` endpoint.
+/// Parameters for the [`NominationList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing nominations.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1337,7 +1337,7 @@ pub struct NominationListParams {
     pub sort: Option<SortType>,
 }
 
-/// Parameters for the `NominationByCongress` endpoint.
+/// Parameters for the [`NominationByCongress`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving nominations
 /// for a specific congress.
@@ -1362,7 +1362,7 @@ pub struct NominationByCongressParams {
     pub sort: Option<SortType>,
 }
 
-/// Parameters for the `NominationDetails` endpoint.
+/// Parameters for the [`NominationDetails`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific nomination.
@@ -1372,7 +1372,7 @@ pub struct NominationDetailsParams {
     pub format: Option<FormatType>,
 }
 
-/// Parameters for the `Nominees` endpoint.
+/// Parameters for the [`Nominees`] endpoint.
 ///
 /// These parameters allow pagination when listing nominees of a specific nomination.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1387,7 +1387,7 @@ pub struct NomineesParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `NominationActions` endpoint.
+/// Parameters for the [`NominationActions`] endpoint.
 ///
 /// These parameters allow pagination when fetching actions taken on a specific nomination.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1402,7 +1402,7 @@ pub struct NominationActionsParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `NominationCommittees` endpoint.
+/// Parameters for the [`NominationCommittees`] endpoint.
 ///
 /// These parameters allow pagination when retrieving committees involved in a specific nomination.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1417,7 +1417,7 @@ pub struct NominationCommitteesParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `NominationHearings` endpoint.
+/// Parameters for the [`NominationHearings`] endpoint.
 ///
 /// These parameters allow pagination when listing hearings related to a specific nomination.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1436,7 +1436,7 @@ pub struct NominationHearingsParams {
 // Treaty Endpoints Parameters
 // ================================
 
-/// Parameters for the `TreatyList` endpoint.
+/// Parameters for the [`TreatyList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing treaties.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1460,7 +1460,7 @@ pub struct TreatyListParams {
     pub sort: Option<SortType>,
 }
 
-/// Parameters for the `TreatyByCongress` endpoint.
+/// Parameters for the [`TreatyByCongress`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving treaties
 /// for a specific congress.
@@ -1485,7 +1485,7 @@ pub struct TreatyByCongressParams {
     pub sort: Option<SortType>,
 }
 
-/// Parameters for the `TreatyDetails` endpoint.
+/// Parameters for the [`TreatyDetails`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific treaty.
@@ -1495,7 +1495,7 @@ pub struct TreatyDetailsParams {
     pub format: Option<FormatType>,
 }
 
-/// Parameters for the `TreatyPartitioned` endpoint.
+/// Parameters for the [`TreatyPartitioned`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving partitioned information about a specific treaty.
@@ -1505,7 +1505,7 @@ pub struct TreatyPartitionedParams {
     pub format: Option<FormatType>,
 }
 
-/// Parameters for the `TreatyCommittees` endpoint.
+/// Parameters for the [`TreatyCommittees`] endpoint.
 ///
 /// These parameters allow pagination when retrieving committees associated with a specific treaty.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1520,7 +1520,7 @@ pub struct TreatyCommitteesParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `TreatyActions` endpoint.
+/// Parameters for the [`TreatyActions`] endpoint.
 ///
 /// These parameters allow pagination when fetching actions taken on a specific treaty.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1539,7 +1539,7 @@ pub struct TreatyActionsParams {
 // Summaries Endpoints Structs
 // ----------------
 
-/// Parameters for the `SummariesList` endpoint.
+/// Parameters for the [`SummariesList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing summaries.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1563,7 +1563,7 @@ pub struct SummariesListParams {
     pub sort: Option<SortType>,
 }
 
-/// Parameters for the `SummariesByCongress` endpoint.
+/// Parameters for the [`SummariesByCongress`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving summaries
 /// for a specific congress.
@@ -1588,7 +1588,7 @@ pub struct SummariesByCongressParams {
     pub sort: Option<SortType>,
 }
 
-/// Parameters for the `SummariesByType` endpoint.
+/// Parameters for the [`SummariesByType`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving summaries
 /// of a specific bill type within a congress.
@@ -1617,7 +1617,7 @@ pub struct SummariesByTypeParams {
 // Congress Endpoints Structs
 // ----------------
 
-/// Parameters for the `CongressList` endpoint.
+/// Parameters for the [`CongressList`] endpoint.
 ///
 /// These parameters allow filtering and pagination when listing congress sessions.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1632,7 +1632,7 @@ pub struct CongressListParams {
     pub limit: Option<u32>,
 }
 
-/// Parameters for the `CongressDetails` endpoint.
+/// Parameters for the [`CongressDetails`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
 /// when retrieving details of a specific congress session.
@@ -1642,7 +1642,7 @@ pub struct CongressDetailsParams {
     pub format: Option<FormatType>,
 }
 
-/// Parameters for the `CongressCurrent` endpoint.
+/// Parameters for the [`CongressCurrent`] endpoint.
 ///
 /// These parameters allow filtering and pagination when retrieving information
 /// about the current congress session.

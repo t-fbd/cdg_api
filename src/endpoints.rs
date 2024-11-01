@@ -1,11 +1,11 @@
-//! # `endpoints` Module
+//! # [`endpoints`] Module
 //! 
-//! This module defines the `Endpoints` enum, which represents the various API endpoints
+//! This module defines the [`Endpoints`] enum, which represents the various API endpoints
 //! available in the US Congress API. Each variant encapsulates the necessary parameters
 //! required to interact with a specific endpoint.
 //! 
-//! Additionally, the `NewEndpoint` trait provides constructor methods for creating
-//! instances of each `Endpoints` variant in a standardized manner.
+//! Additionally, the [`NewEndpoint`] trait provides constructor methods for creating
+//! instances of each [`Endpoints`] variant in a standardized manner.
 //! 
 //! ## Example
 //! 
@@ -28,7 +28,7 @@
 use serde::{Deserialize, Serialize};
 use crate::{param_models::*, cdg_types::*};
 
-/// Each variant of the `Endpoints` enum corresponds to a specific API endpoint,
+/// Each variant of the [`Endpoints`] enum corresponds to a specific API endpoint,
 /// encapsulating the necessary parameters required to interact with that endpoint.
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub enum Endpoints {
@@ -48,8 +48,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillByCongressParams`: Additional parameters for filtering bills.
+    /// - [`u32`]: The congress number.
+    /// - [`BillByCongressParams`]: Additional parameters for filtering bills.
     /// /bill/{congress}
     BillByCongress(u32, BillByCongressParams),
 
@@ -57,9 +57,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillType`: The type of bill (e.g., House, Senate).
-    /// - `BillByTypeParams`: Additional parameters for filtering bills by type.
+    /// - [`u32`]: The congress number.
+    /// - [`BillType`]: The type of bill (e.g., House, Senate).
+    /// - [`BillByTypeParams`]: Additional parameters for filtering bills by type.
     /// /bill/{congress}/{billType}
     BillByType(u32, BillType, BillByTypeParams),
 
@@ -67,10 +67,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillType`: The type of bill.
-    /// - `u32`: The bill number.
-    /// - `BillDetailsParams`: Additional parameters for bill details.
+    /// - [`u32`]: The congress number.
+    /// - [`BillType`]: The type of bill.
+    /// - [`u32`]: The bill number.
+    /// - [`BillDetailsParams`]: Additional parameters for bill details.
     /// /bill/{congress}/{billType}/{billNumber}
     BillDetails(u32, BillType, u32, BillDetailsParams),
 
@@ -78,10 +78,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillType`: The type of bill.
-    /// - `u32`: The bill number.
-    /// - `BillActionsParams`: Additional parameters for bill actions.
+    /// - [`u32`]: The congress number.
+    /// - [`BillType`]: The type of bill.
+    /// - [`u32`]: The bill number.
+    /// - [`BillActionsParams`]: Additional parameters for bill actions.
     /// /bill/{congress}/{billType}/{billNumber}/actions
     BillActions(u32, BillType, u32, BillActionsParams),
 
@@ -89,10 +89,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillType`: The type of bill.
-    /// - `u32`: The bill number.
-    /// - `BillAmendmentsParams`: Additional parameters for bill amendments.
+    /// - [`u32`]: The congress number.
+    /// - [`BillType`]: The type of bill.
+    /// - [`u32`]: The bill number.
+    /// - [`BillAmendmentsParams`]: Additional parameters for bill amendments.
     /// /bill/{congress}/{billType}/{billNumber}/amendments
     BillAmendments(u32, BillType, u32, BillAmendmentsParams),
 
@@ -100,10 +100,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillType`: The type of bill.
-    /// - `u32`: The bill number.
-    /// - `BillCommitteesParams`: Additional parameters for bill committees.
+    /// - [`u32`]: The congress number.
+    /// - [`BillType`]: The type of bill.
+    /// - [`u32`]: The bill number.
+    /// - [`BillCommitteesParams`]: Additional parameters for bill committees.
     /// /bill/{congress}/{billType}/{billNumber}/committees
     BillCommittees(u32, BillType, u32, BillCommitteesParams),
 
@@ -111,10 +111,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillType`: The type of bill.
-    /// - `u32`: The bill number.
-    /// - `BillCosponsorsParams`: Additional parameters for bill cosponsors.
+    /// - [`u32`]: The congress number.
+    /// - [`BillType`]: The type of bill.
+    /// - [`u32`]: The bill number.
+    /// - [`BillCosponsorsParams`]: Additional parameters for bill cosponsors.
     /// /bill/{congress}/{billType}/{billNumber}/cosponsors
     BillCosponsors(u32, BillType, u32, BillCosponsorsParams),
 
@@ -122,10 +122,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillType`: The type of bill.
-    /// - `u32`: The bill number.
-    /// - `BillRelatedParams`: Additional parameters for related bills.
+    /// - [`u32`]: The congress number.
+    /// - [`BillType`]: The type of bill.
+    /// - [`u32`]: The bill number.
+    /// - [`BillRelatedParams`]: Additional parameters for related bills.
     /// /bill/{congress}/{billType}/{billNumber}/relatedbills
     BillRelated(u32, BillType, u32, BillRelatedParams),
 
@@ -133,10 +133,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillType`: The type of bill.
-    /// - `u32`: The bill number.
-    /// - `BillSubjectsParams`: Additional parameters for bill subjects.
+    /// - [`u32`]: The congress number.
+    /// - [`BillType`]: The type of bill.
+    /// - [`u32`]: The bill number.
+    /// - [`BillSubjectsParams`]: Additional parameters for bill subjects.
     /// /bill/{congress}/{billType}/{billNumber}/subjects
     BillSubjects(u32, BillType, u32, BillSubjectsParams),
 
@@ -144,10 +144,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillType`: The type of bill.
-    /// - `u32`: The bill number.
-    /// - `BillSummariesParams`: Additional parameters for bill summaries.
+    /// - [`u32`]: The congress number.
+    /// - [`BillType`]: The type of bill.
+    /// - [`u32`]: The bill number.
+    /// - [`BillSummariesParams`]: Additional parameters for bill summaries.
     /// /bill/{congress}/{billType}/{billNumber}/summaries
     BillSummaries(u32, BillType, u32, BillSummariesParams),
 
@@ -155,10 +155,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillType`: The type of bill.
-    /// - `u32`: The bill number.
-    /// - `BillTextParams`: Additional parameters for bill text.
+    /// - [`u32`]: The congress number.
+    /// - [`BillType`]: The type of bill.
+    /// - [`u32`]: The bill number.
+    /// - [`BillTextParams`]: Additional parameters for bill text.
     /// /bill/{congress}/{billType}/{billNumber}/text
     BillText(u32, BillType, u32, BillTextParams),
     
@@ -166,10 +166,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillType`: The type of bill.
-    /// - `u32`: The bill number.
-    /// - `BillTitlesParams`: Additional parameters for bill titles.
+    /// - [`u32`]: The congress number.
+    /// - [`BillType`]: The type of bill.
+    /// - [`u32`]: The bill number.
+    /// - [`BillTitlesParams`]: Additional parameters for bill titles.
     /// /bill/{congress}/{billType}/{billNumber}/titles
     BillTitles(u32, BillType, u32, BillTitlesParams),
 
@@ -185,8 +185,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `LawParams`: Additional parameters for filtering laws.
+    /// - [`u32`]: The congress number.
+    /// - [`LawParams`]: Additional parameters for filtering laws.
     /// /law/{congress}
     LawByCongress(u32, LawParams),
 
@@ -194,10 +194,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `LawType`: The type of law.
-    /// - `u32`: The law number.
-    /// - `LawDetailsParams`: Additional parameters for law details.
+    /// - [`u32`]: The congress number.
+    /// - [`LawType`]: The type of law.
+    /// - [`u32`]: The law number.
+    /// - [`LawDetailsParams`]: Additional parameters for law details.
     /// /law/{congress}/{lawType}/{lawNumber}
     LawDetails(u32, LawType, u32, LawParams),
 
@@ -213,8 +213,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `AmendmentByCongressParams`: Additional parameters for filtering amendments.
+    /// - [`u32`]: The congress number.
+    /// - [`AmendmentByCongressParams`]: Additional parameters for filtering amendments.
     /// /amendment/{congress}
     AmendmentByCongress(u32, AmendmentByCongressParams),
 
@@ -222,9 +222,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `AmendmentType`: The type of amendment.
-    /// - `AmendmentByTypeParams`: Additional parameters for filtering amendments by type.
+    /// - [`u32`]: The congress number.
+    /// - [`AmendmentType`]: The type of amendment.
+    /// - [`AmendmentByTypeParams`]: Additional parameters for filtering amendments by type.
     /// /amendment/{congress}/{amendmentType}
     AmendmentByType(u32, AmendmentType, AmendmentByTypeParams),
 
@@ -232,10 +232,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `AmendmentType`: The type of amendment.
-    /// - `u32`: The amendment number.
-    /// - `AmendmentDetailsParams`: Additional parameters for amendment details.
+    /// - [`u32`]: The congress number.
+    /// - [`AmendmentType`]: The type of amendment.
+    /// - [`u32`]: The amendment number.
+    /// - [`AmendmentDetailsParams`]: Additional parameters for amendment details.
     /// /amendment/{congress}/{amendmentType}/{amendmentNumber}
     AmendmentDetails(u32, AmendmentType, u32, AmendmentDetailsParams),
 
@@ -243,10 +243,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `AmendmentType`: The type of amendment.
-    /// - `String`: The amendment number.
-    /// - `AmendmentActionsParams`: Additional parameters for amendment actions.
+    /// - [`u32`]: The congress number.
+    /// - [`AmendmentType`]: The type of amendment.
+    /// - [`String`]: The amendment number.
+    /// - [`AmendmentActionsParams`]: Additional parameters for amendment actions.
     /// /amendment/{congress}/{amendmentType}/{amendmentNumber}/actions
     AmendmentActions(u32, AmendmentType, String, AmendmentActionsParams),
 
@@ -254,10 +254,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `AmendmentType`: The type of amendment.
-    /// - `String`: The amendment number.
-    /// - `AmendmentCosponsorsParams`: Additional parameters for amendment cosponsors.
+    /// - [`u32`]: The congress number.
+    /// - [`AmendmentType`]: The type of amendment.
+    /// - [`String`]: The amendment number.
+    /// - [`AmendmentCosponsorsParams`]: Additional parameters for amendment cosponsors.
     /// /amendment/{congress}/{amendmentType}/{amendmentNumber}/cosponsors
     AmendmentCosponsors(u32, AmendmentType, String, AmendmentCosponsorsParams),
 
@@ -265,10 +265,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `AmendmentType`: The type of amendment.
-    /// - `String`: The amendment number.
-    /// - `AmendmentAmendmentsParams`: Additional parameters for amendment amendments.
+    /// - [`u32`]: The congress number.
+    /// - [`AmendmentType`]: The type of amendment.
+    /// - [`String`]: The amendment number.
+    /// - [`AmendmentAmendmentsParams`]: Additional parameters for amendment amendments.
     /// /amendment/{congress}/{amendmentType}/{amendmentNumber}/amendments
     AmendmentAmendments(u32, AmendmentType, String, AmendmentAmendmentsParams),
 
@@ -276,10 +276,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `AmendmentType`: The type of amendment.
-    /// - `String`: The amendment number.
-    /// - `AmendmentTextParams`: Additional parameters for amendment text.
+    /// - [`u32`]: The congress number.
+    /// - [`AmendmentType`]: The type of amendment.
+    /// - [`String`]: The amendment number.
+    /// - [`AmendmentTextParams`]: Additional parameters for amendment text.
     /// /amendment/{congress}/{amendmentType}/{amendmentNumber}/text
     AmendmentText(u32, AmendmentType, String, AmendmentTextParams),
 
@@ -295,8 +295,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `SummariesByCongressParams`: Additional parameters for filtering summaries.
+    /// - [`u32`]: The congress number.
+    /// - [`SummariesByCongressParams`]: Additional parameters for filtering summaries.
     /// /summary/{congress}
     SummariesByCongress(u32, SummariesByCongressParams),
 
@@ -304,9 +304,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `BillType`: The type of bill.
-    /// - `SummariesByTypeParams`: Additional parameters for filtering summaries by type.
+    /// - [`u32`]: The congress number.
+    /// - [`BillType`]: The type of bill.
+    /// - [`SummariesByTypeParams`]: Additional parameters for filtering summaries by type.
     /// /summary/{congress}/{billType}
     SummariesByType(u32, BillType, SummariesByTypeParams),
 
@@ -322,8 +322,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CongressDetailsParams`: Additional parameters for congress details.
+    /// - [`u32`]: The congress number.
+    /// - [`CongressDetailsParams`]: Additional parameters for congress details.
     /// /congress/{congress}
     CongressDetails(u32, CongressDetailsParams),
 
@@ -331,7 +331,7 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `CongressCurrentParams`: Additional parameters for current congress.
+    /// - [`CongressCurrentParams`]: Additional parameters for current congress.
     /// /congress/current
     CongressCurrent(CongressCurrentParams),
 
@@ -347,8 +347,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `MemberByCongressParams`: Additional parameters for filtering members by congress.
+    /// - [`u32`]: The congress number.
+    /// - [`MemberByCongressParams`]: Additional parameters for filtering members by congress.
     /// /member/congress/{congress}
     MemberByCongress(u32, MemberByCongressParams),
 
@@ -356,8 +356,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `String`: The state code (e.g., "NY" for New York).
-    /// - `MemberByStateParams`: Additional parameters for filtering members by state.
+    /// - [`String`]: The state code (e.g., "NY" for New York).
+    /// - [`MemberByStateParams`]: Additional parameters for filtering members by state.
     /// /member/{stateCode}
     MemberByState(String, MemberByStateParams),
 
@@ -365,9 +365,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `String`: The state code.
-    /// - `u32`: The district number.
-    /// - `MemberByStateDistrictParams`: Additional parameters for filtering members by state and
+    /// - [`String`]: The state code.
+    /// - [`u32`]: The district number.
+    /// - [`MemberByStateDistrictParams`]: Additional parameters for filtering members by state and
     /// district.
     /// /member/{stateCode}/{district}
     MemberByStateDistrict(String, u32, MemberByStateDistrictParams),
@@ -376,10 +376,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `String`: The state code.
-    /// - `u32`: The district number.
-    /// - `MemberByCongressStateDistrictParams`: Additional parameters for filtering.
+    /// - [`u32`]: The congress number.
+    /// - [`String`]: The state code.
+    /// - [`u32`]: The district number.
+    /// - [`MemberByCongressStateDistrictParams`]: Additional parameters for filtering.
     /// /member/congress/{congress}/{stateCode}/{district}
     MemberByCongressStateDistrict(u32, String, u32, MemberByCongressStateDistrictParams),
 
@@ -387,8 +387,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `String`: The bio guide ID of the member.
-    /// - `MemberDetailsParams`: Additional parameters for member details.
+    /// - [`String`]: The bio guide ID of the member.
+    /// - [`MemberDetailsParams`]: Additional parameters for member details.
     /// /member/{bioGuideId}
     MemberDetails(String, MemberDetailsParams),
 
@@ -396,8 +396,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `String`: The bio guide ID of the member.
-    /// - `SponsorshipListParams`: Additional parameters for sponsorships.
+    /// - [`String`]: The bio guide ID of the member.
+    /// - [`SponsorshipListParams`]: Additional parameters for sponsorships.
     /// /member/{bioGuideId}/sponsored-legislation
     SponsorshipList(String, SponsorshipListParams),
 
@@ -405,8 +405,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `String`: The bio guide ID of the member.
-    /// - `CosponsorshipListParams`: Additional parameters for cosponsorships.
+    /// - [`String`]: The bio guide ID of the member.
+    /// - [`CosponsorshipListParams`]: Additional parameters for cosponsorships.
     /// /member/{bioGuideId}/cosponsored-legislation
     CosponsorshipList(String, CosponsorshipListParams),
 
@@ -418,7 +418,7 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `CommitteeListParams`: Additional parameters for listing committees.
+    /// - [`CommitteeListParams`]: Additional parameters for listing committees.
     /// /committee
     CommitteeList(CommitteeListParams),
 
@@ -426,8 +426,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `ChamberType`: The chamber type (House or Senate).
-    /// - `CommitteeByChamberParams`: Additional parameters for filtering committees by chamber.
+    /// - [`ChamberType`]: The chamber type (House or Senate).
+    /// - [`CommitteeByChamberParams`]: Additional parameters for filtering committees by chamber.
     /// /committee/{chamber}
     CommitteeByChamber(ChamberType, CommitteeByChamberParams),
 
@@ -435,8 +435,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommitteeByCongressParams`: Additional parameters for filtering committees by congress.
+    /// - [`u32`]: The congress number.
+    /// - [`CommitteeByCongressParams`]: Additional parameters for filtering committees by congress.
     /// /committee/{congress}
     CommitteeByCongress(u32, CommitteeByCongressParams),
 
@@ -444,9 +444,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `ChamberType`: The chamber type.
-    /// - `CommitteeByCongressChamberParams`: Additional parameters for filtering.
+    /// - [`u32`]: The congress number.
+    /// - [`ChamberType`]: The chamber type.
+    /// - [`CommitteeByCongressChamberParams`]: Additional parameters for filtering.
     /// /committee/{congress}/{chamber}
     CommitteeByCongressChamber(u32, ChamberType, CommitteeByCongressChamberParams),
 
@@ -454,9 +454,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `ChamberType`: The chamber type.
-    /// - `String`: The committee code.
-    /// - `CommitteeDetailsParams`: Additional parameters for committee details.
+    /// - [`ChamberType`]: The chamber type.
+    /// - [`String`]: The committee code.
+    /// - [`CommitteeDetailsParams`]: Additional parameters for committee details.
     /// /committee/{chamber}/{committeeCode}
     CommitteeDetails(ChamberType, String, CommitteeDetailsParams),
 
@@ -464,9 +464,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `ChamberType`: The chamber type.
-    /// - `String`: The committee code.
-    /// - `CommitteeBillsParams`: Additional parameters for committee bills.
+    /// - [`ChamberType`]: The chamber type.
+    /// - [`String`]: The committee code.
+    /// - [`CommitteeBillsParams`]: Additional parameters for committee bills.
     /// /committee/{chamber}/{committeeCode}/bills
     CommitteeBills(ChamberType, String, CommitteeBillsParams),
 
@@ -474,9 +474,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `ChamberType`: The chamber type.
-    /// - `String`: The committee code.
-    /// - `CommitteeReportsParams`: Additional parameters for committee reports.
+    /// - [`ChamberType`]: The chamber type.
+    /// - [`String`]: The committee code.
+    /// - [`CommitteeReportsParams`]: Additional parameters for committee reports.
     /// /committee/{chamber}/{committeeCode}/reports
     CommitteeReports(ChamberType, String, CommitteeReportsParams),
 
@@ -484,9 +484,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `ChamberType`: The chamber type.
-    /// - `String`: The committee code.
-    /// - `CommitteeNominationsParams`: Additional parameters for committee nominations.
+    /// - [`ChamberType`]: The chamber type.
+    /// - [`String`]: The committee code.
+    /// - [`CommitteeNominationsParams`]: Additional parameters for committee nominations.
     /// /committee/{chamber}/{committeeCode}/nominations
     CommitteeNominations(ChamberType, String, CommitteeNominationsParams),
 
@@ -494,9 +494,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `ChamberType`: The chamber type.
-    /// - `String`: The committee code.
-    /// - `CommitteeHouseCommunicationParams`: Additional parameters for house communications.
+    /// - [`ChamberType`]: The chamber type.
+    /// - [`String`]: The committee code.
+    /// - [`CommitteeHouseCommunicationParams`]: Additional parameters for house communications.
     /// /committee/{chamber}/{committeeCode}/house-communication
     CommitteeHouseCommunication(ChamberType, String, CommitteeHouseCommunicationParams),
 
@@ -504,9 +504,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `ChamberType`: The chamber type.
-    /// - `String`: The committee code.
-    /// - `CommitteeSenateCommunicationParams`: Additional parameters for senate communications.
+    /// - [`ChamberType`]: The chamber type.
+    /// - [`String`]: The committee code.
+    /// - [`CommitteeSenateCommunicationParams`]: Additional parameters for senate communications.
     /// /committee/{chamber}/{committeeCode}/senate-communication
     CommitteeSenateCommunication(ChamberType, String, CommitteeSenateCommunicationParams),
 
@@ -518,7 +518,7 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `CommitteeReportListParams`: Additional parameters for listing committee reports.
+    /// - [`CommitteeReportListParams`]: Additional parameters for listing committee reports.
     /// /committee-report
     CommitteeReportList(CommitteeReportListParams),
 
@@ -526,8 +526,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommitteeReportByCongressParams`: Additional parameters for filtering committee reports.
+    /// - [`u32`]: The congress number.
+    /// - [`CommitteeReportByCongressParams`]: Additional parameters for filtering committee reports.
     /// /committee-report/{congress}
     CommitteeReportByCongress(u32, CommitteeReportByCongressParams),
 
@@ -535,9 +535,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommitteeReportType`: The type of committee report.
-    /// - `CommitteeReportByTypeParams`: Additional parameters for filtering committee reports by
+    /// - [`u32`]: The congress number.
+    /// - [`CommitteeReportType`]: The type of committee report.
+    /// - [`CommitteeReportByTypeParams`]: Additional parameters for filtering committee reports by
     /// type.
     /// /committee-report/{congress}/{reportType}
     CommitteeReportByType(u32, CommitteeReportType, CommitteeReportByTypeParams),
@@ -546,10 +546,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommitteeReportType`: The type of committee report.
-    /// - `u32`: The report number.
-    /// - `CommitteeReportDetailsParams`: Additional parameters for committee report details.
+    /// - [`u32`]: The congress number.
+    /// - [`CommitteeReportType`]: The type of committee report.
+    /// - [`u32`]: The report number.
+    /// - [`CommitteeReportDetailsParams`]: Additional parameters for committee report details.
     /// /committee-report/{congress}/{reportType}/{reportNumber}
     CommitteeReportDetails(u32, CommitteeReportType, u32, CommitteeReportDetailsParams),
 
@@ -557,10 +557,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommitteeReportType`: The type of committee report.
-    /// - `u32`: The report number.
-    /// - `CommitteeReportTextParams`: Additional parameters for committee report text.
+    /// - [`u32`]: The congress number.
+    /// - [`CommitteeReportType`]: The type of committee report.
+    /// - [`u32`]: The report number.
+    /// - [`CommitteeReportTextParams`]: Additional parameters for committee report text.
     /// /committee-report/{congress}/{reportType}/{reportNumber}/text
     CommitteeReportText(u32, CommitteeReportType, u32, CommitteeReportTextParams),
 
@@ -572,7 +572,7 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `CommitteePrintListParams`: Additional parameters for listing committee prints.
+    /// - [`CommitteePrintListParams`]: Additional parameters for listing committee prints.
     /// /committee-print
     CommitteePrintList(CommitteePrintListParams),
 
@@ -580,8 +580,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommitteePrintByCongressParams`: Additional parameters for filtering committee prints.
+    /// - [`u32`]: The congress number.
+    /// - [`CommitteePrintByCongressParams`]: Additional parameters for filtering committee prints.
     /// /committee-print/{congress}
     CommitteePrintByCongress(u32, CommitteePrintByCongressParams),
 
@@ -589,9 +589,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `ChamberType`: The chamber type. (house, senate, nochamber)
-    /// - `CommitteePrintByCongressChamberParams`: Additional parameters for filtering committee
+    /// - [`u32`]: The congress number.
+    /// - [`ChamberType`]: The chamber type. (house, senate, nochamber)
+    /// - [`CommitteePrintByCongressChamberParams`]: Additional parameters for filtering committee
     /// prints by chamber.
     /// /committee-print/{congress}/{chamber}
     CommitteePrintByCongressChamber(u32, ChamberType, CommitteePrintByCongressChamberParams),
@@ -600,18 +600,18 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `u32`: The jacket number for the committee print.
+    /// - [`u32`]: The congress number.
+    /// - [`u32`]: The jacket number for the committee print.
     CommitteePrintByJacketNumber(u32, u32, CommitteePrintByJacketNumberParams),
 
     /// Endpoint to retrieve text of a specific committee print.
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `ChamberType`: The chamber type.
-    /// - `u32`: The jacket number for the committee print.
-    /// - `CommitteePrintTextParams`: Additional parameters for committee print text.
+    /// - [`u32`]: The congress number.
+    /// - [`ChamberType`]: The chamber type.
+    /// - [`u32`]: The jacket number for the committee print.
+    /// - [`CommitteePrintTextParams`]: Additional parameters for committee print text.
     CommitteePrintText(u32, String, u32, CommitteePrintDetailsParams),
 
     // ================================
@@ -622,7 +622,7 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `CommitteeMeetingListParams`: Additional parameters for listing committee meetings.
+    /// - [`CommitteeMeetingListParams`]: Additional parameters for listing committee meetings.
     /// /committee-meeting
     CommitteeMeetingList(CommitteeMeetingListParams),
 
@@ -630,8 +630,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommitteeMeetingByCongressParams`: Additional parameters for filtering committee
+    /// - [`u32`]: The congress number.
+    /// - [`CommitteeMeetingByCongressParams`]: Additional parameters for filtering committee
     /// meetings.
     /// /committee-meeting/{congress}
     CommitteeMeetingByCongress(u32, CommitteeMeetingByCongressParams),
@@ -640,9 +640,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `ChamberType`: The chamber type.
-    /// - `CommitteeMeetingByChamberParams`: Additional parameters for filtering committee meetings
+    /// - [`u32`]: The congress number.
+    /// - [`ChamberType`]: The chamber type.
+    /// - [`CommitteeMeetingByChamberParams`]: Additional parameters for filtering committee meetings
     /// by chamber.
     /// /committee-meeting/{congress}/{chamber}
     CommitteeMeetingByChamber(u32, ChamberType, CommitteeMeetingByChamberParams),
@@ -651,10 +651,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `ChamberType`: The chamber type.
-    /// - `String`: The eventId for the committee meeting.
-    /// - `CommitteeMeetingDetailsParams`: Additional parameters for committee meeting details.
+    /// - [`u32`]: The congress number.
+    /// - [`ChamberType`]: The chamber type.
+    /// - [`String`]: The eventId for the committee meeting.
+    /// - [`CommitteeMeetingDetailsParams`]: Additional parameters for committee meeting details.
     /// /committee-meeting/{congress}/{chamber}/{eventId}
     CommitteeMeetingByEvent(u32, ChamberType, String, CommitteeMeetingByEventParams),
 
@@ -666,7 +666,7 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `HearingListParams`: Additional parameters for listing hearings.
+    /// - [`HearingListParams`]: Additional parameters for listing hearings.
     /// /hearing
     HearingList(HearingListParams),
 
@@ -674,8 +674,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `HearingByCongressParams`: Additional parameters for filtering hearings.
+    /// - [`u32`]: The congress number.
+    /// - [`HearingByCongressParams`]: Additional parameters for filtering hearings.
     /// /hearing/{congress}
     HearingByCongress(u32, HearingByCongressParams),
 
@@ -683,9 +683,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `ChamberType`: The chamber type.
-    /// - `HearingByChamberParams`: Additional parameters for filtering hearings by chamber.
+    /// - [`u32`]: The congress number.
+    /// - [`ChamberType`]: The chamber type.
+    /// - [`HearingByChamberParams`]: Additional parameters for filtering hearings by chamber.
     /// /hearing/{congress}/{chamber}
     HearingByChamber(u32, ChamberType, HearingByChamberParams),
 
@@ -693,10 +693,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `ChamberType`: The chamber type.
-    /// - `u32`: The jacket number for the hearing.
-    /// - `HearingDetailsParams`: Additional parameters for hearing details.
+    /// - [`u32`]: The congress number.
+    /// - [`ChamberType`]: The chamber type.
+    /// - [`u32`]: The jacket number for the hearing.
+    /// - [`HearingDetailsParams`]: Additional parameters for hearing details.
     /// /hearing/{congress}/{jacketNumber}
     HearingByJacketNumber(u32, ChamberType, u32, HearingByJacketNumberParams),
 
@@ -708,7 +708,7 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `CongressionalRecordListParams`: Additional parameters for listing Congressional Records.
+    /// - [`CongressionalRecordListParams`]: Additional parameters for listing Congressional Records.
     /// /congressional-record
     CongressionalRecordList(CongressionalRecordListParams),
 
@@ -720,7 +720,7 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `DailyCongressionalRecordListParams`: Additional parameters for listing daily
+    /// - [`DailyCongressionalRecordListParams`]: Additional parameters for listing daily
     /// /daily-congressional-record
     DailyCongressionalRecordList(DailyCongressionalRecordListParams),
 
@@ -728,8 +728,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `DailyCongressionalRecordByCongressParams`: Additional parameters for filtering daily
+    /// - [`u32`]: The congress number.
+    /// - [`DailyCongressionalRecordByCongressParams`]: Additional parameters for filtering daily
     /// /daily-congressional-record/{volumeNumber}
     DailyCongressionalRecordVolume(u32, DailyCongressionalVolumeNumberParams),
 
@@ -737,9 +737,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `u32`: The volume number.
-    /// - `DailyCongressionalVolumeNumberIssueNumberParams`: Additional parameters for filtering
+    /// - [`u32`]: The congress number.
+    /// - [`u32`]: The volume number.
+    /// - [`DailyCongressionalVolumeNumberIssueNumberParams`]: Additional parameters for filtering
     /// daily Congressional Records by volume and issue number.
     /// /daily-congressional-record/{volumeNumber}/{issueNumber}
     DailyCongressionalRecordVolumeIssue(u32, u32, DailyCongressionalVolumeNumberIssueNumberParams),
@@ -748,9 +748,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `u32`: The volume number.
-    /// - `DailyCongressionalVolumeNumberIssueNumberParams`: Additional parameters for filtering
+    /// - [`u32`]: The congress number.
+    /// - [`u32`]: The volume number.
+    /// - [`DailyCongressionalVolumeNumberIssueNumberParams`]: Additional parameters for filtering
     /// daily Congressional Records by volume, issue number, and article number.
     /// /daily-congressional-record/{volumeNumber}/{issueNumber}/article
     DailyCongressionalRecordArticles(u32, u32, DailyCongressionalVolumeNumberIssueNumberParams),
@@ -763,7 +763,7 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `BoundCongressionalRecordListParams`: Additional parameters for listing bound
+    /// - [`BoundCongressionalRecordListParams`]: Additional parameters for listing bound
     /// /bound-congressional-record
     BoundCongressionalRecordList(BoundCongressionalRecordParams),
 
@@ -771,8 +771,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The year.
-    /// - `BoundCongressionalRecordByYearParams`: Additional parameters for filtering bound
+    /// - [`u32`]: The year.
+    /// - [`BoundCongressionalRecordByYearParams`]: Additional parameters for filtering bound
     /// /bound-congressional-record/{year}
     BoundCongressionalRecordByYear(u32, BoundCongressionalRecordParams),
 
@@ -780,9 +780,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The year.
-    /// - `u32`: The month.
-    /// - `BoundCongressionalRecordByYearMonthParams`: Additional parameters for filtering bound
+    /// - [`u32`]: The year.
+    /// - [`u32`]: The month.
+    /// - [`BoundCongressionalRecordByYearMonthParams`]: Additional parameters for filtering bound
     /// /bound-congressional-record/{year}/{month}
     BoundCongressionalRecordByYearMonth(u32, u32, BoundCongressionalRecordParams),
 
@@ -790,10 +790,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The year.
-    /// - `u32`: The month.
-    /// - `u32`: The day.
-    /// - `BoundCongressionalRecordByYearMonthDayParams`: Additional parameters for filtering bound
+    /// - [`u32`]: The year.
+    /// - [`u32`]: The month.
+    /// - [`u32`]: The day.
+    /// - [`BoundCongressionalRecordByYearMonthDayParams`]: Additional parameters for filtering bound
     /// /bound-congressional-record/{year}/{month}/{day}
     BoundCongressionalRecordByYearMonthDay(u32, u32, u32, BoundCongressionalRecordParams),
 
@@ -805,7 +805,7 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `CommunicationParams`: Additional parameters for listing house communications.
+    /// - [`CommunicationParams`]: Additional parameters for listing house communications.
     /// /house-communication
     HouseCommunicationList(CommunicationParams),
 
@@ -813,8 +813,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommunicationParams`: Additional parameters for filtering house
+    /// - [`u32`]: The congress number.
+    /// - [`CommunicationParams`]: Additional parameters for filtering house
     /// /house-communication/{congress}
     HouseCommunicationByCongress(u32, CommunicationParams),
 
@@ -823,9 +823,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommunicationType`: The type of house communication.
-    /// - `CommunicationParams`: Additional parameters for filtering house
+    /// - [`u32`]: The congress number.
+    /// - [`CommunicationType`]: The type of house communication.
+    /// - [`CommunicationParams`]: Additional parameters for filtering house
     /// communications by type.
     /// /house-communication/{congress}/{communicationType}
     HouseCommunicationByType(u32, CommunicationType, CommunicationParams),
@@ -834,10 +834,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommunicationType`: The type of house communication.
-    /// - `u32`: The communication number.
-    /// - `CommunicationDetailsParams`: Additional parameters for house communication details.
+    /// - [`u32`]: The congress number.
+    /// - [`CommunicationType`]: The type of house communication.
+    /// - [`u32`]: The communication number.
+    /// - [`CommunicationDetailsParams`]: Additional parameters for house communication details.
     /// /house-communication/{congress}/{communicationType}/{communicationNumber}
     HouseCommunicationDetails(u32, CommunicationType, u32, CommunicationDetailsParams),
 
@@ -849,7 +849,7 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `RequirementParams`: Additional parameters for listing house requirements.
+    /// - [`RequirementParams`]: Additional parameters for listing house requirements.
     /// /house-requirement
     HouseRequirementList(RequirementParams),
 
@@ -857,8 +857,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The requirement number.
-    /// - `RequirementDetailsParams`: Additional parameters for filtering house requirements.
+    /// - [`u32`]: The requirement number.
+    /// - [`RequirementDetailsParams`]: Additional parameters for filtering house requirements.
     /// /house-requirement/{requirementNumber}
     HouseRequirementDetails(u32, RequirementDetailsParams),
 
@@ -866,8 +866,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The requirement number.
-    /// - `RequirementParams`: Additional parameters for matching house requirements.
+    /// - [`u32`]: The requirement number.
+    /// - [`RequirementParams`]: Additional parameters for matching house requirements.
     /// /house-requirement/{requirementNumber}/matching-communications
     HouseRequirementMatching(u32, RequirementParams),
 
@@ -879,7 +879,7 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `CommunicationParams`: Additional parameters for listing house communications.
+    /// - [`CommunicationParams`]: Additional parameters for listing house communications.
     /// /house-communication
     SenateCommunicationList(CommunicationParams),
 
@@ -887,8 +887,8 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommunicationParams`: Additional parameters for filtering house
+    /// - [`u32`]: The congress number.
+    /// - [`CommunicationParams`]: Additional parameters for filtering house
     /// /house-communication/{congress}
     SenateCommunicationByCongress(u32, CommunicationParams),
 
@@ -897,9 +897,9 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommunicationType`: The type of house communication.
-    /// - `CommunicationParams`: Additional parameters for filtering house
+    /// - [`u32`]: The congress number.
+    /// - [`CommunicationType`]: The type of house communication.
+    /// - [`CommunicationParams`]: Additional parameters for filtering house
     /// communications by type.
     /// /house-communication/{congress}/{communicationType}
     SenateCommunicationByType(u32, CommunicationType, CommunicationParams),
@@ -908,10 +908,10 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `CommunicationType`: The type of house communication.
-    /// - `u32`: The communication number.
-    /// - `CommunicationDetailsParams`: Additional parameters for house communication details.
+    /// - [`u32`]: The congress number.
+    /// - [`CommunicationType`]: The type of house communication.
+    /// - [`u32`]: The communication number.
+    /// - [`CommunicationDetailsParams`]: Additional parameters for house communication details.
     /// /house-communication/{congress}/{communicationType}/{communicationNumber}
     SenateCommunicationDetails(u32, CommunicationType, u32, CommunicationDetailsParams),
 
@@ -926,54 +926,54 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `NominationByCongressParams`: Additional parameters for filtering nominations.
+    /// - [`u32`]: The congress number.
+    /// - [`NominationByCongressParams`]: Additional parameters for filtering nominations.
     NominationByCongress(u32, NominationByCongressParams),
 
     /// Endpoint to get detailed information about a specific nomination.
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `String`: The nomination number.
-    /// - `NominationDetailsParams`: Additional parameters for nomination details.
+    /// - [`u32`]: The congress number.
+    /// - [`String`]: The nomination number.
+    /// - [`NominationDetailsParams`]: Additional parameters for nomination details.
     NominationDetails(u32, String, NominationDetailsParams),
 
     /// Endpoint to list nominees of a specific nomination.
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `String`: The nomination number.
-    /// - `u32`: The ordinal number.
-    /// - `NomineesParams`: Additional parameters for nominees.
+    /// - [`u32`]: The congress number.
+    /// - [`String`]: The nomination number.
+    /// - [`u32`]: The ordinal number.
+    /// - [`NomineesParams`]: Additional parameters for nominees.
     Nominees(u32, String, u32, NomineesParams),
 
     /// Endpoint to fetch actions taken on a specific nomination.
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `String`: The nomination number.
-    /// - `NominationActionsParams`: Additional parameters for nomination actions.
+    /// - [`u32`]: The congress number.
+    /// - [`String`]: The nomination number.
+    /// - [`NominationActionsParams`]: Additional parameters for nomination actions.
     NominationActions(u32, String, NominationActionsParams),
 
     /// Endpoint to retrieve committees involved in a specific nomination.
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `String`: The nomination number.
-    /// - `NominationCommitteesParams`: Additional parameters for nomination committees.
+    /// - [`u32`]: The congress number.
+    /// - [`String`]: The nomination number.
+    /// - [`NominationCommitteesParams`]: Additional parameters for nomination committees.
     NominationCommittees(u32, String, NominationCommitteesParams),
 
     /// Endpoint to list hearings related to a specific nomination.
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `String`: The nomination number.
-    /// - `NominationHearingsParams`: Additional parameters for nomination hearings.
+    /// - [`u32`]: The congress number.
+    /// - [`String`]: The nomination number.
+    /// - [`NominationHearingsParams`]: Additional parameters for nomination hearings.
     NominationHearings(u32, String, NominationHearingsParams),
 
     // ================================
@@ -987,52 +987,52 @@ pub enum Endpoints {
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `TreatyByCongressParams`: Additional parameters for filtering treaties.
+    /// - [`u32`]: The congress number.
+    /// - [`TreatyByCongressParams`]: Additional parameters for filtering treaties.
     TreatyByCongress(u32, TreatyByCongressParams),
 
     /// Endpoint to get detailed information about a specific treaty.
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `u32`: The treaty number.
-    /// - `TreatyDetailsParams`: Additional parameters for treaty details.
+    /// - [`u32`]: The congress number.
+    /// - [`u32`]: The treaty number.
+    /// - [`TreatyDetailsParams`]: Additional parameters for treaty details.
     TreatyDetails(u32, u32, TreatyDetailsParams),
 
     /// Endpoint to retrieve partitioned information about a specific treaty.
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `u32`: The treaty number.
-    /// - `String`: The treaty suffix.
-    /// - `TreatyPartitionedParams`: Additional parameters for partitioned treaties.
+    /// - [`u32`]: The congress number.
+    /// - [`u32`]: The treaty number.
+    /// - [`String`]: The treaty suffix.
+    /// - [`TreatyPartitionedParams`]: Additional parameters for partitioned treaties.
     TreatyPartitioned(u32, u32, String, TreatyPartitionedParams),
 
     /// Endpoint to retrieve committees associated with a specific treaty.
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `u32`: The treaty number.
-    /// - `TreatyCommitteesParams`: Additional parameters for treaty committees.
+    /// - [`u32`]: The congress number.
+    /// - [`u32`]: The treaty number.
+    /// - [`TreatyCommitteesParams`]: Additional parameters for treaty committees.
     TreatyCommittees(u32, u32, TreatyCommitteesParams),
 
     /// Endpoint to fetch actions taken on a specific treaty.
     ///
     /// # Parameters
     ///
-    /// - `u32`: The congress number.
-    /// - `u32`: The treaty number.
-    /// - `TreatyActionsParams`: Additional parameters for treaty actions.
+    /// - [`u32`]: The congress number.
+    /// - [`u32`]: The treaty number.
+    /// - [`TreatyActionsParams`]: Additional parameters for treaty actions.
     TreatyActions(u32, u32, TreatyActionsParams),
 }
 
-/// Trait defining constructors for creating new instances of `Endpoints`.
+/// Trait defining constructors for creating new instances of [`Endpoints`].
 ///
 /// This trait provides a standardized way to instantiate each variant of the
-/// `Endpoints` enum by supplying the necessary parameters.
+/// [`Endpoints`] enum by supplying the necessary parameters.
 pub trait NewEndpoint {
     fn new_generic(endpoint: String, params: GenericParams) -> Self;
 
@@ -1040,38 +1040,38 @@ pub trait NewEndpoint {
     // Bill Constructors
     // ================================
 
-    /// Constructs a `BillList` endpoint variant.
+    /// Constructs a [`BillList`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `params`: Parameters for listing bills.
+    /// - [`params`]: Parameters for listing bills.
     fn new_bill_list(params: BillListParams) -> Self;
 
-    /// Constructs a `BillByCongress` endpoint variant.
+    /// Constructs a [`BillByCongress`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `params`: Parameters for filtering bills by congress.
+    /// - [`congress`]: The congress number.
+    /// - [`params`]: Parameters for filtering bills by congress.
     fn new_bill_by_congress(congress: u32, params: BillByCongressParams) -> Self;
 
-    /// Constructs a `BillByType` endpoint variant.
+    /// Constructs a [`BillByType`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `bill_type`: The type of bill.
-    /// - `params`: Parameters for filtering bills by type.
+    /// - [`congress`]: The congress number.
+    /// - [`bill_type`]: The type of bill.
+    /// - [`params`]: Parameters for filtering bills by type.
     fn new_bill_by_type(congress: u32, bill_type: BillType, params: BillByTypeParams) -> Self;
 
-    /// Constructs a `BillDetails` endpoint variant.
+    /// Constructs a [`BillDetails`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `bill_type`: The type of bill.
-    /// - `bill_number`: The bill number.
-    /// - `params`: Parameters for bill details.
+    /// - [`congress`]: The congress number.
+    /// - [`bill_type`]: The type of bill.
+    /// - [`bill_number`]: The bill number.
+    /// - [`params`]: Parameters for bill details.
     fn new_bill_details(
         congress: u32,
         bill_type: BillType,
@@ -1079,14 +1079,14 @@ pub trait NewEndpoint {
         params: BillDetailsParams,
     ) -> Self;
 
-    /// Constructs a `BillActions` endpoint variant.
+    /// Constructs a [`BillActions`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `bill_type`: The type of bill.
-    /// - `bill_number`: The bill number.
-    /// - `params`: Parameters for bill actions.
+    /// - [`congress`]: The congress number.
+    /// - [`bill_type`]: The type of bill.
+    /// - [`bill_number`]: The bill number.
+    /// - [`params`]: Parameters for bill actions.
     fn new_bill_actions(
         congress: u32,
         bill_type: BillType,
@@ -1094,14 +1094,14 @@ pub trait NewEndpoint {
         params: BillActionsParams,
     ) -> Self;
 
-    /// Constructs a `BillAmendments` endpoint variant.
+    /// Constructs a [`BillAmendments`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `bill_type`: The type of bill.
-    /// - `bill_number`: The bill number.
-    /// - `params`: Parameters for bill amendments.
+    /// - [`congress`]: The congress number.
+    /// - [`bill_type`]: The type of bill.
+    /// - [`bill_number`]: The bill number.
+    /// - [`params`]: Parameters for bill amendments.
     fn new_bill_amendments(
         congress: u32,
         bill_type: BillType,
@@ -1109,14 +1109,14 @@ pub trait NewEndpoint {
         params: BillAmendmentsParams,
     ) -> Self;
 
-    /// Constructs a `BillCommittees` endpoint variant.
+    /// Constructs a [`BillCommittees`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `bill_type`: The type of bill.
-    /// - `bill_number`: The bill number.
-    /// - `params`: Parameters for bill committees.
+    /// - [`congress`]: The congress number.
+    /// - [`bill_type`]: The type of bill.
+    /// - [`bill_number`]: The bill number.
+    /// - [`params`]: Parameters for bill committees.
     fn new_bill_committees(
         congress: u32,
         bill_type: BillType,
@@ -1124,14 +1124,14 @@ pub trait NewEndpoint {
         params: BillCommitteesParams,
     ) -> Self;
 
-    /// Constructs a `BillCosponsors` endpoint variant.
+    /// Constructs a [`BillCosponsors`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `bill_type`: The type of bill.
-    /// - `bill_number`: The bill number.
-    /// - `params`: Parameters for bill cosponsors.
+    /// - [`congress`]: The congress number.
+    /// - [`bill_type`]: The type of bill.
+    /// - [`bill_number`]: The bill number.
+    /// - [`params`]: Parameters for bill cosponsors.
     fn new_bill_cosponsors(
         congress: u32,
         bill_type: BillType,
@@ -1143,69 +1143,69 @@ pub trait NewEndpoint {
     // Law Constructors
     // ================================
 
-    /// Constructs a `LawList` endpoint variant.
+    /// Constructs a [`LawList`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `params`: Parameters for listing laws.
+    /// - [`params`]: Parameters for listing laws.
     fn new_law_type(congress: u32, law_type: LawType, params: LawParams) -> Self;
 
-    /// Constructs a `LawByCongress` endpoint variant.
+    /// Constructs a [`LawByCongress`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `params`: Parameters for filtering laws by congress.
+    /// - [`congress`]: The congress number.
+    /// - [`params`]: Parameters for filtering laws by congress.
     fn new_law_by_congress(congress: u32, params: LawParams) -> Self;
 
-    /// Constructs a `LawDetails` endpoint variant.
+    /// Constructs a [`LawDetails`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `params`: Parameters for law details.
+    /// - [`congress`]: The congress number.
+    /// - [`params`]: Parameters for law details.
     fn new_law_details(congress: u32, law_type: LawType, law_number: u32, params: LawParams) -> Self;
 
     // ================================
     // Amendment Constructors
     // ================================
 
-    /// Constructs an `AmendmentList` endpoint variant.
+    /// Constructs an [`AmendmentList`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `params`: Parameters for listing amendments.
+    /// - [`params`]: Parameters for listing amendments.
     fn new_amendment_list(params: AmendmentListParams) -> Self;
 
-    /// Constructs an `AmendmentByCongress` endpoint variant.
+    /// Constructs an [`AmendmentByCongress`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `params`: Parameters for filtering amendments by congress.
+    /// - [`congress`]: The congress number.
+    /// - [`params`]: Parameters for filtering amendments by congress.
     fn new_amendment_by_congress(congress: u32, params: AmendmentByCongressParams) -> Self;
 
-    /// Constructs an `AmendmentByType` endpoint variant.
+    /// Constructs an [`AmendmentByType`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `amendment_type`: The type of amendment.
-    /// - `params`: Parameters for filtering amendments by type.
+    /// - [`congress`]: The congress number.
+    /// - [`amendment_type`]: The type of amendment.
+    /// - [`params`]: Parameters for filtering amendments by type.
     fn new_amendment_by_type(
         congress: u32,
         amendment_type: AmendmentType,
         params: AmendmentByTypeParams,
     ) -> Self;
 
-    /// Constructs an `AmendmentDetails` endpoint variant.
+    /// Constructs an [`AmendmentDetails`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `amendment_type`: The type of amendment.
-    /// - `amendment_number`: The amendment number.
-    /// - `params`: Parameters for amendment details.
+    /// - [`congress`]: The congress number.
+    /// - [`amendment_type`]: The type of amendment.
+    /// - [`amendment_number`]: The amendment number.
+    /// - [`params`]: Parameters for amendment details.
     fn new_amendment_details(
         congress: u32,
         amendment_type: AmendmentType,
@@ -1213,14 +1213,14 @@ pub trait NewEndpoint {
         params: AmendmentDetailsParams,
     ) -> Self;
 
-    /// Constructs an `AmendmentActions` endpoint variant.
+    /// Constructs an [`AmendmentActions`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `amendment_type`: The type of amendment.
-    /// - `amendment_number`: The amendment number.
-    /// - `params`: Parameters for amendment actions.
+    /// - [`congress`]: The congress number.
+    /// - [`amendment_type`]: The type of amendment.
+    /// - [`amendment_number`]: The amendment number.
+    /// - [`params`]: Parameters for amendment actions.
     fn new_amendment_actions(
         congress: u32,
         amendment_type: AmendmentType,
@@ -1228,14 +1228,14 @@ pub trait NewEndpoint {
         params: AmendmentActionsParams,
     ) -> Self;
 
-    /// Constructs an `AmendmentCosponsors` endpoint variant.
+    /// Constructs an [`AmendmentCosponsors`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `amendment_type`: The type of amendment.
-    /// - `amendment_number`: The amendment number.
-    /// - `params`: Parameters for amendment cosponsors.
+    /// - [`congress`]: The congress number.
+    /// - [`amendment_type`]: The type of amendment.
+    /// - [`amendment_number`]: The amendment number.
+    /// - [`params`]: Parameters for amendment cosponsors.
     fn new_amendment_cosponsors(
         congress: u32,
         amendment_type: AmendmentType,
@@ -1243,14 +1243,14 @@ pub trait NewEndpoint {
         params: AmendmentCosponsorsParams,
     ) -> Self;
 
-    /// Constructs an `AmendmentAmendments` endpoint variant.
+    /// Constructs an [`AmendmentAmendments`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `amendment_type`: The type of amendment.
-    /// - `amendment_number`: The amendment number.
-    /// - `params`: Parameters for amendment amendments.
+    /// - [`congress`]: The congress number.
+    /// - [`amendment_type`]: The type of amendment.
+    /// - [`amendment_number`]: The amendment number.
+    /// - [`params`]: Parameters for amendment amendments.
     fn new_amendment_amendments(
         congress: u32,
         amendment_type: AmendmentType,
@@ -1258,14 +1258,14 @@ pub trait NewEndpoint {
         params: AmendmentAmendmentsParams,
     ) -> Self;
 
-    /// Constructs an `AmendmentText` endpoint variant.
+    /// Constructs an [`AmendmentText`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `amendment_type`: The type of amendment.
-    /// - `amendment_number`: The amendment number.
-    /// - `params`: Parameters for amendment text.
+    /// - [`congress`]: The congress number.
+    /// - [`amendment_type`]: The type of amendment.
+    /// - [`amendment_number`]: The amendment number.
+    /// - [`params`]: Parameters for amendment text.
     fn new_amendment_text(
         congress: u32,
         amendment_type: AmendmentType,
@@ -1277,28 +1277,28 @@ pub trait NewEndpoint {
     // Summaries Constructors
     // ================================
 
-    /// Constructs a `SummariesList` endpoint variant.
+    /// Constructs a [`SummariesList`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `params`: Parameters for listing summaries.
+    /// - [`params`]: Parameters for listing summaries.
     fn new_summaries_list(params: SummariesListParams) -> Self;
 
-    /// Constructs a `SummariesByCongress` endpoint variant.
+    /// Constructs a [`SummariesByCongress`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `params`: Parameters for filtering summaries by congress.
+    /// - [`congress`]: The congress number.
+    /// - [`params`]: Parameters for filtering summaries by congress.
     fn new_summaries_by_congress(congress: u32, params: SummariesByCongressParams) -> Self;
 
-    /// Constructs a `SummariesByType` endpoint variant.
+    /// Constructs a [`SummariesByType`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `bill_type`: The type of bill.
-    /// - `params`: Parameters for filtering summaries by type.
+    /// - [`congress`]: The congress number.
+    /// - [`bill_type`]: The type of bill.
+    /// - [`params`]: Parameters for filtering summaries by type.
     fn new_summaries_by_type(
         congress: u32,
         bill_type: BillType,
@@ -1309,63 +1309,63 @@ pub trait NewEndpoint {
     // Congress Constructors
     // ================================
 
-    /// Constructs a `CongressList` endpoint variant.
+    /// Constructs a [`CongressList`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `params`: Parameters for listing congress sessions.
+    /// - [`params`]: Parameters for listing congress sessions.
     fn new_congress_list(params: CongressListParams) -> Self;
 
-    /// Constructs a `CongressDetails` endpoint variant.
+    /// Constructs a [`CongressDetails`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `params`: Parameters for congress details.
+    /// - [`congress`]: The congress number.
+    /// - [`params`]: Parameters for congress details.
     fn new_congress_details(congress: u32, params: CongressDetailsParams) -> Self;
 
-    /// Constructs a `CongressCurrent` endpoint variant.
+    /// Constructs a [`CongressCurrent`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `params`: Parameters for current congress information.
+    /// - [`params`]: Parameters for current congress information.
     fn new_congress_current(params: CongressCurrentParams) -> Self;
 
     // ================================
     // Member Constructors
     // ================================
 
-    /// Constructs a `MemberList` endpoint variant.
+    /// Constructs a [`MemberList`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `params`: Parameters for listing members.
+    /// - [`params`]: Parameters for listing members.
     fn new_member_list(params: MemberListParams) -> Self;
 
-    /// Constructs a `MemberByCongress` endpoint variant.
+    /// Constructs a [`MemberByCongress`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `params`: Parameters for filtering members by congress.
+    /// - [`congress`]: The congress number.
+    /// - [`params`]: Parameters for filtering members by congress.
     fn new_member_by_congress(congress: u32, params: MemberByCongressParams) -> Self;
 
-    /// Constructs a `MemberByState` endpoint variant.
+    /// Constructs a [`MemberByState`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `state_code`: The state code (e.g., "CA" for California).
-    /// - `params`: Parameters for filtering members by state.
+    /// - [`state_code`]: The state code (e.g., "CA" for California).
+    /// - [`params`]: Parameters for filtering members by state.
     fn new_member_by_state(state_code: String, params: MemberByStateParams) -> Self;
 
-    /// Constructs a `MemberByCongressStateDistrict` endpoint variant.
+    /// Constructs a [`MemberByCongressStateDistrict`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `state_code`: The state code.
-    /// - `district`: The district number.
-    /// - `params`: Parameters for filtering members by congress, state, and district.
+    /// - [`congress`]: The congress number.
+    /// - [`state_code`]: The state code.
+    /// - [`district`]: The district number.
+    /// - [`params`]: Parameters for filtering members by congress, state, and district.
     fn new_member_by_congress_state_district(
         congress: u32,
         state_code: String,
@@ -1373,145 +1373,145 @@ pub trait NewEndpoint {
         params: MemberByCongressStateDistrictParams,
     ) -> Self;
 
-    /// Constructs a `MemberDetails` endpoint variant.
+    /// Constructs a [`MemberDetails`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `bio_guide_id`: The bio guide ID of the member.
-    /// - `params`: Parameters for member details.
+    /// - [`bio_guide_id`]: The bio guide ID of the member.
+    /// - [`params`]: Parameters for member details.
     fn new_member_details(bio_guide_id: String, params: MemberDetailsParams) -> Self;
 
-    /// Constructs a `SponsorshipList` endpoint variant.
+    /// Constructs a [`SponsorshipList`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `bio_guide_id`: The bio guide ID of the member.
-    /// - `params`: Parameters for sponsorships.
+    /// - [`bio_guide_id`]: The bio guide ID of the member.
+    /// - [`params`]: Parameters for sponsorships.
     fn new_sponsorship_list(bio_guide_id: String, params: SponsorshipListParams) -> Self;
 
-    /// Constructs a `CosponsorshipList` endpoint variant.
+    /// Constructs a [`CosponsorshipList`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `bio_guide_id`: The bio guide ID of the member.
-    /// - `params`: Parameters for cosponsorships.
+    /// - [`bio_guide_id`]: The bio guide ID of the member.
+    /// - [`params`]: Parameters for cosponsorships.
     fn new_cosponsorship_list(bio_guide_id: String, params: CosponsorshipListParams) -> Self;
 
     // ================================
     // Committee Constructors
     // ================================
 
-    /// Constructs a `CommitteeList` endpoint variant.
+    /// Constructs a [`CommitteeList`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `params`: Parameters for listing committees.
+    /// - [`params`]: Parameters for listing committees.
     fn new_committee_list(params: CommitteeListParams) -> Self;
 
-    /// Constructs a `CommitteeByChamber` endpoint variant.
+    /// Constructs a [`CommitteeByChamber`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `chamber`: The chamber type (House or Senate).
-    /// - `params`: Parameters for filtering committees by chamber.
+    /// - [`chamber`]: The chamber type (House or Senate).
+    /// - [`params`]: Parameters for filtering committees by chamber.
     fn new_committee_by_chamber(
         chamber: ChamberType,
         params: CommitteeByChamberParams,
     ) -> Self;
 
-    /// Constructs a `CommitteeByCongress` endpoint variant.
+    /// Constructs a [`CommitteeByCongress`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `params`: Parameters for filtering committees by congress.
+    /// - [`congress`]: The congress number.
+    /// - [`params`]: Parameters for filtering committees by congress.
     fn new_committee_by_congress(congress: u32, params: CommitteeByCongressParams) -> Self;
 
-    /// Constructs a `CommitteeByCongressChamber` endpoint variant.
+    /// Constructs a [`CommitteeByCongressChamber`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `chamber`: The chamber type.
-    /// - `params`: Parameters for filtering committees by congress and chamber.
+    /// - [`congress`]: The congress number.
+    /// - [`chamber`]: The chamber type.
+    /// - [`params`]: Parameters for filtering committees by congress and chamber.
     fn new_committee_by_congress_chamber(
         congress: u32,
         chamber: ChamberType,
         params: CommitteeByCongressChamberParams,
     ) -> Self;
 
-    /// Constructs a `CommitteeDetails` endpoint variant.
+    /// Constructs a [`CommitteeDetails`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `chamber`: The chamber type.
-    /// - `committee_code`: The committee code.
-    /// - `params`: Parameters for committee details.
+    /// - [`chamber`]: The chamber type.
+    /// - [`committee_code`]: The committee code.
+    /// - [`params`]: Parameters for committee details.
     fn new_committee_details(
         chamber: ChamberType,
         committee_code: String,
         params: CommitteeDetailsParams,
     ) -> Self;
 
-    /// Constructs a `CommitteeBills` endpoint variant.
+    /// Constructs a [`CommitteeBills`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `chamber`: The chamber type.
-    /// - `committee_code`: The committee code.
-    /// - `params`: Parameters for committee bills.
+    /// - [`chamber`]: The chamber type.
+    /// - [`committee_code`]: The committee code.
+    /// - [`params`]: Parameters for committee bills.
     fn new_committee_bills(
         chamber: ChamberType,
         committee_code: String,
         params: CommitteeBillsParams,
     ) -> Self;
 
-    /// Constructs a `CommitteeReports` endpoint variant.
+    /// Constructs a [`CommitteeReports`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `chamber`: The chamber type.
-    /// - `committee_code`: The committee code.
-    /// - `params`: Parameters for committee reports.
+    /// - [`chamber`]: The chamber type.
+    /// - [`committee_code`]: The committee code.
+    /// - [`params`]: Parameters for committee reports.
     fn new_committee_reports(
         chamber: ChamberType,
         committee_code: String,
         params: CommitteeReportsParams,
     ) -> Self;
 
-    /// Constructs a `CommitteeNominations` endpoint variant.
+    /// Constructs a [`CommitteeNominations`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `chamber`: The chamber type.
-    /// - `committee_code`: The committee code.
-    /// - `params`: Parameters for committee nominations.
+    /// - [`chamber`]: The chamber type.
+    /// - [`committee_code`]: The committee code.
+    /// - [`params`]: Parameters for committee nominations.
     fn new_committee_nominations(
         chamber: ChamberType,
         committee_code: String,
         params: CommitteeNominationsParams,
     ) -> Self;
 
-    /// Constructs a `CommitteeHouseCommunication` endpoint variant.
+    /// Constructs a [`CommitteeHouseCommunication`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `chamber`: The chamber type.
-    /// - `committee_code`: The committee code.
-    /// - `params`: Parameters for committee house communications.
+    /// - [`chamber`]: The chamber type.
+    /// - [`committee_code`]: The committee code.
+    /// - [`params`]: Parameters for committee house communications.
     fn new_committee_house_communication(
         chamber: ChamberType,
         committee_code: String,
         params: CommitteeHouseCommunicationParams,
     ) -> Self;
 
-    /// Constructs a `CommitteeSenateCommunication` endpoint variant.
+    /// Constructs a [`CommitteeSenateCommunication`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `chamber`: The chamber type.
-    /// - `committee_code`: The committee code.
-    /// - `params`: Parameters for committee senate communications.
+    /// - [`chamber`]: The chamber type.
+    /// - [`committee_code`]: The committee code.
+    /// - [`params`]: Parameters for committee senate communications.
     fn new_committee_senate_communication(
         chamber: ChamberType,
         committee_code: String,
@@ -1522,45 +1522,45 @@ pub trait NewEndpoint {
     // Nomination Constructors
     // ================================
 
-    /// Constructs a `NominationList` endpoint variant.
+    /// Constructs a [`NominationList`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `params`: Parameters for listing nominations.
+    /// - [`params`]: Parameters for listing nominations.
     fn new_nomination_list(params: NominationListParams) -> Self;
 
-    /// Constructs a `NominationByCongress` endpoint variant.
+    /// Constructs a [`NominationByCongress`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `params`: Parameters for filtering nominations by congress.
+    /// - [`congress`]: The congress number.
+    /// - [`params`]: Parameters for filtering nominations by congress.
     fn new_nomination_by_congress(
         congress: u32,
         params: NominationByCongressParams,
     ) -> Self;
 
-    /// Constructs a `NominationDetails` endpoint variant.
+    /// Constructs a [`NominationDetails`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `nomination_number`: The nomination number.
-    /// - `params`: Parameters for nomination details.
+    /// - [`congress`]: The congress number.
+    /// - [`nomination_number`]: The nomination number.
+    /// - [`params`]: Parameters for nomination details.
     fn new_nomination_details(
         congress: u32,
         nomination_number: String,
         params: NominationDetailsParams,
     ) -> Self;
 
-    /// Constructs a `Nominees` endpoint variant.
+    /// Constructs a [`Nominees`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `nomination_number`: The nomination number.
-    /// - `ordinal`: The ordinal number.
-    /// - `params`: Parameters for nominees.
+    /// - [`congress`]: The congress number.
+    /// - [`nomination_number`]: The nomination number.
+    /// - [`ordinal`]: The ordinal number.
+    /// - [`params`]: Parameters for nominees.
     fn new_nominees(
         congress: u32,
         nomination_number: String,
@@ -1568,39 +1568,39 @@ pub trait NewEndpoint {
         params: NomineesParams,
     ) -> Self;
 
-    /// Constructs a `NominationActions` endpoint variant.
+    /// Constructs a [`NominationActions`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `nomination_number`: The nomination number.
-    /// - `params`: Parameters for nomination actions.
+    /// - [`congress`]: The congress number.
+    /// - [`nomination_number`]: The nomination number.
+    /// - [`params`]: Parameters for nomination actions.
     fn new_nomination_actions(
         congress: u32,
         nomination_number: String,
         params: NominationActionsParams,
     ) -> Self;
 
-    /// Constructs a `NominationCommittees` endpoint variant.
+    /// Constructs a [`NominationCommittees`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `nomination_number`: The nomination number.
-    /// - `params`: Parameters for nomination committees.
+    /// - [`congress`]: The congress number.
+    /// - [`nomination_number`]: The nomination number.
+    /// - [`params`]: Parameters for nomination committees.
     fn new_nomination_committees(
         congress: u32,
         nomination_number: String,
         params: NominationCommitteesParams,
     ) -> Self;
 
-    /// Constructs a `NominationHearings` endpoint variant.
+    /// Constructs a [`NominationHearings`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `nomination_number`: The nomination number.
-    /// - `params`: Parameters for nomination hearings.
+    /// - [`congress`]: The congress number.
+    /// - [`nomination_number`]: The nomination number.
+    /// - [`params`]: Parameters for nomination hearings.
     fn new_nomination_hearings(
         congress: u32,
         nomination_number: String,
@@ -1611,42 +1611,42 @@ pub trait NewEndpoint {
     // Treaty Constructors
     // ================================
 
-    /// Constructs a `TreatyList` endpoint variant.
+    /// Constructs a [`TreatyList`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `params`: Parameters for listing treaties.
+    /// - [`params`]: Parameters for listing treaties.
     fn new_treaty_list(params: TreatyListParams) -> Self;
 
-    /// Constructs a `TreatyByCongress` endpoint variant.
+    /// Constructs a [`TreatyByCongress`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `params`: Parameters for filtering treaties by congress.
+    /// - [`congress`]: The congress number.
+    /// - [`params`]: Parameters for filtering treaties by congress.
     fn new_treaty_by_congress(congress: u32, params: TreatyByCongressParams) -> Self;
 
-    /// Constructs a `TreatyDetails` endpoint variant.
+    /// Constructs a [`TreatyDetails`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `treaty_number`: The treaty number.
-    /// - `params`: Parameters for treaty details.
+    /// - [`congress`]: The congress number.
+    /// - [`treaty_number`]: The treaty number.
+    /// - [`params`]: Parameters for treaty details.
     fn new_treaty_details(
         congress: u32,
         treaty_number: u32,
         params: TreatyDetailsParams,
     ) -> Self;
 
-    /// Constructs a `TreatyPartitioned` endpoint variant.
+    /// Constructs a [`TreatyPartitioned`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `treaty_number`: The treaty number.
-    /// - `treaty_suffix`: The treaty suffix.
-    /// - `params`: Parameters for partitioned treaties.
+    /// - [`congress`]: The congress number.
+    /// - [`treaty_number`]: The treaty number.
+    /// - [`treaty_suffix`]: The treaty suffix.
+    /// - [`params`]: Parameters for partitioned treaties.
     fn new_treaty_partitioned(
         congress: u32,
         treaty_number: u32,
@@ -1654,26 +1654,26 @@ pub trait NewEndpoint {
         params: TreatyPartitionedParams,
     ) -> Self;
 
-    /// Constructs a `TreatyCommittees` endpoint variant.
+    /// Constructs a [`TreatyCommittees`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `treaty_number`: The treaty number.
-    /// - `params`: Parameters for treaty committees.
+    /// - [`congress`]: The congress number.
+    /// - [`treaty_number`]: The treaty number.
+    /// - [`params`]: Parameters for treaty committees.
     fn new_treaty_committees(
         congress: u32,
         treaty_number: u32,
         params: TreatyCommitteesParams,
     ) -> Self;
 
-    /// Constructs a `TreatyActions` endpoint variant.
+    /// Constructs a [`TreatyActions`] endpoint variant.
     ///
     /// # Parameters
     ///
-    /// - `congress`: The congress number.
-    /// - `treaty_number`: The treaty number.
-    /// - `params`: Parameters for treaty actions.
+    /// - [`congress`]: The congress number.
+    /// - [`treaty_number`]: The treaty number.
+    /// - [`params`]: Parameters for treaty actions.
     fn new_treaty_actions(
         congress: u32,
         treaty_number: u32,
@@ -1687,7 +1687,7 @@ pub trait NewEndpoint {
         params: BillRelatedParams,
     ) -> Self;
 
-    /// Constructs a `BillSubjects` endpoint variant.
+    /// Constructs a [`BillSubjects`] endpoint variant.
     fn new_bill_subjects(
         congress: u32,
         bill_type: BillType,
@@ -1695,7 +1695,7 @@ pub trait NewEndpoint {
         params: BillSubjectsParams,
     ) -> Self;
 
-    /// Constructs a `BillSummaries` endpoint variant.
+    /// Constructs a [`BillSummaries`] endpoint variant.
     fn new_bill_summaries(
         congress: u32,
         bill_type: BillType,
@@ -1703,7 +1703,7 @@ pub trait NewEndpoint {
         params: BillSummariesParams,
     ) -> Self;
 
-    /// Constructs a `BillText` endpoint variant.
+    /// Constructs a [`BillText`] endpoint variant.
     fn new_bill_text(
         congress: u32,
         bill_type: BillType,
@@ -1711,7 +1711,7 @@ pub trait NewEndpoint {
         params: BillTextParams,
     ) -> Self;
 
-    /// Constructs a `BillTitles` endpoint variant.
+    /// Constructs a [`BillTitles`] endpoint variant.
     fn new_bill_titles(
         congress: u32,
         bill_type: BillType,
@@ -1723,23 +1723,23 @@ pub trait NewEndpoint {
     // Committee Report Constructors
     // ================================
 
-    /// Constructs a `CommitteeReportList` endpoint variant.
+    /// Constructs a [`CommitteeReportList`] endpoint variant.
     fn new_committee_report_list(params: CommitteeReportListParams) -> Self;
 
-    /// Constructs a `CommitteeReportByCongress` endpoint variant.
+    /// Constructs a [`CommitteeReportByCongress`] endpoint variant.
     fn new_committee_report_by_congress(
         congress: u32,
         params: CommitteeReportByCongressParams,
     ) -> Self;
 
-    /// Constructs a `CommitteeReportByType` endpoint variant.
+    /// Constructs a [`CommitteeReportByType`] endpoint variant.
     fn new_committee_report_by_type(
         congress: u32,
         report_type: CommitteeReportType,
         params: CommitteeReportByTypeParams,
     ) -> Self;
 
-    /// Constructs a `CommitteeReportDetails` endpoint variant.
+    /// Constructs a [`CommitteeReportDetails`] endpoint variant.
     fn new_committee_report_details(
         congress: u32,
         report_type: CommitteeReportType,
@@ -1747,7 +1747,7 @@ pub trait NewEndpoint {
         params: CommitteeReportDetailsParams,
     ) -> Self;
 
-    /// Constructs a `CommitteeReportText` endpoint variant.
+    /// Constructs a [`CommitteeReportText`] endpoint variant.
     fn new_committee_report_text(
         congress: u32,
         report_type: CommitteeReportType,
@@ -1759,30 +1759,30 @@ pub trait NewEndpoint {
     // Committee Print Constructors
     // ================================
 
-    /// Constructs a `CommitteePrintList` endpoint variant.
+    /// Constructs a [`CommitteePrintList`] endpoint variant.
     fn new_committee_print_list(params: CommitteePrintListParams) -> Self;
 
-    /// Constructs a `CommitteePrintByCongress` endpoint variant.
+    /// Constructs a [`CommitteePrintByCongress`] endpoint variant.
     fn new_committee_print_by_congress(
         congress: u32,
         params: CommitteePrintByCongressParams,
     ) -> Self;
 
-    /// Constructs a `CommitteePrintByCongressChamber` endpoint variant.
+    /// Constructs a [`CommitteePrintByCongressChamber`] endpoint variant.
     fn new_committee_print_by_congress_chamber(
         congress: u32,
         chamber: ChamberType,
         params: CommitteePrintByCongressChamberParams,
     ) -> Self;
 
-    /// Constructs a `CommitteePrintByJacketNumber` endpoint variant.
+    /// Constructs a [`CommitteePrintByJacketNumber`] endpoint variant.
     fn new_committee_print_by_jacket_number(
         congress: u32,
         jacket_number: u32,
         params: CommitteePrintByJacketNumberParams,
     ) -> Self;
 
-    /// Constructs a `CommitteePrintText` endpoint variant.
+    /// Constructs a [`CommitteePrintText`] endpoint variant.
     fn new_committee_print_text(
         congress: u32,
         chamber: String,
@@ -1794,23 +1794,23 @@ pub trait NewEndpoint {
     // Committee Meeting Constructors
     // ================================
 
-    /// Constructs a `CommitteeMeetingList` endpoint variant.
+    /// Constructs a [`CommitteeMeetingList`] endpoint variant.
     fn new_committee_meeting_list(params: CommitteeMeetingListParams) -> Self;
 
-    /// Constructs a `CommitteeMeetingByCongress` endpoint variant.
+    /// Constructs a [`CommitteeMeetingByCongress`] endpoint variant.
     fn new_committee_meeting_by_congress(
         congress: u32,
         params: CommitteeMeetingByCongressParams,
     ) -> Self;
 
-    /// Constructs a `CommitteeMeetingByChamber` endpoint variant.
+    /// Constructs a [`CommitteeMeetingByChamber`] endpoint variant.
     fn new_committee_meeting_by_chamber(
         congress: u32,
         chamber: ChamberType,
         params: CommitteeMeetingByChamberParams,
     ) -> Self;
 
-    /// Constructs a `CommitteeMeetingByEvent` endpoint variant.
+    /// Constructs a [`CommitteeMeetingByEvent`] endpoint variant.
     fn new_committee_meeting_by_event(
         congress: u32,
         chamber: ChamberType,
@@ -1822,20 +1822,20 @@ pub trait NewEndpoint {
     // Hearing Constructors
     // ================================
 
-    /// Constructs a `HearingList` endpoint variant.
+    /// Constructs a [`HearingList`] endpoint variant.
     fn new_hearing_list(params: HearingListParams) -> Self;
 
-    /// Constructs a `HearingByCongress` endpoint variant.
+    /// Constructs a [`HearingByCongress`] endpoint variant.
     fn new_hearing_by_congress(congress: u32, params: HearingByCongressParams) -> Self;
 
-    /// Constructs a `HearingByChamber` endpoint variant.
+    /// Constructs a [`HearingByChamber`] endpoint variant.
     fn new_hearing_by_chamber(
         congress: u32,
         chamber: ChamberType,
         params: HearingByChamberParams,
     ) -> Self;
 
-    /// Constructs a `HearingByJacketNumber` endpoint variant.
+    /// Constructs a [`HearingByJacketNumber`] endpoint variant.
     fn new_hearing_by_jacket_number(
         congress: u32,
         chamber: ChamberType,
@@ -1847,32 +1847,32 @@ pub trait NewEndpoint {
     // Congressional Record Constructors
     // ================================
 
-    /// Constructs a `CongressionalRecordList` endpoint variant.
+    /// Constructs a [`CongressionalRecordList`] endpoint variant.
     fn new_congressional_record_list(params: CongressionalRecordListParams) -> Self;
 
     // ================================
     // Daily Congressional Record Constructors
     // ================================
 
-    /// Constructs a `DailyCongressionalRecordList` endpoint variant.
+    /// Constructs a [`DailyCongressionalRecordList`] endpoint variant.
     fn new_daily_congressional_record_list(
         params: DailyCongressionalRecordListParams,
     ) -> Self;
 
-    /// Constructs a `DailyCongressionalRecordVolume` endpoint variant.
+    /// Constructs a [`DailyCongressionalRecordVolume`] endpoint variant.
     fn new_daily_congressional_record_volume(
         volume_number: u32,
         params: DailyCongressionalVolumeNumberParams,
     ) -> Self;
 
-    /// Constructs a `DailyCongressionalRecordVolumeIssue` endpoint variant.
+    /// Constructs a [`DailyCongressionalRecordVolumeIssue`] endpoint variant.
     fn new_daily_congressional_record_volume_issue(
         volume_number: u32,
         issue_number: u32,
         params: DailyCongressionalVolumeNumberIssueNumberParams,
     ) -> Self;
 
-    /// Constructs a `DailyCongressionalRecordArticles` endpoint variant.
+    /// Constructs a [`DailyCongressionalRecordArticles`] endpoint variant.
     fn new_daily_congressional_record_articles(
         volume_number: u32,
         issue_number: u32,
@@ -1883,23 +1883,23 @@ pub trait NewEndpoint {
     // Bound Congressional Record Constructors
     // ================================
 
-    /// Constructs a `BoundCongressionalRecordList` endpoint variant.
+    /// Constructs a [`BoundCongressionalRecordList`] endpoint variant.
     fn new_bound_congressional_record_list(params: BoundCongressionalRecordParams) -> Self;
 
-    /// Constructs a `BoundCongressionalRecordByYear` endpoint variant.
+    /// Constructs a [`BoundCongressionalRecordByYear`] endpoint variant.
     fn new_bound_congressional_record_by_year(
         year: u32,
         params: BoundCongressionalRecordParams,
     ) -> Self;
 
-    /// Constructs a `BoundCongressionalRecordByYearMonth` endpoint variant.
+    /// Constructs a [`BoundCongressionalRecordByYearMonth`] endpoint variant.
     fn new_bound_congressional_record_by_year_month(
         year: u32,
         month: u32,
         params: BoundCongressionalRecordParams,
     ) -> Self;
 
-    /// Constructs a `BoundCongressionalRecordByYearMonthDay` endpoint variant.
+    /// Constructs a [`BoundCongressionalRecordByYearMonthDay`] endpoint variant.
     fn new_bound_congressional_record_by_year_month_day(
         year: u32,
         month: u32,
@@ -1911,23 +1911,23 @@ pub trait NewEndpoint {
     // House Communication Constructors
     // ================================
 
-    /// Constructs a `HouseCommunicationList` endpoint variant.
+    /// Constructs a [`HouseCommunicationList`] endpoint variant.
     fn new_house_communication_list(params: CommunicationParams) -> Self;
 
-    /// Constructs a `HouseCommunicationByCongress` endpoint variant.
+    /// Constructs a [`HouseCommunicationByCongress`] endpoint variant.
     fn new_house_communication_by_congress(
         congress: u32,
         params: CommunicationParams,
     ) -> Self;
 
-    /// Constructs a `HouseCommunicationByType` endpoint variant.
+    /// Constructs a [`HouseCommunicationByType`] endpoint variant.
     fn new_house_communication_by_type(
         congress: u32,
         communication_type: CommunicationType,
         params: CommunicationParams,
     ) -> Self;
 
-    /// Constructs a `HouseCommunicationDetails` endpoint variant.
+    /// Constructs a [`HouseCommunicationDetails`] endpoint variant.
     fn new_house_communication_details(
         congress: u32,
         communication_type: CommunicationType,
@@ -1939,16 +1939,16 @@ pub trait NewEndpoint {
     // House Requirement Constructors
     // ================================
 
-    /// Constructs a `HouseRequirementList` endpoint variant.
+    /// Constructs a [`HouseRequirementList`] endpoint variant.
     fn new_house_requirement_list(params: RequirementParams) -> Self;
 
-    /// Constructs a `HouseRequirementDetails` endpoint variant.
+    /// Constructs a [`HouseRequirementDetails`] endpoint variant.
     fn new_house_requirement_details(
         requirement_number: u32,
         params: RequirementDetailsParams,
     ) -> Self;
 
-    /// Constructs a `HouseRequirementMatching` endpoint variant.
+    /// Constructs a [`HouseRequirementMatching`] endpoint variant.
     fn new_house_requirement_matching(
         requirement_number: u32,
         params: RequirementParams,
@@ -1958,23 +1958,23 @@ pub trait NewEndpoint {
     // Senate Communication Constructors
     // ================================
 
-    /// Constructs a `SenateCommunicationList` endpoint variant.
+    /// Constructs a [`SenateCommunicationList`] endpoint variant.
     fn new_senate_communication_list(params: CommunicationParams) -> Self;
 
-    /// Constructs a `SenateCommunicationByCongress` endpoint variant.
+    /// Constructs a [`SenateCommunicationByCongress`] endpoint variant.
     fn new_senate_communication_by_congress(
         congress: u32,
         params: CommunicationParams,
     ) -> Self;
 
-    /// Constructs a `SenateCommunicationByType` endpoint variant.
+    /// Constructs a [`SenateCommunicationByType`] endpoint variant.
     fn new_senate_communication_by_type(
         congress: u32,
         communication_type: CommunicationType,
         params: CommunicationParams,
     ) -> Self;
 
-    /// Constructs a `SenateCommunicationDetails` endpoint variant.
+    /// Constructs a [`SenateCommunicationDetails`] endpoint variant.
     fn new_senate_communication_details(
         congress: u32,
         communication_type: CommunicationType,
@@ -1983,7 +1983,7 @@ pub trait NewEndpoint {
     ) -> Self;
 }
 
-/// Implementation of the `NewEndpoint` trait for the `Endpoints` enum.
+/// Implementation of the [`NewEndpoint`] trait for the [`Endpoints`] enum.
 impl NewEndpoint for Endpoints {
     fn new_generic(endpoint: String, params: GenericParams) -> Self {
         Endpoints::Generic(endpoint, params)

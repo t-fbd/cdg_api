@@ -2,16 +2,7 @@
 //!
 //! This module defines various types used by the CDG API client, particularly enums for API
 //! endpoint parameters.
-//!
-//! ## Enums
-//! 
-//! - **`FormatType`**: Specifies the response format (`json` or `xml`).
-//! - **`SortType`**: Defines sorting options (e.g., `updateDateAsc`, `updateDateDesc`).
-//! - **`BillType`**: Categorizes different types of bills (e.g., `Hr`, `S`, `Hjres`).
-//! - **`AmendmentType`**: Categorizes amendment types (e.g., `Hamdt`, `Samdt`).
-//! - **`ChamberType`**: Distinguishes between legislative chambers (`House`, `Senate`, `Joint`).
-//! - **`CommunicationType`**: Defines types of committee communications (e.g., `Ec`, `Pm`).
-//! - **`LawType`**: Differentiates between public and private laws (`Pub`, `Priv`).
+
 
 use serde::{Serialize, Deserialize};
 
@@ -35,11 +26,11 @@ pub enum FormatType {
 }
 
 impl FormatType {
-    /// Converts the `FormatType` variant to its corresponding query parameter string.
+    /// Converts the [`FormatType`] variant to its corresponding query parameter string.
     ///
     /// # Returns
     ///
-    /// A `String` representing the query parameter (e.g., `"format=json"`).
+    /// A [`String`] representing the query parameter (e.g., `"format=json"`).
     pub fn to_query_param(&self) -> String {
         match self {
             FormatType::Json => "format=json".to_string(),
@@ -47,11 +38,11 @@ impl FormatType {
         }
     }
 
-    /// Converts the `FormatType` variant to its lowercase string representation.
+    /// Converts the [`FormatType`] variant to its lowercase string representation.
     ///
     /// # Returns
     ///
-    /// A `String` representing the format type (e.g., `"json"` or `"xml"`).
+    /// A [`String`] representing the format type (e.g., `"json"` or `"xml"`).
     pub fn to_string(&self) -> String {
         match self {
             FormatType::Json => "json".to_string(),
@@ -75,11 +66,11 @@ pub enum SortType {
 }
 
 impl SortType {
-    /// Converts the `SortType` variant to its corresponding query parameter string.
+    /// Converts the [`SortType`] variant to its corresponding query parameter string.
     ///
     /// # Returns
     ///
-    /// A `String` representing the sort query parameter
+    /// A [`String`] representing the sort query parameter
     /// (e.g., `"sort=updateDate+asc"`).
     pub fn to_query_param(&self) -> String {
         match self {
@@ -88,11 +79,11 @@ impl SortType {
         }
     }
 
-    /// Converts the `SortType` variant to its lowercase string representation.
+    /// Converts the [`SortType`] variant to its lowercase string representation.
     ///
     /// # Returns
     ///
-    /// A `String` representing the sort order (`"asc"` or `"desc"`).
+    /// A [`String`] representing the sort order (`"asc"` or `"desc"`).
     pub fn to_string(&self) -> String {
         match self {
             SortType::UpdateDateAsc => "asc".to_string(),
@@ -107,38 +98,38 @@ impl SortType {
 /// the legislative system.
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, Default)]
 pub enum BillType {
-    /// House Resolution (`hr`).
+    /// House Resolution ([`hr`]).
     #[default]
     Hr, // House Resolution
 
-    /// Senate Bill (`s`).
+    /// Senate Bill ([`s`]).
     S, // Senate
 
-    /// House Joint Resolution (`hjres`).
+    /// House Joint Resolution ([`hjres`]).
     Hjres, // House Joint Resolution
 
-    /// Senate Joint Resolution (`sjres`).
+    /// Senate Joint Resolution ([`sjres`]).
     Sjres, // Senate Joint Resolution
 
-    /// House Concurrent Resolution (`hconres`).
+    /// House Concurrent Resolution ([`hconres`]).
     Hconres, // House Concurrent Resolution
 
-    /// Senate Concurrent Resolution (`sconres`).
+    /// Senate Concurrent Resolution ([`sconres`]).
     Sconres, // Senate Concurrent Resolution
 
-    /// House Simple Resolution (`hres`).
+    /// House Simple Resolution ([`hres`]).
     Hres, // House Simple Resolution
 
-    /// Senate Simple Resolution (`sres`).
+    /// Senate Simple Resolution ([`sres`]).
     Sres, // Senate Simple Resolution
 }
 
 impl BillType {
-    /// Converts the `BillType` variant to its lowercase string representation.
+    /// Converts the [`BillType`] variant to its lowercase string representation.
     ///
     /// # Returns
     ///
-    /// A `String` representing the bill type (e.g., `"hr"`, `"s"`, etc.).
+    /// A [`String`] representing the bill type (e.g., `"hr"`, `"s"`, etc.).
     pub fn to_string(&self) -> String {
         match self {
             BillType::Hr => "hr".to_string(),
@@ -152,7 +143,7 @@ impl BillType {
         }
     }
 
-    /// Converts a `&str` to the corresponding `BillType` variant.
+    /// Converts a `&str` to the corresponding [`BillType`] variant.
     pub fn from_str(s: &str) -> Option<BillType> {
         match s.to_lowercase().as_str() {
             "hr" => Some(BillType::Hr),
@@ -174,22 +165,22 @@ impl BillType {
 /// the legislative chambers.
 #[derive(Debug, Serialize, Deserialize, Clone, Copy)]
 pub enum AmendmentType {
-    /// House Amendment (`hamdt`).
+    /// House Amendment ([`hamdt`]).
     Hamdt, // House Amendment
 
-    /// Senate Amendment (`samdt`).
+    /// Senate Amendment ([`samdt`]).
     Samdt, // Senate Amendment
 
-    /// Senate Unnumbered Amendment (`suamdt`).
+    /// Senate Unnumbered Amendment ([`suamdt`]).
     Suamdt, // Senate Unnumbered Amendment
 }
 
 impl AmendmentType {
-    /// Converts the `AmendmentType` variant to its lowercase string representation.
+    /// Converts the [`AmendmentType`] variant to its lowercase string representation.
     ///
     /// # Returns
     ///
-    /// A `String` representing the amendment type (e.g., `"hamdt"`, `"samdt"`, etc.).
+    /// A [`String`] representing the amendment type (e.g., `"hamdt"`, `"samdt"`, etc.).
     pub fn to_string(&self) -> String {
         match self {
             AmendmentType::Hamdt => "hamdt".to_string(),
@@ -219,11 +210,11 @@ pub enum ChamberType {
 }
 
 impl ChamberType {
-    /// Converts the `ChamberType` variant to its lowercase string representation.
+    /// Converts the [`ChamberType`] variant to its lowercase string representation.
     ///
     /// # Returns
     ///
-    /// A `String` representing the chamber type (e.g., `"house"`, `"senate"`, `"joint"`).
+    /// A [`String`] representing the chamber type (e.g., `"house"`, `"senate"`, `"joint"`).
     pub fn to_string(&self) -> String {
         match self {
             ChamberType::House => "house".to_string(),
@@ -240,25 +231,25 @@ impl ChamberType {
 /// communications, presidential messages, petitions, etc.
 #[derive(Debug, Serialize, Deserialize, Clone, Copy)]
 pub enum CommunicationType {
-    /// Executive Communication (`ec`).
+    /// Executive Communication ([`ec`]).
     Ec, // Executive Communication
 
-    /// Message from the President (`ml`).
+    /// Message from the President ([`ml`]).
     Ml, // Message from the President
 
-    /// Presidential Message (`pm`).
+    /// Presidential Message ([`pm`]).
     Pm, // Presidential Message
 
-    /// Petition (`pt`).
+    /// Petition ([`pt`]).
     Pt, // Petition
 }
 
 impl CommunicationType {
-    /// Converts the `CommunicationType` variant to its lowercase string representation.
+    /// Converts the [`CommunicationType`] variant to its lowercase string representation.
     ///
     /// # Returns
     ///
-    /// A `String` representing the communication type (e.g., `"ec"`, `"ml"`, etc.).
+    /// A [`String`] representing the communication type (e.g., `"ec"`, `"ml"`, etc.).
     pub fn to_string(&self) -> String {
         match self {
             CommunicationType::Ec => "ec".to_string(),
@@ -274,19 +265,19 @@ impl CommunicationType {
 /// This enum distinguishes between public and private laws.
 #[derive(Debug, Serialize, Deserialize, Clone, Copy)]
 pub enum LawType {
-    /// Public Law (`pub`).
+    /// Public Law ([`pub`]).
     Pub,  // Public Law
 
-    /// Private Law (`priv`).
+    /// Private Law ([`priv`]).
     Priv, // Private Law
 }
 
 impl LawType {
-    /// Converts the `LawType` variant to its lowercase string representation.
+    /// Converts the [`LawType`] variant to its lowercase string representation.
     ///
     /// # Returns
     ///
-    /// A `String` representing the law type (`"pub"` or `"priv"`).
+    /// A [`String`] representing the law type (`"pub"` or `"priv"`).
     pub fn to_string(&self) -> String {
         match self {
             LawType::Pub => "pub".to_string(),
@@ -301,28 +292,28 @@ impl LawType {
 /// the legislative chambers.
 #[derive(Debug, Serialize, Deserialize, Clone, Copy)]
 pub enum CommitteeReportType {
-    /// House Report (`hrpt`).
+    /// House Report ([`hrpt`]).
     Hrpt, // House Report
 
-    /// Senate Report (`srpt`).
+    /// Senate Report ([`srpt`]).
     Srpt, // Senate Report
 
-    /// House Document (`hdoc`).
+    /// House Document ([`hdoc`]).
     Hdoc, // House Document
 
-    /// Senate Document (`sdoc`).
+    /// Senate Document ([`sdoc`]).
     Sdoc, // Senate Document
 
-    /// Conference Report (`crpt`).
+    /// Conference Report ([`crpt`]).
     Crpt, // Conference Report
 }
 
 impl CommitteeReportType {
-    /// Converts the `CommitteeReportType` variant to its lowercase string representation.
+    /// Converts the [`CommitteeReportType`] variant to its lowercase string representation.
     ///
     /// # Returns
     ///
-    /// A `String` representing the committee report type (e.g., `"hrpt"`, `"srpt"`, etc.).
+    /// A [`String`] representing the committee report type (e.g., `"hrpt"`, `"srpt"`, etc.).
     pub fn to_string(&self) -> String {
         match self {
             CommitteeReportType::Hrpt => "hrpt".to_string(),

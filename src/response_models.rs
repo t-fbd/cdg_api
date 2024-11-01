@@ -1,26 +1,8 @@
-//! # `response_modes` Module
+//! # [`response_modes`] Module
 //! 
 //! This module defines the response models used for parsing API responses from various endpoints
 //! of the US Congress API. It includes a combination of enums, structs, and traits to handle
 //! different types of responses in a type-safe and structured manner.
-//! 
-//! ## Traits
-//! 
-//! - **`PrimaryResponse`**: A marker trait implemented by all primary response types.
-//! 
-//! ## Enums
-//! 
-//! - **`GenericResponseModel`**: An untagged enum that can represent multiple response types.
-//! 
-//! ## Structs
-//! 
-//! - **`GenericResponse`**: A catch-all response model for handling diverse response structures.
-//! - **Response Models**: Specific structs for each API endpoint, such as:
-//!   - `AmendmentsResponse`, `BillDetailsResponse`, `MemberDetailsResponse`
-//!   - `NominationDetailsResponse`, `TreatyDetailsResponse`, `HearingDetailsResponse`
-//!   - ... and many others.
-//! - **Supporting Models**: Structs representing components of responses, like `AmendmentSummary`,
-//!   `MemberSummary`, `BillSummary`, `Committee`, `LatestAction`, etc.
 //! 
 //! ## Example
 //! 
@@ -40,6 +22,10 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
+/// Marker trait implemented by all primary response types.
+///
+/// A primary response is a top-level response model that represents the main data structure
+/// returned by an API endpoint. All other response models are nested within a primary response.
 pub trait PrimaryResponse {}
 
 macro_rules! impl_primary_response {
@@ -266,7 +252,7 @@ pub struct GenericResponse {
 
 impl GenericResponse {
     /// Serializes the generic response model to a JSON string.
-    /// If `pretty` is true, the JSON will be pretty-printed.
+    /// If [`pretty`] is true, the JSON will be pretty-printed.
     pub fn serialize_generic_response(&self, pretty: bool) -> Result<String, serde_json::Error> {
         if pretty {
             serde_json::to_string_pretty(&self)
@@ -276,6 +262,7 @@ impl GenericResponse {
     }
 
     /// Attempts to parse the generic response model as a specific response model.
+    /// GenericResponse -> json string -> PrimaryResponse (trait held by the parent response models)
     pub fn parse_generic_response<T: PrimaryResponse + serde::de::DeserializeOwned>(&self) -> Result<T, serde_json::Error> {
         let json = serde_json::to_string(&self)?;
         let response: T = serde_json::from_str(&json)?;

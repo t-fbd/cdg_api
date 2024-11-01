@@ -10,10 +10,11 @@ pub mod cdg_types;
 pub use request_handlers::get_congress_data;
 pub use cdg_client::CongressApiClient;
 
+/// The base URL for the US Congress API.
 pub const BASE_URL: &str = "https://api.congress.gov/v3/";
 
 
-/// Unwraps an `Option<String>` and returns the inner `String` or an empty string if `None`.
+/// Unwraps an `Option<String>` and returns the inner [`String`] or an empty string if [`None`].
 pub fn unwrap_option_string(opt: Option<String>) -> String {
     match opt {
         Some(s) => s,
@@ -21,7 +22,7 @@ pub fn unwrap_option_string(opt: Option<String>) -> String {
     }
 }
 
-/// Unwraps an `Option<u32>` and returns the inner `u32` or 0 if `None`.
+/// Unwraps an `Option<u32>` and returns the inner [`u32`] or 0 if [`None`].
 pub fn unwrap_option_u32(opt: Option<u32>) -> u32 {
     match opt {
         Some(i) => i,
@@ -29,7 +30,7 @@ pub fn unwrap_option_u32(opt: Option<u32>) -> u32 {
     }
 }
 
-/// Unwraps an `Option<T>` and returns the inner `T` or the default value if `None`.
+/// Unwraps an `Option<T>` and returns the inner [`T`] or the default value if [`None`].
 pub fn unwrap_option<T: Default>(opt: Option<T>) -> T {
     match opt {
         Some(t) => t,
@@ -38,17 +39,13 @@ pub fn unwrap_option<T: Default>(opt: Option<T>) -> T {
 }
 
 
+#[cfg(feature = "requests")]
 pub mod request_handlers {
-//! # `request_handlers` Module
+//! # [`request_handlers`] Module
 //! 
-//! The `request_handlers` module provides utility functions for interacting with the US Congress API.
+//! The [`request_handlers`] module provides utility functions for interacting with the US Congress API.
 //! It includes methods for fetching data via HTTP requests and processing responses using external tools.
-//! 
-//! ## Functions
-//! 
-//! - **`get_congress_data`**: Sends an HTTP GET request to a specified URL and deserializes the JSON response into the desired type.
-//! - **`curl_and_jq`**: Executes a `curl` command to retrieve data from a URL and processes the JSON output with `jq`.
-//! 
+//!
 //! ## Usage
 //! 
 //! ```rust
@@ -84,12 +81,6 @@ pub mod request_handlers {
 //!     Ok(())
 //! }
 //! ```
-//! 
-//! ## Summary
-//! 
-//! - **`get_congress_data`**: Ideal for Rust applications that require type-safe deserialization of API responses.
-//! - **`curl_and_jq`**: Useful for command-line applications or scripts where external processing of JSON data is preferred.
-//! - **Dependencies**: Ensure that `reqwest` and `serde` are included for `get_congress_data`, and that `curl` and `jq` are installed for `curl_and_jq`.
 
 
     use reqwest::blocking::Client;
@@ -100,12 +91,12 @@ pub mod request_handlers {
     ///
     /// # Parameters
     ///
-    /// - `url`: The API endpoint URL.
+    /// - [`url`]: The complete URL for the API request.
     ///
     /// # Returns
     ///
     /// - `Ok(T)`: The deserialized response data.
-    /// - `Err`: An error if the request fails or deserialization fails.
+    /// - [`Err`]: An error if the request fails or deserialization fails.
     pub fn get_congress_data<T: PrimaryResponse + DeserializeOwned>(url: &str) -> Result<T, Box<dyn std::error::Error>> {
         let client = Client::new();
         let response = client.get(url).send()?;
@@ -115,22 +106,22 @@ pub mod request_handlers {
     
     use std::io::Write;
     
-    /// Executes a `curl` request to the given URL and processes the JSON output with `jq`.
+    /// Executes a [`curl`] request to the given URL and processes the JSON output with [`jq`].
     ///
     /// # Parameters
     ///
-    /// - `url`: The API endpoint URL.
-    /// - `jq_cmd`: A `jq` filter string to process the JSON output.
+    /// - [`url`]: The API endpoint URL.
+    /// - [`jq_cmd`]: A [`jq`] filter string to process the JSON output.
     ///
     /// # Returns
     ///
     /// - `Ok(())`: If the command executes successfully.
-    /// - `Err`: If there is an error executing the commands or processing the data.
+    /// - [`Err`]: If there is an error executing the commands or processing the data.
     ///
     /// # Notes
     ///
-    /// - Requires `curl` and `jq` to be installed on your system.
-    /// - Ensures that the `CDG_API_KEY` environment variable is set.
+    /// - Requires [`curl`] and [`jq`] to be installed on your system.
+    /// - Ensures that the [`CDG_API_KEY`] environment variable is set.
     pub fn curl_and_jq(url: &str, jq_cmd: &str) -> Result<(), Box<dyn std::error::Error>> {
         // Check if jq is installed
         if std::process::Command::new("jq")
