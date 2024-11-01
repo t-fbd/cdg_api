@@ -21,7 +21,18 @@ fn main() -> Result<(), Box<dyn Error>> {
     let response: DailyCongressionalRecordResponse = client.fetch(endpoint)?;
 
     // Print the data
-    println!("{:#?}", response);
+    for record in response.daily_congressional_record {
+        println!("Iss. Date: {}", record.issue_date.unwrap_or("N/A".to_string()));
+        println!("Iss. Number: {}", record.issue_number.unwrap_or("N/A".to_string()));
+        println!("Vol. Number: {}", record.volume_number.unwrap_or(0));
+        println!("Session: {}", record.session_number.unwrap_or(0));
+        println!("Congress: {}", record.congress.unwrap_or(0));
+        println!("URL: {}", record.url.unwrap_or("N/A".to_string()));
+        println!("\n");
+        println!("Full Issue: {:#?}", record.full_issue.unwrap_or_default());
+        println!("\n");
+        println!("=====================================");
+    }
 
     Ok(())
 }

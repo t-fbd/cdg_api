@@ -75,6 +75,9 @@ Obtain an API key from the [US Congress API](https://api.congress.gov/). Provide
 
 Fetch a list of current members of Congress and display their names, party affiliations, and states.
 
+ps. Instead of using the standard `unwrap` methods, you can use `cdg_api::unwrap_option()`, `cdg_api::unwrap_option_string()`, or `cdg_api::unwrap_option_u32()`
+    in order to quickly unwrap the `Option` values and provide a default value if the value is `None`. Pretty much the same as `unwrap_or_default()`.
+
 ```rust
 use cdg_api::CongressApiClient;
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
@@ -211,7 +214,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     // Manually specify the endpoint string
     let endpoint = Endpoints::new_generic(
-      "/daily-congressional-record?format=json".to_string(),
+      "daily-congressional-record".to_string(),
       GenericParams::new(
         FormatType::Json.into(),
         None,
@@ -260,7 +263,8 @@ fn main() -> Result<(), Box<dyn Error>> {
 
 ### Using `GenericResponse` for Manual Endpoints
 
-When using `Endpoints::Manual`, `GenericResponse` allows you to handle responses dynamically without predefined response models. You can parse the response into any specific model if you know its structure, enhancing flexibility.
+When working with custom or unknown endpoints, you can use `Endpoints::Manual` to specify the endpoint string such as `daily-congressional-record` and `GenericParams` to define query parameters. The response can be fetched as `GenericResponse`.
+The `Endpoint` created can then call `parse_generic_response` to parse the response into a specific response model.
 
 ## Other Projects
 
@@ -273,3 +277,5 @@ This project is licensed under the terms of the [MIT license](https://github.com
 ## Repository
 
 [https://github.com/t-fbd/cdg_api](https://github.com/t-fbd/cdg_api)
+
+

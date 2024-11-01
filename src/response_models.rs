@@ -1677,7 +1677,7 @@ pub struct HearingItem {
     pub chamber: Option<String>,
     pub congress: Option<u32>,
     pub number: Option<u32>,
-    pub part: Option<String>,
+    pub part: Option<u32>,
     pub url: Option<String>,
     #[serde(flatten)]
     pub unknown: Option<Value>,
@@ -1699,7 +1699,7 @@ pub struct HearingDetails {
     #[serde(rename = "libraryOfCongressIdentifier")]
     pub library_of_congress_identifier: Option<String>,
     pub number: Option<u32>,
-    pub part: Option<String>,
+    pub part: Option<u32>,
     #[serde(rename = "updateDate")]
     pub update_date: Option<String>,
     pub congress: Option<u32>,
@@ -2263,7 +2263,7 @@ pub struct CommitteeReportDetailsResponse {
 pub struct AssociatedTreatyItem {
     pub congress: Option<u32>,
     pub number: Option<u32>,
-    pub part: Option<String>,
+    pub part: Option<u32>,
     pub url: Option<String>,
 }
 

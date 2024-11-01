@@ -1,6 +1,6 @@
 use cdg_api::cdg_types::FormatType;
 use cdg_api::param_models::GenericParams;
-use cdg_api::CongressApiClient;
+use cdg_api::{CongressApiClient, unwrap_option, unwrap_option_u32, unwrap_option_string};
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
 use cdg_api::response_models::{DailyCongressionalRecordResponse, GenericResponse};
 
@@ -34,8 +34,18 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Parse the response into a generic JSON value if specific parsing fails
     match response.parse_generic_response::<DailyCongressionalRecordResponse>() {
         Ok(json) => {
-            println!("Received unexpected data:");
-            println!("{}", serde_json::to_string_pretty(&json)?);
+            json.daily_congressional_record.iter().for_each(|records| {
+                let record = records.clone();
+                println!("Date: {}", unwrap_option_string(record.issue_date));
+                println!("Update Date: {}", unwrap_option_string(record.update_date));
+                println!("Volume: {}", unwrap_option_u32(record.volume_number));
+                println!("Issue: {}", unwrap_option_string(record.issue_number));
+                println!("Sess. #: {}", unwrap_option_u32(record.session_number));
+                println!("Congress: {}", unwrap_option_u32(record.congress));
+                println!("URL: {}", unwrap_option_string(record.url));
+                println!();
+                println!("Full Issue: {:#?}", unwrap_option(record.full_issue));
+            });
         },
         Err(e) => {
             println!("Failed to parse response: {}", e);

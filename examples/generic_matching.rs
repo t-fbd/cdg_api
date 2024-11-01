@@ -1,4 +1,4 @@
-use cdg_api::CongressApiClient;
+use cdg_api::{unwrap_option_string, unwrap_option, CongressApiClient};
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
 use cdg_api::param_models::BillDetailsParams;
 use cdg_api::cdg_types::{BillType, FormatType};
@@ -25,9 +25,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     let bill_details: BillDetailsResponse = response.parse_generic_response()?;
     let bill = bill_details.bill;
 
-    println!("Bill: {}", bill.number.unwrap_or("".to_string()));
-    println!("Title: {}", bill.title.unwrap_or("".to_string()));
-    println!("Summary: {:#?}", bill.summaries.unwrap_or_default());
+    println!("Bill: {}", unwrap_option_string(bill.bill_type));
+    println!("Title: {}", unwrap_option_string(bill.title));
+    println!("Summary: {:#?}", unwrap_option(bill.summaries));
 
 
     Ok(())

@@ -1,4 +1,4 @@
-use cdg_api::CongressApiClient;
+use cdg_api::{unwrap_option_string, CongressApiClient};
 use cdg_api::endpoints::Endpoints;
 use cdg_api::param_models::BillListParams;
 use cdg_api::cdg_types::FormatType;
@@ -22,8 +22,22 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Fetch the data
     let response: GenericResponse = client.fetch(endpoint)?;
 
+    let bills = {
+        if let Some(bills) = response.bills {
+            bills
+        } else {
+            return Err("No bills found".into());
+        }
+    };
+
     // Process the response
-    println!("{}", response.serialize_generic_response(true)?);
+    for bill in bills {
+        println!("{}, {}, {}\n", 
+            unwrap_option_string(bill.title),
+            unwrap_option_string(bill.bill_type),
+            unwrap_option_string(bill.number)
+        );
+    }
 
     Ok(())
 }
