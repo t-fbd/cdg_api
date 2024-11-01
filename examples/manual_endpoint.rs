@@ -49,6 +49,8 @@ fn main() -> Result<(), Box<dyn Error>> {
         },
         Err(e) => {
             println!("Failed to parse response: {}", e);
+            // Serialize the response as a generic JSON value, pretty-printed = true
+            println!("{}", response.serialize_generic_response(true)?);
         }
     }
 

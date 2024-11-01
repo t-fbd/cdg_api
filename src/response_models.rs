@@ -158,6 +158,11 @@ pub enum GenericResponseModel {
     LawSummary(LawSummary),
     Number(u32),
     Array(Vec<GenericResponseModel>),
+    String(String),
+    Bool(bool),
+    Null,
+    Any(Value),
+    None,
 }
 
 /// Generic response model that is essentially a catch-all for endpoints that don't have a specific
@@ -171,83 +176,83 @@ pub struct GenericResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub latest_action: Option<LatestAction>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub number: Option<String>,
+    pub number: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub purpose: Option<String>,
+    pub purpose: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
-    pub amendment_type: Option<String>,
+    pub amendment_type: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub url: Option<String>,
+    pub url: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "updateDate")]
-    pub update_date: Option<String>,
+    pub update_date: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub amendment: Option<AmendmentDetails>,
+    pub amendment: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub actions: Option<GenericResponseModel>,
     #[serde(rename = "amendedBill")]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub amended_bill: Option<AmendedBill>,
+    pub amended_bill: Option<GenericResponseModel>,
     #[serde(rename = "amendmentsToAmendment")]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub amendments_to_amendment: Option<ResourceReference>,
+    pub amendments_to_amendment: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub chamber: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub cosponsors: Option<GenericResponseModel>,
     #[serde(rename = "proposedDate")]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub proposed_date: Option<String>,
+    pub proposed_date: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub sponsors: Option<Vec<MemberSummary>>,
+    pub sponsors: Option<Vec<GenericResponseModel>>,
     #[serde(rename = "submittedDate")]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub submitted_date: Option<String>,
+    pub submitted_date: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub amendments: Option<Vec<AmendmentSummary>>,
+    pub amendments: Option<Vec<GenericResponseModel>>,
     #[serde(rename = "textVersions")]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub text: Option<Vec<TextVersion>>,
+    pub text: Option<Vec<GenericResponseModel>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub bills: Option<Vec<BillSummary>>,
+    pub bills: Option<Vec<GenericResponseModel>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub bill: Option<BillDetails>,
+    pub bill: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub committees: Option<Vec<Committee>>,
+    pub committees: Option<Vec<GenericResponseModel>>,
     #[serde(rename = "relatedBills")]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub related_bills: Option<Vec<RelatedBill>>,
+    pub related_bills: Option<Vec<GenericResponseModel>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub subjects: Option<Subjects>,
+    pub subjects: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub summaries: Option<Vec<GenericResponse>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub titles: Option<Vec<BillTitle>>,
+    pub titles: Option<Vec<GenericResponseModel>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub congresses: Option<Vec<CongressSummary>>,
+    pub congresses: Option<Vec<GenericResponseModel>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub results: Option<Results>,
+    pub results: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "dailyCongressionalRecord")]
     pub daily_congressional_record: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub articles: Option<Vec<Article>>,
+    pub articles: Option<Vec<GenericResponseModel>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub members: Option<Vec<Member>>,
+    pub members: Option<Vec<GenericResponseModel>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub member: Option<MemberDetails>,
+    pub member: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub nominations: Option<Vec<NominationItem>>,
+    pub nominations: Option<Vec<GenericResponseModel>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub nomination: Option<NominationDetails>,
+    pub nomination: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub treaties: Option<Vec<TreatyItem>>,
+    pub treaties: Option<Vec<GenericResponseModel>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub treaty: Option<TreatyDetails>,
+    pub treaty: Option<GenericResponseModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(flatten)]
-    pub extra: Option<Value>,
+    pub extra: Option<GenericResponseModel>,
 }
 
 impl GenericResponse {

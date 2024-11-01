@@ -1,4 +1,4 @@
-use cdg_api::response_models::BillsResponse;
+use cdg_api::response_models::{BillsResponse, GenericResponse};
 use cdg_api::unwrap_option_string;
 
 const RAW_BILL_DATA: &str = r#"{
@@ -39,14 +39,40 @@ const RAW_BILL_DATA: &str = r#"{
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let bills: BillsResponse = serde_json::from_str(RAW_BILL_DATA)?;
     
-    for bill in bills.bills {
+    for bill in bills.bills[..].iter() {
         println!("{}, {}, {} -- {}\n", 
-            unwrap_option_string(bill.title),
-            unwrap_option_string(bill.bill_type),
-            unwrap_option_string(bill.number),
-            unwrap_option_string(bill.url)
+            unwrap_option_string(bill.title.clone()),
+            unwrap_option_string(bill.bill_type.clone()),
+            unwrap_option_string(bill.number.clone()),
+            unwrap_option_string(bill.url.clone())
         );
     }
+
+    println!("Total bills: {}", bills.bills.len());
+
+    println!("===============================");
+
+    let bills: GenericResponse = serde_json::from_str(RAW_BILL_DATA)?;
+
+    let bills: BillsResponse = match bills.parse_generic_response() {
+        Ok(bills) => bills,
+        Err(e) => {
+            eprintln!("Error parsing generic response: {}", e);
+            println!("{}", bills.serialize_generic_response(true)?);
+            return Ok(());
+        }
+    };
+
+    for bill in bills.bills[..].iter() {
+        println!("{}, {}, {} -- {}\n", 
+            unwrap_option_string(bill.title.clone()),
+            unwrap_option_string(bill.bill_type.clone()),
+            unwrap_option_string(bill.number.clone()),
+            unwrap_option_string(bill.url.clone())
+        );
+    }
+
+    println!("Total bills: {}", bills.bills.len());
     
     Ok(())
 }
