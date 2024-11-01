@@ -167,12 +167,12 @@ fn test_fetch_committee_details() {
 
     // Assert that the committee code matches.
     assert_eq!(
-        response.committee.system_code.unwrap(), committee_code,
+        response.committee.system_code.clone().unwrap(), committee_code,
         "Committee code should match"
     );
 
     // Optionally, print out the fetched committee details for manual verification.
-    println!("Committee Name: {}", response.committee.name.unwrap_or("".to_string()));
+    println!("Committee: {:#?}", response.committee);
 }
 
 #[test]
@@ -194,8 +194,8 @@ fn test_fetch_nomination_details() {
     let response: NominationDetailsResponse =
         client.fetch(endpoint).expect("Failed to fetch nomination details");
 
-    // Optionally, print out the fetched nomination details for manual verification.
-    println!("Nomination decscription: {}", response.nomination.description.unwrap_or("".to_string()));
+    // Optionally, print out the fetched nomination for manual verification.
+    println!("Nomination: {:#?}", response.nomination);
 }
 
 #[test]
