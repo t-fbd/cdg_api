@@ -12,7 +12,7 @@ A simple Rust library to interact with the [US Congress API](https://api.congres
 - [Installation](#installation)
 - [Getting Started](#getting-started)
   - [Setting Up Your API Key](#setting-up-your-api-key)
-- [Using `Congress Api Client`](#using-congress-api-client)
+- [Using `CongressApiClient`](#using-congressapiclient)
   - [Example 1: Fetching Members](#example-1-fetching-members)
   - [Example 2: Using `GenericResponse` with `parse_generic_response`](#example-2-using-genericresponse-with-parse_generic_response)
   - [Example 3: Using `Endpoints::Generic` for Custom Endpoints](#example-3-using-endpointsgeneric-for-custom-endpoints)
