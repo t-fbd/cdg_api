@@ -28,7 +28,7 @@ Please, if you find any issues, particularly with the API responses or models as
 
 ## Quick Info
 
-Around **100+** endpoints models available for interacting with the US Congress API, as well as the ability to create custom endpoints using `Endpoints::Manual`.
+Around **100+** endpoints models available for interacting with the US Congress API, as well as the ability to create custom endpoints using `Endpoints::Generic`.
 
 Around **150+** response models available for parsing API responses, including specific models for bills, members, nominations, treaties, and more.
 
@@ -104,7 +104,7 @@ Obtain an API key from the [US Congress API](https://api.congress.gov/). Provide
 
 ## Using [`CongressApiClient`]
 
-[`CongressApiClient`] allows you to interact with various API endpoints. Below are examples demonstrating how to fetch different types of data, including the new `Endpoints::Manual` variant.
+[`CongressApiClient`] allows you to interact with various API endpoints. Below are examples demonstrating how to fetch different types of data, including the new `Endpoints::Generic` variant.
 
 #### Example 1: Fetching Members
 
