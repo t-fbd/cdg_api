@@ -138,7 +138,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Process the response
     for member in response.members {
         println!("{}, {}, {}\n", 
-            member.name.unwrap_or_defualt(),
+            member.name.unwrap_or_default(),
             member.state.unwrap_or_default(),
             member.party_name.unwrap_or_default()
         );
