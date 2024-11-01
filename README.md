@@ -5,6 +5,21 @@ A simple Rust library to interact with the [US Congress API](https://api.congres
 ![Crates.io](https://img.shields.io/crates/v/cdg_api)
 ![MIT License](https://img.shields.io/crates/l/cdg_api)
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Getting Started](#getting-started)
+  - [Setting Up Your API Key](#setting-up-your-api-key)
+- [Using `Congress Api Client`](#using-congress-api-client)
+  - [Example 1: Fetching Members](#example-1-fetching-members)
+  - [Example 2: Using `GenericResponse` with `parse_generic_response`](#example-2-using-genericresponse-with-parse_generic_response)
+  - [Example 3: Using `Endpoints::Generic` for Custom Endpoints](#example-3-using-endpointsgeneric-for-custom-endpoints)
+- [Other Projects](#other-projects)
+- [License](#license)
+- [Repository](#repository)
+
 ## Overview
 
 `cdg_api` provides a Rust interface for interacting with the US Congress API. It simplifies constructing API endpoints, building URLs with parameters, and retrieving legislative data. Whether fetching information about bills, members, amendments, or laws, `cdg_api` offers a streamlined and type-safe approach to accessing this data.
@@ -13,13 +28,17 @@ The library is a work in progress but is very much functional. It is designed to
 
 ## Features
 
-- **Modular Design**: Organized into distinct modules for maintainability and scalability.
-  - **`endpoints`**: Enums and functions representing available API endpoints, including `Endpoints::Manual` for custom endpoints.
+Around **100+** endpoints models available for interacting with the US Congress API, as well as the ability to create custom endpoints using `Endpoints::Manual`.
+Around **150+** response models available for parsing API responses, including specific models for bills, members, nominations, treaties, and more.
+
+- **Modular Design**: distinct modules for maintainability and scalability.
+  - **`endpoints`**: Models representing available API endpoints, including `Endpoints::Generic` for custom endpoints.
   - **`url_builders`**: Utility functions for constructing API URLs with query parameters.
   - **`param_models`**: Models and enums for different query parameters.
-  - **`response_models`**: Data structures for API responses, including specific models and the versatile `GenericResponse`.
-  - **`client`**: `CongressApiClient` struct for interacting with the API.
-  - **`request_handlers`**: Functions for making HTTP requests and handling responses.
+  - **`response_models`**: Models for API responses, including specific models and the versatile `GenericResponse`.
+  - **`cdg_client`**: `CongressApiClient` struct for interacting with the API.
+  - **`cdg_types`**: Enums and structs and implementations for various custom types used in the API.
+  - **`request_handlers`**: Functions for making HTTP requests and handling responses, parts of which are used by `CongressApiClient`.
 
 - **Convenient Request Utilities**:
   - **`CongressApiClient`**: Centralized client managing API keys, constructing URLs, making requests, and deserializing responses.
@@ -65,9 +84,7 @@ Obtain an API key from the [US Congress API](https://api.congress.gov/). Provide
 
 **Note**: Using environment variables is recommended to avoid hardcoding sensitive information.
 
-## Usage
-
-### Using `CongressApiClient`
+## Using `CongressApiClient`
 
 `CongressApiClient` allows you to interact with various API endpoints. Below are examples demonstrating how to fetch different types of data, including the new `Endpoints::Manual` variant.
 
@@ -114,49 +131,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-#### Example 2: Fetching Bills
-
-Fetch a list of bills and display their titles, types, and numbers.
-
-```rust
-use cdg_api::CongressApiClient;
-use cdg_api::endpoints::{Endpoints, NewEndpoint};
-use cdg_api::param_models::BillByTypeParams;
-use cdg_api::cdg_types::{BillType, FormatType};
-use cdg_api::response_models::BillsResponse;
-
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let client = CongressApiClient::new(None)?;
-
-    // Create the endpoint and define parameters
-    let endpoint = Endpoints::new_bill_by_type(
-      118, 
-      BillType::Hr, 
-      BillByTypeParams {
-        format: FormatType::Json.into(),
-        limit: 10.into(),
-        ..BillByTypeParams::default()
-      }
-    );
-
-    // Fetch the data
-    let response: BillsResponse = client.fetch(endpoint)?;
-
-    // Process the response
-    for bill in response.bills {
-        println!(
-            "{}, {}, {}\n", 
-            bill.title.unwrap_or("".to_string()),
-            bill.bill_type.unwrap_or("".to_string()),
-            bill.number.unwrap_or("".to_string())
-        );
-    }
-
-    Ok(())
-}
-```
-
-#### Example 3: Using `GenericResponse` with `parse_generic_response`
+#### Example 2: Using `GenericResponse` with `parse_generic_response`
 
 Fetch detailed information about a specific bill using `GenericResponse` and parse it into a specific response model.
 
@@ -196,9 +171,9 @@ fn main() -> Result<(), Box<dyn Error>> {
 }
 ```
 
-#### Example 4: Using `Endpoints::Manual` for Custom Endpoints
+#### Example 3: Using `Endpoints::Generic` for Custom Endpoints
 
-Fetch data from a manually specified endpoint string using `Endpoints::Manual`.
+Fetch data from a manually specified endpoint string using `Endpoints::Generic`.
 
 ```rust
 use cdg_api::CongressApiClient;
@@ -263,7 +238,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
 ### Using `GenericResponse` for Manual Endpoints
 
-When working with custom or unknown endpoints, you can use `Endpoints::Manual` to specify the endpoint string such as `daily-congressional-record` and `GenericParams` to define query parameters. The response can be fetched as `GenericResponse`.
+When working with custom or unknown endpoints, you can use `Endpoints::Generic` to specify the endpoint string such as `daily-congressional-record` and `GenericParams` to define query parameters. The response can be fetched as `GenericResponse`.
 The `Endpoint` created can then call `parse_generic_response` to parse the response into a specific response model.
 
 ## Other Projects
