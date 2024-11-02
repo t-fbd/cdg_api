@@ -1,9 +1,9 @@
 //! [`param_chains`] module
-//! 
+//!
 //! Simply holds a macro that allows each Param model to call `build` methods for user ease
 
-use crate::param_models::*;
 use crate::cdg_types::*;
+use crate::param_models::*;
 
 /// Macro for constructing the chainables for a Param
 macro_rules! impl_builder {

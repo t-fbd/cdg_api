@@ -1,14 +1,14 @@
 //! # [`response_modes`] Module
-//! 
+//!
 //! This module defines the response models used for parsing API responses from various endpoints
 //! of the US Congress API. It includes a combination of enums, structs, and traits to handle
 //! different types of responses in a type-safe and structured manner.
-//! 
+//!
 //! ## Example
-//! 
+//!
 //! ```rust
 //! use cdg_api::response_models::{BillsResponse, GenericResponseModel};
-//! 
+//!
 //! fn handle_response(response: BillsResponse) {
 //!     for bill in response.bills {
 //!         println!("Bill Number: {}", bill.number.unwrap_or("N/A".to_string()));
@@ -34,10 +34,9 @@ mod ser_deser_cdg {
 
     use super::PrimaryResponse;
 
-
-
-    pub fn serialize_response<T>(res: &T, pretty: bool) -> Result<String, serde_json::Error> 
-    where T: PrimaryResponse + Serialize
+    pub fn serialize_response<T>(res: &T, pretty: bool) -> Result<String, serde_json::Error>
+    where
+        T: PrimaryResponse + Serialize,
     {
         if pretty {
             serde_json::to_string_pretty(&res)
@@ -48,7 +47,12 @@ mod ser_deser_cdg {
 
     /// Attempts to parse the generic response model as a specific response model.
     /// GenericResponse -> json string -> PrimaryResponse (trait held by the parent response models)
-    pub fn parse_response<T: PrimaryResponse + serde::de::DeserializeOwned + Serialize, F: PrimaryResponse + Serialize>(res: &F) -> Result<T, serde_json::Error> {
+    pub fn parse_response<
+        T: PrimaryResponse + serde::de::DeserializeOwned + Serialize,
+        F: PrimaryResponse + Serialize,
+    >(
+        res: &F,
+    ) -> Result<T, serde_json::Error> {
         let json = serde_json::to_string(&res)?;
         let response: T = serde_json::from_str(&json)?;
         Ok(response)
@@ -281,7 +285,6 @@ pub struct GenericResponse {
     #[serde(flatten)]
     pub extra: Option<GenericResponseModel>,
 }
-
 
 /// Response model for the `/amendment` endpoint.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -1763,7 +1766,7 @@ pub struct HouseCommunicationsResponse {
 }
 
 /// Response model for the `/senate-communication` endpoint.
-#[derive(Debug, Serialize, Deserialize, Default, Clone)] 
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct SenateCommunicationsResponse {
     #[serde(rename = "senateCommunications")]
     pub senate_communications: Vec<CommunicationItem>,
@@ -1871,7 +1874,7 @@ pub struct HouseRequirementItem {
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct HouseRequirementDetailsResponse {
     #[serde(rename = "houseRequirement")]
-    pub house_requirement:HouseRequirementDetails,
+    pub house_requirement: HouseRequirementDetails,
 }
 
 /// Represents detailed information about a House requirement.

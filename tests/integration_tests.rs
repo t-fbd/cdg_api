@@ -1,17 +1,17 @@
 #![allow(unused_imports)]
 
 use cdg_api::{
-    endpoints::{Endpoints, NewEndpoint},
-    param_models::*,
     cdg_types::{
         AmendmentType, BillType, ChamberType, CommitteeReportType, CommunicationType, FormatType,
         LawType, SortType,
     },
+    endpoints::{Endpoints, NewEndpoint},
+    param_models::*,
     response_models::{
         BillsResponse, CommitteeDetailsResponse, CommitteeReportsResponse, CongressDetailsResponse,
         HearingsResponse, LawDetailsResponse, LawsResponse, MembersResponse,
-        NominationDetailsResponse, NominationsResponse, RelatedBillsResponse,
-        TreatyDetailsResponse, TreatiesResponse,
+        NominationDetailsResponse, NominationsResponse, RelatedBillsResponse, TreatiesResponse,
+        TreatyDetailsResponse,
     },
     CongressApiClient,
 };
@@ -41,7 +41,12 @@ fn test_fetch_members() {
 
     // Optionally, print out the fetched members for manual verification.
     for member in response.members {
-        println!("{}, {}, {}", member.name.unwrap_or("".to_string()), member.party_name.unwrap_or("".to_string()), member.state.unwrap_or("".to_string()));
+        println!(
+            "{}, {}, {}",
+            member.name.unwrap_or("".to_string()),
+            member.party_name.unwrap_or("".to_string()),
+            member.state.unwrap_or("".to_string())
+        );
     }
 }
 
@@ -69,7 +74,7 @@ fn test_fetch_bills() {
     // Optionally, print out the fetched bills for manual verification.
     for bill in response.bills {
         println!(
-            "{}, {}, {}", 
+            "{}, {}, {}",
             bill.title.unwrap_or("".to_string()),
             bill.bill_type.unwrap_or_default(),
             bill.number.unwrap_or_default()
@@ -100,7 +105,8 @@ fn test_fetch_law_by_congress_and_type() {
 
     // Optionally, print out the fetched laws for manual verification.
     for law in response.bills {
-        println!("{}, {}, {}", 
+        println!(
+            "{}, {}, {}",
             law.title.unwrap_or("".to_string()),
             law.bill_type.unwrap_or_default(),
             law.number.unwrap_or_default()
@@ -137,7 +143,7 @@ fn test_fetch_amendments() {
     for amendment in response.amendments {
         println!(
             "{:#?}, {}, {}",
-            amendment.latest_action, 
+            amendment.latest_action,
             amendment.amendment_type.unwrap_or_default(),
             amendment.number.unwrap_or("".to_string())
         );
@@ -160,12 +166,14 @@ fn test_fetch_committee_details() {
     let endpoint = Endpoints::new_committee_details(chamber, committee_code.clone(), params);
 
     // Fetch the data using the client.
-    let response: CommitteeDetailsResponse =
-        client.fetch(endpoint).expect("Failed to fetch committee details");
+    let response: CommitteeDetailsResponse = client
+        .fetch(endpoint)
+        .expect("Failed to fetch committee details");
 
     // Assert that the committee code matches.
     assert_eq!(
-        response.committee.system_code.clone().unwrap(), committee_code,
+        response.committee.system_code.clone().unwrap(),
+        committee_code,
         "Committee code should match"
     );
 
@@ -189,8 +197,9 @@ fn test_fetch_nomination_details() {
     let endpoint = Endpoints::new_nomination_details(congress, nomination_number.clone(), params);
 
     // Fetch the data using the client.
-    let response: NominationDetailsResponse =
-        client.fetch(endpoint).expect("Failed to fetch nomination details");
+    let response: NominationDetailsResponse = client
+        .fetch(endpoint)
+        .expect("Failed to fetch nomination details");
 
     // Optionally, print out the fetched nomination for manual verification.
     println!("Nomination: {:#?}", response.nomination);
@@ -212,17 +221,22 @@ fn test_fetch_treaty_details() {
     let endpoint = Endpoints::new_treaty_details(congress, treaty_number, params);
 
     // Fetch the data using the client.
-    let response: TreatyDetailsResponse =
-        client.fetch(endpoint).expect("Failed to fetch treaty details");
+    let response: TreatyDetailsResponse = client
+        .fetch(endpoint)
+        .expect("Failed to fetch treaty details");
 
     // Assert that the treaty number matches.
     assert_eq!(
-        response.treaty.number.unwrap_or(0), treaty_number,
+        response.treaty.number.unwrap_or(0),
+        treaty_number,
         "Treaty number should match"
     );
 
     // Optionally, print out the fetched treaty details for manual verification.
-    println!("Treaty Topic: {}", response.treaty.topic.unwrap_or("".to_string()));
+    println!(
+        "Treaty Topic: {}",
+        response.treaty.topic.unwrap_or("".to_string())
+    );
 }
 
 #[test]
@@ -251,7 +265,11 @@ fn test_fetch_hearings() {
 
     // Optionally, print out the fetched hearings for manual verification.
     for hearing in response.hearings {
-        println!("num: {}, jacket_num: {}", hearing.number.unwrap_or_default(), hearing.jacket_number.unwrap_or(0));
+        println!(
+            "num: {}, jacket_num: {}",
+            hearing.number.unwrap_or_default(),
+            hearing.jacket_number.unwrap_or(0)
+        );
     }
 }
 
@@ -267,8 +285,9 @@ fn test_fetch_current_congress() {
     let endpoint = Endpoints::new_congress_current(params);
 
     // Fetch the data using the client.
-    let response: CongressDetailsResponse =
-        client.fetch(endpoint).expect("Failed to fetch current congress");
+    let response: CongressDetailsResponse = client
+        .fetch(endpoint)
+        .expect("Failed to fetch current congress");
 
     // Assert that the congress number is greater than zero.
     assert!(
@@ -277,7 +296,10 @@ fn test_fetch_current_congress() {
     );
 
     // Optionally, print out the fetched congress details for manual verification.
-    println!("Current Congress Number: {}", response.congress.number.unwrap_or(0));
+    println!(
+        "Current Congress Number: {}",
+        response.congress.number.unwrap_or(0)
+    );
 }
 
 #[test]
@@ -296,8 +318,9 @@ fn test_fetch_committee_reports() {
     let endpoint = Endpoints::new_committee_report_list(params);
 
     // Fetch the data using the client.
-    let response: CommitteeReportsResponse =
-        client.fetch(endpoint).expect("Failed to fetch committee reports");
+    let response: CommitteeReportsResponse = client
+        .fetch(endpoint)
+        .expect("Failed to fetch committee reports");
 
     // Assert that the reports list is not empty.
     assert!(
@@ -307,7 +330,11 @@ fn test_fetch_committee_reports() {
 
     // Optionally, print out the fetched reports for manual verification.
     for report in response.reports {
-        println!("Report Number: {}, url: {}", report.number.unwrap_or(0), report.url.unwrap_or("".to_string()));
+        println!(
+            "Report Number: {}, url: {}",
+            report.number.unwrap_or(0),
+            report.url.unwrap_or("".to_string())
+        );
     }
 }
 
@@ -328,8 +355,9 @@ fn test_fetch_related_bills() {
     let endpoint = Endpoints::new_bill_related(congress, bill_type, bill_number, params);
 
     // Fetch the data using the client.
-    let response: RelatedBillsResponse =
-        client.fetch(endpoint).expect("Failed to fetch related bills");
+    let response: RelatedBillsResponse = client
+        .fetch(endpoint)
+        .expect("Failed to fetch related bills");
 
     // Assert that the related bills list is not empty.
     assert!(
@@ -339,10 +367,22 @@ fn test_fetch_related_bills() {
 
     // Optionally, print out the fetched related bills for manual verification.
     for related_bill in response.related_bills {
-        println!("Related Bill Number: {}", related_bill.number.unwrap_or(0000));
-        println!("Related Bill Title: {}", related_bill.title.unwrap_or("".to_string()));
-        println!("Related Bill Type: {}", related_bill.bill_type.unwrap_or_default());
-        println!("Relationship Info: {:#?}", related_bill.relationship_details);
+        println!(
+            "Related Bill Number: {}",
+            related_bill.number.unwrap_or(0000)
+        );
+        println!(
+            "Related Bill Title: {}",
+            related_bill.title.unwrap_or("".to_string())
+        );
+        println!(
+            "Related Bill Type: {}",
+            related_bill.bill_type.unwrap_or_default()
+        );
+        println!(
+            "Relationship Info: {:#?}",
+            related_bill.relationship_details
+        );
     }
 }
 
@@ -362,8 +402,9 @@ fn test_fetch_house_communications() {
     let endpoint = Endpoints::new_house_communication_list(params);
 
     // Fetch the data using the client.
-    let response: cdg_api::response_models::HouseCommunicationsResponse =
-        client.fetch(endpoint).expect("Failed to fetch house communications");
+    let response: cdg_api::response_models::HouseCommunicationsResponse = client
+        .fetch(endpoint)
+        .expect("Failed to fetch house communications");
 
     // Assert that the communications list is not empty.
     assert!(
@@ -373,13 +414,31 @@ fn test_fetch_house_communications() {
 
     // Optionally, print out the fetched communications for manual verification.
     for communication in response.house_communications {
-        println!("Communication Number: {}", communication.number.unwrap_or(0000));
-        println!("Chamber: {}", communication.chamber.unwrap_or("".to_string()));
-        println!("Congress Number: {}", communication.congress_number.unwrap_or(0000));
         println!(
-            "Communication Type: {}, {}", 
-            communication.communication_type.clone().unwrap_or_default().name.unwrap_or("".to_string()),
-            communication.communication_type.unwrap_or_default().code.unwrap_or("".to_string())
+            "Communication Number: {}",
+            communication.number.unwrap_or(0000)
+        );
+        println!(
+            "Chamber: {}",
+            communication.chamber.unwrap_or("".to_string())
+        );
+        println!(
+            "Congress Number: {}",
+            communication.congress_number.unwrap_or(0000)
+        );
+        println!(
+            "Communication Type: {}, {}",
+            communication
+                .communication_type
+                .clone()
+                .unwrap_or_default()
+                .name
+                .unwrap_or("".to_string()),
+            communication
+                .communication_type
+                .unwrap_or_default()
+                .code
+                .unwrap_or("".to_string())
         );
         println!("url: {}", communication.url.unwrap_or("".to_string()));
     }
@@ -401,8 +460,9 @@ fn test_fetch_daily_congressional_records() {
     let endpoint = Endpoints::new_daily_congressional_record_list(params);
 
     // Fetch the data using the client.
-    let response: cdg_api::response_models::DailyCongressionalRecordResponse =
-        client.fetch(endpoint).expect("Failed to fetch daily congressional records");
+    let response: cdg_api::response_models::DailyCongressionalRecordResponse = client
+        .fetch(endpoint)
+        .expect("Failed to fetch daily congressional records");
 
     // Assert that the records list is not empty.
     assert!(
@@ -412,6 +472,10 @@ fn test_fetch_daily_congressional_records() {
 
     // Optionally, print out the fetched records for manual verification.
     for record in response.daily_congressional_record {
-        println!("vol #: {}, iss #: {}", record.volume_number.unwrap_or(0), record.issue_number.unwrap_or("".to_string()));
+        println!(
+            "vol #: {}, iss #: {}",
+            record.volume_number.unwrap_or(0),
+            record.issue_number.unwrap_or("".to_string())
+        );
     }
 }

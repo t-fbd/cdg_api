@@ -1,8 +1,10 @@
-use cdg_api::{unwrap_option_string, CongressApiClient};
+use cdg_api::cdg_types::FormatType;
 use cdg_api::endpoints::Endpoints;
 use cdg_api::param_models::BillListParams;
-use cdg_api::cdg_types::FormatType;
-use cdg_api::response_models::{BillsResponse, GenericResponse, serialize_response, parse_response};
+use cdg_api::response_models::{
+    parse_response, serialize_response, BillsResponse, GenericResponse,
+};
+use cdg_api::{unwrap_option_string, CongressApiClient};
 
 use std::error::Error;
 
@@ -10,9 +12,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let client = CongressApiClient::new(None)?; // Use default API key
 
     // Define parameters
-    let params = BillListParams::default()
-        .format(FormatType::Json)
-        .limit(10);
+    let params = BillListParams::default().format(FormatType::Json).limit(10);
 
     // Create the endpoint
     let endpoint = Endpoints::BillList(params);
@@ -35,7 +35,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         println!("Bill: {}", unwrap_option_string(bill.bill_type));
         println!("Title: {}", unwrap_option_string(bill.title));
         println!("Number: {}", unwrap_option_string(bill.number));
-        println!("Origin Chamber: {}", unwrap_option_string(bill.origin_chamber));
+        println!(
+            "Origin Chamber: {}",
+            unwrap_option_string(bill.origin_chamber)
+        );
         println!("Update Date: {}", unwrap_option_string(bill.update_date));
         println!("URL: {}", unwrap_option_string(bill.url));
         println!();
@@ -43,6 +46,3 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     Ok(())
 }
-
-
-

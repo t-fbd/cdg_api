@@ -1,5 +1,5 @@
 //! ## Available Commands
-//! 
+//!
 //! - `list_bills`        : List recent bills introduced in Congress.
 //! - `current_congress`  : Display information about the current congress session.
 //! - `list_nominations`  : List recent nominations.
@@ -10,12 +10,12 @@
 //! - `list_committees`   : List all congressional committees.
 //! - `list_laws`         : List recently passed laws.
 //! - `list_amendments`   : List recent amendments.
-//! 
+//!
 //! ## Usage
-//! 
+//!
 //! ```bash
 //! cargo run -- <command> [additional arguments]
-//! 
+//!
 //! # Examples:
 //! cargo run -- list_bills {amount}
 //! cargo run -- current_congress
@@ -31,15 +31,18 @@ use std::env;
 use std::error::Error;
 use std::process;
 
-use cdg_api::CongressApiClient;
+use cdg_api::cdg_types::*;
 use cdg_api::endpoints::Endpoints;
 use cdg_api::param_models::{
-    AmendmentListParams, BillActionsParams, BillDetailsParams, BillListParams, CommitteeListParams, LawParams, MemberDetailsParams, MemberListParams, NominationListParams, TreatyListParams
+    AmendmentListParams, BillActionsParams, BillDetailsParams, BillListParams, CommitteeListParams,
+    LawParams, MemberDetailsParams, MemberListParams, NominationListParams, TreatyListParams,
 };
-use cdg_api::cdg_types::*;
 use cdg_api::response_models::{
-    AmendmentsResponse, BillActionsResponse, BillDetailsResponse, BillsResponse, CommitteesResponse, CongressDetailsResponse, LawsResponse, MemberDetailsResponse, MembersResponse, NominationsResponse, PrimaryResponse, TreatiesResponse
+    AmendmentsResponse, BillActionsResponse, BillDetailsResponse, BillsResponse,
+    CommitteesResponse, CongressDetailsResponse, LawsResponse, MemberDetailsResponse,
+    MembersResponse, NominationsResponse, PrimaryResponse, TreatiesResponse,
 };
+use cdg_api::CongressApiClient;
 
 fn main() {
     if let Err(e) = run() {
@@ -79,10 +82,11 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_bills = fetch_all(
                 &client,
                 |offset, limit| {
-                    Endpoints::BillList(BillListParams::default()
-                        .format(FormatType::Json)
-                        .limit(limit as u32)
-                        .offset(offset as u32)
+                    Endpoints::BillList(
+                        BillListParams::default()
+                            .format(FormatType::Json)
+                            .limit(limit as u32)
+                            .offset(offset as u32),
                     )
                 },
                 |response: &BillsResponse| response.bills.clone(),
@@ -92,7 +96,8 @@ fn run() -> Result<(), Box<dyn Error>> {
             display_bills(&all_bills);
         }
         "current_congress" => {
-            let endpoint = Endpoints::CongressCurrent(cdg_api::param_models::CongressCurrentParams::default());
+            let endpoint =
+                Endpoints::CongressCurrent(cdg_api::param_models::CongressCurrentParams::default());
             let response: CongressDetailsResponse = client.fetch(endpoint)?;
             display_congress_details(&response);
         }
@@ -101,10 +106,11 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_nominations: Vec<cdg_api::response_models::NominationItem> = fetch_all(
                 &client,
                 |offset, limit| {
-                    Endpoints::NominationList(NominationListParams::default()
-                        .format(FormatType::Json)
-                        .limit(limit as u32)
-                        .offset(offset as u32)
+                    Endpoints::NominationList(
+                        NominationListParams::default()
+                            .format(FormatType::Json)
+                            .limit(limit as u32)
+                            .offset(offset as u32),
                     )
                 },
                 |response: &NominationsResponse| response.nominations.clone(),
@@ -122,10 +128,11 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_treaties = fetch_all(
                 &client,
                 |offset, limit| {
-                    Endpoints::TreatyList(TreatyListParams::default()
-                        .format(FormatType::Json)
-                        .limit(limit as u32)
-                        .offset(offset as u32)
+                    Endpoints::TreatyList(
+                        TreatyListParams::default()
+                            .format(FormatType::Json)
+                            .limit(limit as u32)
+                            .offset(offset as u32),
                     )
                 },
                 |response: &TreatiesResponse| response.treaties.clone(),
@@ -179,11 +186,12 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_members = fetch_all(
                 &client,
                 |offset, limit| {
-                    Endpoints::MemberList(MemberListParams::default()
-                        .format(FormatType::Json)
-                        .limit(limit as u32)
-                        .offset(offset as u32)
-                        .current_member(true)
+                    Endpoints::MemberList(
+                        MemberListParams::default()
+                            .format(FormatType::Json)
+                            .limit(limit as u32)
+                            .offset(offset as u32)
+                            .current_member(true),
                     )
                 },
                 |response: &MembersResponse| response.members.clone(),
@@ -200,10 +208,11 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_committees = fetch_all(
                 &client,
                 |offset, limit| {
-                    Endpoints::CommitteeList(CommitteeListParams::default()
-                        .format(FormatType::Json)
-                        .limit(limit as u32)
-                        .offset(offset as u32)
+                    Endpoints::CommitteeList(
+                        CommitteeListParams::default()
+                            .format(FormatType::Json)
+                            .limit(limit as u32)
+                            .offset(offset as u32),
                     )
                 },
                 |response: &CommitteesResponse| response.committees.clone(),
@@ -225,7 +234,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                         LawParams::default()
                             .format(FormatType::Json)
                             .limit(limit as u32)
-                            .offset(offset as u32)
+                            .offset(offset as u32),
                     )
                 },
                 |response: &LawsResponse| response.bills.clone(),
@@ -242,10 +251,11 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_amendments = fetch_all(
                 &client,
                 |offset, limit| {
-                    Endpoints::AmendmentList(AmendmentListParams::default()
-                        .format(FormatType::Json)
-                        .limit(limit as u32)
-                        .offset(offset as u32)
+                    Endpoints::AmendmentList(
+                        AmendmentListParams::default()
+                            .format(FormatType::Json)
+                            .limit(limit as u32)
+                            .offset(offset as u32),
                     )
                 },
                 |response: &AmendmentsResponse| response.amendments.clone(),
@@ -325,12 +335,16 @@ fn print_usage() {
     println!("  current_congress                : Display information about the current congress session.");
     println!("  list_nominations                : List recent nominations.");
     println!("  list_treaties                   : List recent treaties.");
-    println!("  member_details {{bioguide_id}}  : Get detailed information about a specific member.");
+    println!(
+        "  member_details {{bioguide_id}}  : Get detailed information about a specific member."
+    );
     println!("  bill_details                    : Get detailed information about a specific bill.");
     println!("    {{congress}}");
     println!("     {{bill_type}}");
     println!("      {{bill_number}}");
-    println!("  current_members                 : Fetch and display all current members of Congress.");
+    println!(
+        "  current_members                 : Fetch and display all current members of Congress."
+    );
     println!("  list_committees                 : List all congressional committees.");
     println!("  list_laws                       : List recently passed laws.");
     println!("  list_amendments                 : List recent amendments.");
@@ -347,7 +361,10 @@ fn display_members(response: &MembersResponse) {
         );
         println!(
             "bioguideId : {}",
-            member.bioguide_id.clone().unwrap_or_else(|| "N/A".to_string())
+            member
+                .bioguide_id
+                .clone()
+                .unwrap_or_else(|| "N/A".to_string())
         );
         println!(
             "State      : {}",
@@ -360,10 +377,7 @@ fn display_members(response: &MembersResponse) {
                 .clone()
                 .unwrap_or_else(|| "N/A".to_string())
         );
-        println!(
-            "District   : {}",
-            member.district.unwrap_or(0)
-        );
+        println!("District   : {}", member.district.unwrap_or(0));
         let depiction = member.depiction.clone().unwrap_or_default();
         println!(
             "Image URL  : {}",
@@ -402,7 +416,10 @@ fn display_bills(all_bills: &[cdg_api::response_models::BillSummary]) {
             println!(
                 "Latest Action : {} on {}",
                 action.text.clone().unwrap_or_else(|| "N/A".to_string()),
-                action.action_date.clone().unwrap_or_else(|| "N/A".to_string())
+                action
+                    .action_date
+                    .clone()
+                    .unwrap_or_else(|| "N/A".to_string())
             );
         } else {
             println!("Latest Action : N/A");
@@ -470,7 +487,10 @@ fn display_nominations(response: &NominationsResponse) {
     println!("Recent Nominations:");
     for nomination in &response.nominations {
         println!("----------------------------------------");
-        println!("Number          : {}", nomination.number.clone().unwrap_or_else(|| 0000));
+        println!(
+            "Number          : {}",
+            nomination.number.clone().unwrap_or_else(|| 0000)
+        );
         println!(
             "Citation        : {}",
             nomination
@@ -533,7 +553,10 @@ fn display_treaties(response: &TreatiesResponse) {
     println!("Recent Treaties:");
     for treaty in &response.treaties {
         println!("----------------------------------------");
-        println!("Number              : {}", treaty.number.clone().unwrap_or_else(|| 0000));
+        println!(
+            "Number              : {}",
+            treaty.number.clone().unwrap_or_else(|| 0000)
+        );
         println!(
             "Suffix              : {}",
             treaty.suffix.clone().unwrap_or_else(|| "N/A".to_string())
@@ -587,7 +610,10 @@ fn display_committees(response: &CommitteesResponse) {
         );
         println!(
             "Chamber  : {}",
-            committee.chamber.clone().unwrap_or_else(|| "N/A".to_string())
+            committee
+                .chamber
+                .clone()
+                .unwrap_or_else(|| "N/A".to_string())
         );
         println!(
             "Type     : {}",
@@ -629,7 +655,10 @@ fn display_laws(response: &LawsResponse) {
             println!(
                 "Latest Action : {} on {}",
                 action.text.clone().unwrap_or_else(|| "N/A".to_string()),
-                action.action_date.clone().unwrap_or_else(|| "N/A".to_string())
+                action
+                    .action_date
+                    .clone()
+                    .unwrap_or_else(|| "N/A".to_string())
             );
         } else {
             println!("Latest Action : N/A");
@@ -650,7 +679,10 @@ fn display_amendments(response: &AmendmentsResponse) {
         println!("----------------------------------------");
         println!(
             "Amendment Number : {}",
-            amendment.number.clone().unwrap_or_else(|| "N/A".to_string())
+            amendment
+                .number
+                .clone()
+                .unwrap_or_else(|| "N/A".to_string())
         );
         println!(
             "Type             : {}",
@@ -678,7 +710,10 @@ fn display_amendments(response: &AmendmentsResponse) {
             println!(
                 "Latest Action    : {} on {}",
                 action.text.clone().unwrap_or_else(|| "N/A".to_string()),
-                action.action_date.clone().unwrap_or_else(|| "N/A".to_string())
+                action
+                    .action_date
+                    .clone()
+                    .unwrap_or_else(|| "N/A".to_string())
             );
         } else {
             println!("Latest Action    : N/A");
@@ -700,10 +735,7 @@ fn display_member_details(response: &MemberDetailsResponse) {
     println!(
         "Name               : {} {} {}",
         member.first_name.clone().unwrap_or_else(|| "".to_string()),
-        member
-            .middle_name
-            .clone()
-            .unwrap_or_else(|| "".to_string()),
+        member.middle_name.clone().unwrap_or_else(|| "".to_string()),
         member.last_name.clone().unwrap_or_else(|| "".to_string())
     );
     println!(
@@ -729,7 +761,10 @@ fn display_member_details(response: &MemberDetailsResponse) {
     );
     println!(
         "Bioguide ID        : {}",
-        member.bioguide_id.clone().unwrap_or_else(|| "N/A".to_string())
+        member
+            .bioguide_id
+            .clone()
+            .unwrap_or_else(|| "N/A".to_string())
     );
     println!(
         "Official URL       : {}",
@@ -757,11 +792,7 @@ fn display_member_details(response: &MemberDetailsResponse) {
                 .clone()
                 .unwrap_or_else(|| "N/A".to_string())
         );
-        println!(
-            "ZIP Code           : {}",
-            address
-                .zip_code.unwrap_or(00000)
-        );
+        println!("ZIP Code           : {}", address.zip_code.unwrap_or(00000));
         println!(
             "Phone Number       : {}",
             address
@@ -796,16 +827,13 @@ fn display_member_details(response: &MemberDetailsResponse) {
             println!("----------------------------------------");
             println!(
                 "  - Party: {}",
-                party.party_name.clone().unwrap_or_else(|| "N/A".to_string())
+                party
+                    .party_name
+                    .clone()
+                    .unwrap_or_else(|| "N/A".to_string())
             );
-            println!(
-                "    Start: {}",
-                party.start_year.unwrap_or(0)
-            );
-            println!(
-                "    End  : {}",
-                party.end_year.unwrap_or(0)
-            );
+            println!("    Start: {}", party.start_year.unwrap_or(0));
+            println!("    End  : {}", party.end_year.unwrap_or(0));
         }
     } else {
         println!("Party: N/A");
@@ -814,7 +842,10 @@ fn display_member_details(response: &MemberDetailsResponse) {
     if let Some(terms) = &member.terms {
         for term in terms {
             println!("----------------------------------------");
-            println!("  - Chamber: {}", term.chamber.clone().unwrap_or_else(|| "N/A".to_string()));
+            println!(
+                "  - Chamber: {}",
+                term.chamber.clone().unwrap_or_else(|| "N/A".to_string())
+            );
             println!("    Congress: {}", term.congress.unwrap_or(0));
             println!(
                 "    State: {} ({})",
@@ -838,11 +869,21 @@ fn display_member_details(response: &MemberDetailsResponse) {
     println!("\n");
     println!(
         "Sponsored Legislation: {} bills",
-        member.sponsored_legislation.clone().unwrap_or_default().count.unwrap_or(0)
+        member
+            .sponsored_legislation
+            .clone()
+            .unwrap_or_default()
+            .count
+            .unwrap_or(0)
     );
     println!(
         "Cosponsored Legislation: {} bills",
-        member.cosponsored_legislation.clone().unwrap_or_default().count.unwrap_or(0)
+        member
+            .cosponsored_legislation
+            .clone()
+            .unwrap_or_default()
+            .count
+            .unwrap_or(0)
     );
     println!("----------------------------------------");
 }
@@ -853,11 +894,17 @@ fn display_billacts_details(response: &BillActionsResponse) {
         println!("----------------------------------------");
         println!(
             "Action Code: {}",
-            action.action_code.clone().unwrap_or_else(|| "N/A".to_string())
+            action
+                .action_code
+                .clone()
+                .unwrap_or_else(|| "N/A".to_string())
         );
         println!(
             "Action Date: {}",
-            action.action_date.clone().unwrap_or_else(|| "N/A".to_string())
+            action
+                .action_date
+                .clone()
+                .unwrap_or_else(|| "N/A".to_string())
         );
         println!(
             "Text       : {}",
@@ -895,7 +942,11 @@ fn display_bill_details(response: &BillDetailsResponse) {
     );
     println!(
         "Laws Associated    : {} laws",
-        bill.related_bills.clone().unwrap_or_default().count.unwrap_or(0)
+        bill.related_bills
+            .clone()
+            .unwrap_or_default()
+            .count
+            .unwrap_or(0)
     );
     println!("Latest Action:");
     if let Some(action) = &bill.latest_action {

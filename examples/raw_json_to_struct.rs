@@ -1,4 +1,6 @@
-use cdg_api::response_models::{BillsResponse, GenericResponse, serialize_response, parse_response};
+use cdg_api::response_models::{
+    parse_response, serialize_response, BillsResponse, GenericResponse,
+};
 use cdg_api::unwrap_option_string;
 
 const RAW_BILL_DATA: &str = r#"{
@@ -38,9 +40,10 @@ const RAW_BILL_DATA: &str = r#"{
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let bills: BillsResponse = serde_json::from_str(RAW_BILL_DATA)?;
-    
+
     for bill in bills.bills[..].iter() {
-        println!("{}, {}, {} -- {}\n", 
+        println!(
+            "{}, {}, {} -- {}\n",
             unwrap_option_string(bill.title.clone()),
             unwrap_option_string(bill.bill_type.clone()),
             unwrap_option_string(bill.number.clone()),
@@ -64,7 +67,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
 
     for bill in bills.bills[..].iter() {
-        println!("{}, {}, {} -- {}\n", 
+        println!(
+            "{}, {}, {} -- {}\n",
             unwrap_option_string(bill.title.clone()),
             unwrap_option_string(bill.bill_type.clone()),
             unwrap_option_string(bill.number.clone()),
@@ -73,6 +77,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     println!("Total bills: {}", bills.bills.len());
-    
+
     Ok(())
 }

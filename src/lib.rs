@@ -4,20 +4,19 @@ pub mod client;
 pub mod requests;
 pub mod response;
 
-pub use client::{cdg_client::CongressApiClient, url_builders, cdg_types};
-pub use response::response_models;
-pub use requests::{param_models, endpoints};
+pub use client::{cdg_client::CongressApiClient, cdg_types, url_builders};
 pub use request_handlers::get_congress_data;
+pub use requests::{endpoints, param_models};
+pub use response::response_models;
 
 /// The base URL for the US Congress API.
 pub const BASE_URL: &str = "https://api.congress.gov/v3/";
-
 
 /// Unwraps an `Option<String>` and returns the inner [`String`] or an empty string if [`None`].
 pub fn unwrap_option_string(opt: Option<String>) -> String {
     match opt {
         Some(s) => s,
-        None => "".to_string()
+        None => "".to_string(),
     }
 }
 
@@ -25,7 +24,7 @@ pub fn unwrap_option_string(opt: Option<String>) -> String {
 pub fn unwrap_option_u32(opt: Option<u32>) -> u32 {
     match opt {
         Some(i) => i,
-        None => 0
+        None => 0,
     }
 }
 
@@ -33,58 +32,56 @@ pub fn unwrap_option_u32(opt: Option<u32>) -> u32 {
 pub fn unwrap_option<T: Default>(opt: Option<T>) -> T {
     match opt {
         Some(t) => t,
-        None => T::default()
+        None => T::default(),
     }
 }
 
-
 #[cfg(feature = "requests")]
 pub mod request_handlers {
-//! # [`request_handlers`] Module
-//! 
-//! The [`request_handlers`] module provides utility functions for interacting with the US Congress API.
-//! It includes methods for fetching data via HTTP requests and processing responses using external tools.
-//!
-//! ## Usage
-//! 
-//! ```rust
-//! use cdg_api::request_handlers::{get_congress_data, curl_and_jq};
-//! use cdg_api::response_models::BillsResponse;
-//! 
-//! fn main() -> Result<(), Box<dyn std::error::Error>> {
-//!     let url = "https://api.congress.gov/v3/bill/?format=json&limit=10&api_key=YOUR_API_KEY";
-//!     
-//!     // Fetch and deserialize data
-//!     // Note:
-//!     // In this example it will fail because the api key is not valid
-//!     // otherwise it will return the data and attempt to deserialize it
-//!     // into the BillsResponse struct
-//!     let bills: BillsResponse = match get_congress_data(url) {
-//!         Ok(data) => data,
-//!         Err(err) => {
-//!             eprintln!("Error: {}", err);
-//!             BillsResponse::default()
-//!         }
-//!     };
-//!     
-//!     // Fetch and process data with jq
-//!     // Note:
-//!     // In this example it will fail because the api key is not valid
-//!     // otherwise it will return the data and process it with jq
-//!     // using the provided filter
-//!     match curl_and_jq(url, ".bills[] | {number, title}") {
-//!         Ok(_) => println!("Data processed successfully."),
-//!         Err(err) => eprintln!("Error: {}", err),
-//!     }
-//!     
-//!     Ok(())
-//! }
-//! ```
+    //! # [`request_handlers`] Module
+    //!
+    //! The [`request_handlers`] module provides utility functions for interacting with the US Congress API.
+    //! It includes methods for fetching data via HTTP requests and processing responses using external tools.
+    //!
+    //! ## Usage
+    //!
+    //! ```rust
+    //! use cdg_api::request_handlers::{get_congress_data, curl_and_jq};
+    //! use cdg_api::response_models::BillsResponse;
+    //!
+    //! fn main() -> Result<(), Box<dyn std::error::Error>> {
+    //!     let url = "https://api.congress.gov/v3/bill/?format=json&limit=10&api_key=YOUR_API_KEY";
+    //!     
+    //!     // Fetch and deserialize data
+    //!     // Note:
+    //!     // In this example it will fail because the api key is not valid
+    //!     // otherwise it will return the data and attempt to deserialize it
+    //!     // into the BillsResponse struct
+    //!     let bills: BillsResponse = match get_congress_data(url) {
+    //!         Ok(data) => data,
+    //!         Err(err) => {
+    //!             eprintln!("Error: {}", err);
+    //!             BillsResponse::default()
+    //!         }
+    //!     };
+    //!     
+    //!     // Fetch and process data with jq
+    //!     // Note:
+    //!     // In this example it will fail because the api key is not valid
+    //!     // otherwise it will return the data and process it with jq
+    //!     // using the provided filter
+    //!     match curl_and_jq(url, ".bills[] | {number, title}") {
+    //!         Ok(_) => println!("Data processed successfully."),
+    //!         Err(err) => eprintln!("Error: {}", err),
+    //!     }
+    //!     
+    //!     Ok(())
+    //! }
+    //! ```
 
-
+    use super::response_models::PrimaryResponse;
     use reqwest::blocking::Client;
     use serde::de::DeserializeOwned;
-    use super::response_models::PrimaryResponse;
 
     /// Fetches data from the US Congress API and deserializes it into the specified response model.
     ///
@@ -96,15 +93,17 @@ pub mod request_handlers {
     ///
     /// - `Ok(T)`: The deserialized response data.
     /// - [`Err`]: An error if the request fails or deserialization fails.
-    pub fn get_congress_data<T: PrimaryResponse + DeserializeOwned>(url: &str) -> Result<T, Box<dyn std::error::Error>> {
+    pub fn get_congress_data<T: PrimaryResponse + DeserializeOwned>(
+        url: &str,
+    ) -> Result<T, Box<dyn std::error::Error>> {
         let client = Client::new();
         let response = client.get(url).send()?;
         let data = response.json::<T>()?;
         Ok(data)
     }
-    
+
     use std::io::Write;
-    
+
     /// Executes a [`curl`] request to the given URL and processes the JSON output with [`jq`].
     ///
     /// # Parameters
@@ -130,7 +129,7 @@ pub mod request_handlers {
         {
             return Err("jq is not installed. Please install jq and try again.".into());
         }
-    
+
         // Check if curl is installed
         if std::process::Command::new("curl")
             .arg("--version")
@@ -139,36 +138,37 @@ pub mod request_handlers {
         {
             return Err("curl is not installed. Please install curl and try again.".into());
         }
-    
+
         // Execute curl command
-        let curl_output = std::process::Command::new("curl")
-            .arg(url)
-            .output()?;
-    
+        let curl_output = std::process::Command::new("curl").arg(url).output()?;
+
         if !curl_output.status.success() {
             return Err("Failed to execute curl command.".into());
         }
-    
+
         let stdout = String::from_utf8(curl_output.stdout)?;
         let trimmed_output = stdout.trim();
-    
+
         // Execute jq command
         let mut jq_process = std::process::Command::new("jq")
             .arg(jq_cmd)
             .stdin(std::process::Stdio::piped())
             .stdout(std::process::Stdio::inherit())
             .spawn()?;
-    
+
         {
-            let stdin = jq_process.stdin.as_mut().ok_or("Failed to open stdin for jq")?;
+            let stdin = jq_process
+                .stdin
+                .as_mut()
+                .ok_or("Failed to open stdin for jq")?;
             stdin.write_all(trimmed_output.as_bytes())?;
         }
-    
+
         let jq_status = jq_process.wait()?;
         if !jq_status.success() {
             return Err("jq command failed.".into());
         }
-    
+
         Ok(())
     }
 }

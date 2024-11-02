@@ -1,8 +1,10 @@
 use cdg_api::cdg_types::FormatType;
-use cdg_api::param_models::GenericParams;
-use cdg_api::{CongressApiClient, unwrap_option, unwrap_option_u32, unwrap_option_string};
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
-use cdg_api::response_models::{DailyCongressionalRecordResponse, GenericResponse, parse_response, serialize_response};
+use cdg_api::param_models::GenericParams;
+use cdg_api::response_models::{
+    parse_response, serialize_response, DailyCongressionalRecordResponse, GenericResponse,
+};
+use cdg_api::{unwrap_option, unwrap_option_string, unwrap_option_u32, CongressApiClient};
 
 use std::error::Error;
 
@@ -12,9 +14,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Assume there's an endpoint that doesn't have a specific response model
     let endpoint = Endpoints::new_generic(
         "daily-congressional-record".to_string(),
-        GenericParams::default()
-            .format(FormatType::Json)
-            .limit(250)
+        GenericParams::default().format(FormatType::Json).limit(250),
     );
 
     // Fetch the data as GenericResponse
@@ -35,7 +35,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 println!();
                 println!("Full Issue: {:#?}", unwrap_option(record.full_issue));
             });
-        },
+        }
         Err(e) => {
             println!("Failed to parse response: {}", e);
             // Serialize the response as a generic JSON value, pretty-printed = true

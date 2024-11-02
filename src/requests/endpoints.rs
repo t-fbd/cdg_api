@@ -1,31 +1,31 @@
 //! # [`endpoints`] Module
-//! 
+//!
 //! This module defines the [`Endpoints`] enum, which represents the various API endpoints
 //! available in the US Congress API. Each variant encapsulates the necessary parameters
 //! required to interact with a specific endpoint.
-//! 
+//!
 //! Additionally, the [`NewEndpoint`] trait provides constructor methods for creating
 //! instances of each [`Endpoints`] variant in a standardized manner.
-//! 
+//!
 //! ## Example
-//! 
+//!
 //! ```rust
 //! use cdg_api::endpoints::{Endpoints, NewEndpoint};
 //! use cdg_api::cdg_types::FormatType;
 //! use cdg_api::param_models::*;
-//! 
+//!
 //! fn main() {
 //!     let params = BillListParams::default()
 //!         .format(FormatType::Json)
 //!         .limit(20);
-//! 
+//!
 //!     let endpoint = Endpoints::new_bill_list(params);
 //!     // Use the endpoint with CongressApiClient
 //! }
 //! ```
 
+use crate::{cdg_types::*, param_models::*};
 use serde::{Deserialize, Serialize};
-use crate::{param_models::*, cdg_types::*};
 
 /// Each variant of the [`Endpoints`] enum corresponds to a specific API endpoint,
 /// encapsulating the necessary parameters required to interact with that endpoint.
@@ -38,7 +38,6 @@ pub enum Endpoints {
     // ================================
     // Bill Endpoints
     // ================================
-
     /// Endpoint to list bills based on provided parameters.
     /// /bill
     BillList(BillListParams),
@@ -160,7 +159,7 @@ pub enum Endpoints {
     /// - [`BillTextParams`]: Additional parameters for bill text.
     /// /bill/{congress}/{billType}/{billNumber}/text
     BillText(u32, BillType, u32, BillTextParams),
-    
+
     /// Endpoint to retrieve titles of a specific bill.
     ///
     /// # Parameters
@@ -175,7 +174,6 @@ pub enum Endpoints {
     // ================================
     // Law Endpoints
     // ================================
-
     /// Endpoint to list laws based on provided parameters.
     /// /law/{congress}/{lawType}
     LawByType(u32, LawType, LawParams),
@@ -203,7 +201,6 @@ pub enum Endpoints {
     // ================================
     // Amendment Endpoints
     // ================================
-
     /// Endpoint to list amendments based on provided parameters.
     /// /amendment
     AmendmentList(AmendmentListParams),
@@ -285,7 +282,6 @@ pub enum Endpoints {
     // ================================
     // Summaries Endpoints
     // ================================
-
     /// Endpoint to list summaries based on provided parameters.
     /// /summary
     SummariesList(SummariesListParams),
@@ -312,7 +308,6 @@ pub enum Endpoints {
     // ================================
     // Congress Endpoints
     // ================================
-
     /// Endpoint to list congress sessions based on provided parameters.
     /// /congress
     CongressList(CongressListParams),
@@ -337,7 +332,6 @@ pub enum Endpoints {
     // ================================
     // Member Endpoints
     // ================================
-
     /// Endpoint to list members of Congress based on provided parameters.
     /// /member
     MemberList(MemberListParams),
@@ -412,7 +406,6 @@ pub enum Endpoints {
     // ================================
     // Committee Endpoints
     // ================================
-
     /// Endpoint to list committees based on provided parameters.
     ///
     /// # Parameters
@@ -512,7 +505,6 @@ pub enum Endpoints {
     // ================================
     // Committee Report Endpoints
     // ================================
-    
     /// Endpoint to list committee reports based on provided parameters.
     ///
     /// # Parameters
@@ -566,7 +558,6 @@ pub enum Endpoints {
     // ================================
     // Committee Print Endpoints
     // ================================
-    
     /// Endpoint to list committee prints based on provided parameters.
     ///
     /// # Parameters
@@ -616,7 +607,6 @@ pub enum Endpoints {
     // ================================
     // Committee Meeting Endpoints
     // ================================
-    
     /// Endpoint to list committee meetings based on provided parameters.
     ///
     /// # Parameters
@@ -660,7 +650,6 @@ pub enum Endpoints {
     // ================================
     // Hearing Endpoints
     // ================================
-    
     /// Endpoint to list hearings based on provided parameters.
     ///
     /// # Parameters
@@ -702,7 +691,6 @@ pub enum Endpoints {
     // ================================
     // Congressional Record Endpoints
     // ================================
-    
     /// Endpoint to list Congressional Records based on provided parameters.
     ///
     /// # Parameters
@@ -714,7 +702,6 @@ pub enum Endpoints {
     // ====================================
     // Daily Congressional Record Endpoints
     // ====================================
-    
     /// Endpoint to list daily Congressional Records based on provided parameters.
     ///
     /// # Parameters
@@ -757,7 +744,6 @@ pub enum Endpoints {
     // ================================
     // Bound Congressional Record Endpoints
     // ================================
-
     /// Endpoint to list bound Congressional Records based on provided parameters.
     ///
     /// # Parameters
@@ -799,7 +785,6 @@ pub enum Endpoints {
     // ================================
     // House Communication Endpoints
     // ================================
-
     /// Endpoint to list house communications based on provided parameters.
     ///
     /// # Parameters
@@ -843,7 +828,6 @@ pub enum Endpoints {
     // ================================
     // House Requirement Endpoints
     // ================================
-
     /// Endpoint to list house requirements based on provided parameters.
     ///
     /// # Parameters
@@ -873,7 +857,6 @@ pub enum Endpoints {
     // ================================
     // Senate Communication Endpoints
     // ================================
-
     /// Endpoint to list house communications based on provided parameters.
     ///
     /// # Parameters
@@ -917,7 +900,6 @@ pub enum Endpoints {
     // ================================
     // Nomination Endpoints
     // ================================
-
     /// Endpoint to list nominations based on provided parameters.
     NominationList(NominationListParams),
 
@@ -978,7 +960,6 @@ pub enum Endpoints {
     // ================================
     // Treaty Endpoints
     // ================================
-
     /// Endpoint to list treaties based on provided parameters.
     TreatyList(TreatyListParams),
 
@@ -1045,97 +1026,368 @@ impl Iterator for Endpoints {
     fn next(&mut self) -> Option<Self::Item> {
         match self {
             Endpoints::BillList(params) => Some(Endpoints::BillList(params.clone())),
-            Endpoints::BillByCongress(congress, params) => Some(Endpoints::BillByCongress(*congress, params.clone())),
-            Endpoints::BillByType(congress, bill_type, params) => Some(Endpoints::BillByType(*congress, *bill_type, params.clone())),
-            Endpoints::BillDetails(congress, bill_type, bill_number, params) => Some(Endpoints::BillDetails(*congress, *bill_type, *bill_number, params.clone())),
-            Endpoints::BillActions(congress, bill_type, bill_number, params) => Some(Endpoints::BillActions(*congress, *bill_type, *bill_number, params.clone())),
-            Endpoints::BillAmendments(congress, bill_type, bill_number, params) => Some(Endpoints::BillAmendments(*congress, *bill_type, *bill_number, params.clone())),
-            Endpoints::BillCommittees(congress, bill_type, bill_number, params) => Some(Endpoints::BillCommittees(*congress, *bill_type, *bill_number, params.clone())),
-            Endpoints::BillCosponsors(congress, bill_type, bill_number, params) => Some(Endpoints::BillCosponsors(*congress, *bill_type, *bill_number, params.clone())),
-            Endpoints::LawByCongress(congress, params) => Some(Endpoints::LawByCongress(*congress, params.clone())),
-            Endpoints::LawDetails(congress, law_type, law_number, params) => Some(Endpoints::LawDetails(*congress, *law_type, *law_number, params.clone())),
+            Endpoints::BillByCongress(congress, params) => {
+                Some(Endpoints::BillByCongress(*congress, params.clone()))
+            }
+            Endpoints::BillByType(congress, bill_type, params) => {
+                Some(Endpoints::BillByType(*congress, *bill_type, params.clone()))
+            }
+            Endpoints::BillDetails(congress, bill_type, bill_number, params) => Some(
+                Endpoints::BillDetails(*congress, *bill_type, *bill_number, params.clone()),
+            ),
+            Endpoints::BillActions(congress, bill_type, bill_number, params) => Some(
+                Endpoints::BillActions(*congress, *bill_type, *bill_number, params.clone()),
+            ),
+            Endpoints::BillAmendments(congress, bill_type, bill_number, params) => Some(
+                Endpoints::BillAmendments(*congress, *bill_type, *bill_number, params.clone()),
+            ),
+            Endpoints::BillCommittees(congress, bill_type, bill_number, params) => Some(
+                Endpoints::BillCommittees(*congress, *bill_type, *bill_number, params.clone()),
+            ),
+            Endpoints::BillCosponsors(congress, bill_type, bill_number, params) => Some(
+                Endpoints::BillCosponsors(*congress, *bill_type, *bill_number, params.clone()),
+            ),
+            Endpoints::LawByCongress(congress, params) => {
+                Some(Endpoints::LawByCongress(*congress, params.clone()))
+            }
+            Endpoints::LawDetails(congress, law_type, law_number, params) => Some(
+                Endpoints::LawDetails(*congress, *law_type, *law_number, params.clone()),
+            ),
             Endpoints::AmendmentList(params) => Some(Endpoints::AmendmentList(params.clone())),
-            Endpoints::AmendmentByCongress(congress, params) => Some(Endpoints::AmendmentByCongress(*congress, params.clone())),
-            Endpoints::AmendmentByType(congress, amendment_type, params) => Some(Endpoints::AmendmentByType(*congress, *amendment_type, params.clone())),
-            Endpoints::AmendmentDetails(congress, amendment_type, amendment_number, params) => Some(Endpoints::AmendmentDetails(*congress, *amendment_type, *amendment_number, params.clone())),
-            Endpoints::AmendmentText(congress, amendment_type, amendment_number, params) => Some(Endpoints::AmendmentText(*congress, *amendment_type, amendment_number.clone(), params.clone())),
-            Endpoints::AmendmentActions(congress, amendment_type, amendment_number, params) => Some(Endpoints::AmendmentActions(*congress, *amendment_type, amendment_number.clone(), params.clone())),
-            Endpoints::AmendmentCosponsors(congress, amendment_type, amendment_number, params) => Some(Endpoints::AmendmentCosponsors(*congress, *amendment_type, amendment_number.clone(), params.clone())),
+            Endpoints::AmendmentByCongress(congress, params) => {
+                Some(Endpoints::AmendmentByCongress(*congress, params.clone()))
+            }
+            Endpoints::AmendmentByType(congress, amendment_type, params) => Some(
+                Endpoints::AmendmentByType(*congress, *amendment_type, params.clone()),
+            ),
+            Endpoints::AmendmentDetails(congress, amendment_type, amendment_number, params) => {
+                Some(Endpoints::AmendmentDetails(
+                    *congress,
+                    *amendment_type,
+                    *amendment_number,
+                    params.clone(),
+                ))
+            }
+            Endpoints::AmendmentText(congress, amendment_type, amendment_number, params) => {
+                Some(Endpoints::AmendmentText(
+                    *congress,
+                    *amendment_type,
+                    amendment_number.clone(),
+                    params.clone(),
+                ))
+            }
+            Endpoints::AmendmentActions(congress, amendment_type, amendment_number, params) => {
+                Some(Endpoints::AmendmentActions(
+                    *congress,
+                    *amendment_type,
+                    amendment_number.clone(),
+                    params.clone(),
+                ))
+            }
+            Endpoints::AmendmentCosponsors(congress, amendment_type, amendment_number, params) => {
+                Some(Endpoints::AmendmentCosponsors(
+                    *congress,
+                    *amendment_type,
+                    amendment_number.clone(),
+                    params.clone(),
+                ))
+            }
             Endpoints::MemberList(params) => Some(Endpoints::MemberList(params.clone())),
-            Endpoints::MemberByCongress(congress, params) => Some(Endpoints::MemberByCongress(*congress, params.clone())),
-            Endpoints::MemberByState(state_code, params) => Some(Endpoints::MemberByState(state_code.clone(), params.clone())),
-            Endpoints::MemberByStateDistrict(state_code, district, params) => Some(Endpoints::MemberByStateDistrict(state_code.clone(), *district, params.clone())),
-            Endpoints::MemberByCongressStateDistrict(congress, state_code, district, params) => Some(Endpoints::MemberByCongressStateDistrict(*congress, state_code.clone(), *district, params.clone())),
-            Endpoints::MemberDetails(bio_guide_id, params) => Some(Endpoints::MemberDetails(bio_guide_id.clone(), params.clone())),
-            Endpoints::SponsorshipList(bio_guide_id, params) => Some(Endpoints::SponsorshipList(bio_guide_id.clone(), params.clone())),
-            Endpoints::CosponsorshipList(bio_guide_id, params) => Some(Endpoints::CosponsorshipList(bio_guide_id.clone(), params.clone())),
+            Endpoints::MemberByCongress(congress, params) => {
+                Some(Endpoints::MemberByCongress(*congress, params.clone()))
+            }
+            Endpoints::MemberByState(state_code, params) => {
+                Some(Endpoints::MemberByState(state_code.clone(), params.clone()))
+            }
+            Endpoints::MemberByStateDistrict(state_code, district, params) => Some(
+                Endpoints::MemberByStateDistrict(state_code.clone(), *district, params.clone()),
+            ),
+            Endpoints::MemberByCongressStateDistrict(congress, state_code, district, params) => {
+                Some(Endpoints::MemberByCongressStateDistrict(
+                    *congress,
+                    state_code.clone(),
+                    *district,
+                    params.clone(),
+                ))
+            }
+            Endpoints::MemberDetails(bio_guide_id, params) => Some(Endpoints::MemberDetails(
+                bio_guide_id.clone(),
+                params.clone(),
+            )),
+            Endpoints::SponsorshipList(bio_guide_id, params) => Some(Endpoints::SponsorshipList(
+                bio_guide_id.clone(),
+                params.clone(),
+            )),
+            Endpoints::CosponsorshipList(bio_guide_id, params) => Some(
+                Endpoints::CosponsorshipList(bio_guide_id.clone(), params.clone()),
+            ),
             Endpoints::CommitteeList(params) => Some(Endpoints::CommitteeList(params.clone())),
-            Endpoints::CommitteeByChamber(chamber, params) => Some(Endpoints::CommitteeByChamber(*chamber, params.clone())),
-            Endpoints::CommitteeByCongress(congress, params) => Some(Endpoints::CommitteeByCongress(*congress, params.clone())),
-            Endpoints::CommitteeByCongressChamber(congress, chamber, params) => Some(Endpoints::CommitteeByCongressChamber(*congress, *chamber, params.clone())),
-            Endpoints::CommitteeDetails(chamber, committee_code, params) => Some(Endpoints::CommitteeDetails(*chamber, committee_code.clone(), params.clone())),
-            Endpoints::CommitteeBills(chamber, committee_code, params) => Some(Endpoints::CommitteeBills(*chamber, committee_code.clone(), params.clone())),
-            Endpoints::CommitteeReports(chamber, committee_code, params) => Some(Endpoints::CommitteeReports(*chamber, committee_code.clone(), params.clone())),
-            Endpoints::CommitteeNominations(chamber, committee_code, params) => Some(Endpoints::CommitteeNominations(*chamber, committee_code.clone(), params.clone())),
-            Endpoints::CommitteeHouseCommunication(chamber, committee_code, params) => Some(Endpoints::CommitteeHouseCommunication(*chamber, committee_code.clone(), params.clone())),
-            Endpoints::CommitteeSenateCommunication(chamber, committee_code, params) => Some(Endpoints::CommitteeSenateCommunication(*chamber, committee_code.clone(), params.clone())),
-            Endpoints::CommitteeReportList(params) => Some(Endpoints::CommitteeReportList(params.clone())),
-            Endpoints::CommitteeReportByCongress(congress, params) => Some(Endpoints::CommitteeReportByCongress(*congress, params.clone())),
-            Endpoints::CommitteeReportByType(congress, report_type, params) => Some(Endpoints::CommitteeReportByType(*congress, *report_type, params.clone())),
-            Endpoints::CommitteeReportDetails(congress, report_type, report_number, params) => Some(Endpoints::CommitteeReportDetails(*congress, *report_type, *report_number, params.clone())),
-            Endpoints::CommitteeReportText(congress, report_type, report_number, params) => Some(Endpoints::CommitteeReportText(*congress, *report_type, *report_number, params.clone())),
-            Endpoints::CommitteePrintList(params) => Some(Endpoints::CommitteePrintList(params.clone())),
-            Endpoints::CommitteePrintByCongress(congress, params) => Some(Endpoints::CommitteePrintByCongress(*congress, params.clone())),
-            Endpoints::CommitteePrintByCongressChamber(congress, chamber, params) => Some(Endpoints::CommitteePrintByCongressChamber(*congress, *chamber, params.clone())),
-            Endpoints::CommitteePrintByJacketNumber(congress, jacket_number, params) => Some(Endpoints::CommitteePrintByJacketNumber(*congress, *jacket_number, params.clone())),
-            Endpoints::CommitteePrintText(congress, chamber, jacket_number, params) => Some(Endpoints::CommitteePrintText(*congress, chamber.clone(), *jacket_number, params.clone())),
-            Endpoints::CommitteeMeetingList(params) => Some(Endpoints::CommitteeMeetingList(params.clone())),
-            Endpoints::CommitteeMeetingByCongress(congress, params) => Some(Endpoints::CommitteeMeetingByCongress(*congress, params.clone())),
-            Endpoints::CommitteeMeetingByChamber(congress, chamber, params) => Some(Endpoints::CommitteeMeetingByChamber(*congress, *chamber, params.clone())),
-            Endpoints::CommitteeMeetingByEvent(congress, chamber, event_id, params) => Some(Endpoints::CommitteeMeetingByEvent(*congress, *chamber, event_id.clone(), params.clone())),
+            Endpoints::CommitteeByChamber(chamber, params) => {
+                Some(Endpoints::CommitteeByChamber(*chamber, params.clone()))
+            }
+            Endpoints::CommitteeByCongress(congress, params) => {
+                Some(Endpoints::CommitteeByCongress(*congress, params.clone()))
+            }
+            Endpoints::CommitteeByCongressChamber(congress, chamber, params) => Some(
+                Endpoints::CommitteeByCongressChamber(*congress, *chamber, params.clone()),
+            ),
+            Endpoints::CommitteeDetails(chamber, committee_code, params) => Some(
+                Endpoints::CommitteeDetails(*chamber, committee_code.clone(), params.clone()),
+            ),
+            Endpoints::CommitteeBills(chamber, committee_code, params) => Some(
+                Endpoints::CommitteeBills(*chamber, committee_code.clone(), params.clone()),
+            ),
+            Endpoints::CommitteeReports(chamber, committee_code, params) => Some(
+                Endpoints::CommitteeReports(*chamber, committee_code.clone(), params.clone()),
+            ),
+            Endpoints::CommitteeNominations(chamber, committee_code, params) => Some(
+                Endpoints::CommitteeNominations(*chamber, committee_code.clone(), params.clone()),
+            ),
+            Endpoints::CommitteeHouseCommunication(chamber, committee_code, params) => {
+                Some(Endpoints::CommitteeHouseCommunication(
+                    *chamber,
+                    committee_code.clone(),
+                    params.clone(),
+                ))
+            }
+            Endpoints::CommitteeSenateCommunication(chamber, committee_code, params) => {
+                Some(Endpoints::CommitteeSenateCommunication(
+                    *chamber,
+                    committee_code.clone(),
+                    params.clone(),
+                ))
+            }
+            Endpoints::CommitteeReportList(params) => {
+                Some(Endpoints::CommitteeReportList(params.clone()))
+            }
+            Endpoints::CommitteeReportByCongress(congress, params) => Some(
+                Endpoints::CommitteeReportByCongress(*congress, params.clone()),
+            ),
+            Endpoints::CommitteeReportByType(congress, report_type, params) => Some(
+                Endpoints::CommitteeReportByType(*congress, *report_type, params.clone()),
+            ),
+            Endpoints::CommitteeReportDetails(congress, report_type, report_number, params) => {
+                Some(Endpoints::CommitteeReportDetails(
+                    *congress,
+                    *report_type,
+                    *report_number,
+                    params.clone(),
+                ))
+            }
+            Endpoints::CommitteeReportText(congress, report_type, report_number, params) => {
+                Some(Endpoints::CommitteeReportText(
+                    *congress,
+                    *report_type,
+                    *report_number,
+                    params.clone(),
+                ))
+            }
+            Endpoints::CommitteePrintList(params) => {
+                Some(Endpoints::CommitteePrintList(params.clone()))
+            }
+            Endpoints::CommitteePrintByCongress(congress, params) => Some(
+                Endpoints::CommitteePrintByCongress(*congress, params.clone()),
+            ),
+            Endpoints::CommitteePrintByCongressChamber(congress, chamber, params) => Some(
+                Endpoints::CommitteePrintByCongressChamber(*congress, *chamber, params.clone()),
+            ),
+            Endpoints::CommitteePrintByJacketNumber(congress, jacket_number, params) => Some(
+                Endpoints::CommitteePrintByJacketNumber(*congress, *jacket_number, params.clone()),
+            ),
+            Endpoints::CommitteePrintText(congress, chamber, jacket_number, params) => {
+                Some(Endpoints::CommitteePrintText(
+                    *congress,
+                    chamber.clone(),
+                    *jacket_number,
+                    params.clone(),
+                ))
+            }
+            Endpoints::CommitteeMeetingList(params) => {
+                Some(Endpoints::CommitteeMeetingList(params.clone()))
+            }
+            Endpoints::CommitteeMeetingByCongress(congress, params) => Some(
+                Endpoints::CommitteeMeetingByCongress(*congress, params.clone()),
+            ),
+            Endpoints::CommitteeMeetingByChamber(congress, chamber, params) => Some(
+                Endpoints::CommitteeMeetingByChamber(*congress, *chamber, params.clone()),
+            ),
+            Endpoints::CommitteeMeetingByEvent(congress, chamber, event_id, params) => {
+                Some(Endpoints::CommitteeMeetingByEvent(
+                    *congress,
+                    *chamber,
+                    event_id.clone(),
+                    params.clone(),
+                ))
+            }
             Endpoints::HearingList(params) => Some(Endpoints::HearingList(params.clone())),
-            Endpoints::HearingByCongress(congress, params) => Some(Endpoints::HearingByCongress(*congress, params.clone())),
-            Endpoints::HearingByChamber(congress, chamber, params) => Some(Endpoints::HearingByChamber(*congress, *chamber, params.clone())),
-            Endpoints::HearingByJacketNumber(congress, chamber, jacket_number, params) => Some(Endpoints::HearingByJacketNumber(*congress, *chamber, *jacket_number, params.clone())),
-            Endpoints::CongressionalRecordList(params) => Some(Endpoints::CongressionalRecordList(params.clone())),
-            Endpoints::DailyCongressionalRecordList(params) => Some(Endpoints::DailyCongressionalRecordList(params.clone())),
-            Endpoints::DailyCongressionalRecordVolume(volume_number, params) => Some(Endpoints::DailyCongressionalRecordVolume(*volume_number, params.clone())),
-            Endpoints::DailyCongressionalRecordVolumeIssue(volume_number, issue_number, params) => Some(Endpoints::DailyCongressionalRecordVolumeIssue(*volume_number, *issue_number, params.clone())),
-            Endpoints::DailyCongressionalRecordArticles(volume_number, issue_number, params) => Some(Endpoints::DailyCongressionalRecordArticles(*volume_number, *issue_number, params.clone())),
-            Endpoints::BoundCongressionalRecordList(params) => Some(Endpoints::BoundCongressionalRecordList(params.clone())),
-            Endpoints::BoundCongressionalRecordByYear(year, params) => Some(Endpoints::BoundCongressionalRecordByYear(*year, params.clone())),
-            Endpoints::BoundCongressionalRecordByYearMonth(year, month, params) => Some(Endpoints::BoundCongressionalRecordByYearMonth(*year, *month, params.clone())),
-            Endpoints::BoundCongressionalRecordByYearMonthDay(year, month, day, params) => Some(Endpoints::BoundCongressionalRecordByYearMonthDay(*year, *month, *day, params.clone())),
-            Endpoints::HouseCommunicationList(params) => Some(Endpoints::HouseCommunicationList(params.clone())),
-            Endpoints::HouseCommunicationByCongress(congress, params) => Some(Endpoints::HouseCommunicationByCongress(*congress, params.clone())),
-            Endpoints::HouseCommunicationByType(congress, communication_type, params) => Some(Endpoints::HouseCommunicationByType(*congress, *communication_type, params.clone())),
-            Endpoints::HouseCommunicationDetails(congress, communication_type, communication_number, params) => Some(Endpoints::HouseCommunicationDetails(*congress, *communication_type, *communication_number, params.clone())),
-            Endpoints::HouseRequirementList(params) => Some(Endpoints::HouseRequirementList(params.clone())),
-            Endpoints::HouseRequirementDetails(requirement_number, params) => Some(Endpoints::HouseRequirementDetails(*requirement_number, params.clone())),
-            Endpoints::HouseRequirementMatching(requirement_number, params) => Some(Endpoints::HouseRequirementMatching(*requirement_number, params.clone())),
-            Endpoints::SenateCommunicationList(params) => Some(Endpoints::SenateCommunicationList(params.clone())),
-            Endpoints::SenateCommunicationByCongress(congress, params) => Some(Endpoints::SenateCommunicationByCongress(*congress, params.clone())),
-            Endpoints::SenateCommunicationByType(congress, communication_type, params) => Some(Endpoints::SenateCommunicationByType(*congress, *communication_type, params.clone())),
-            Endpoints::SenateCommunicationDetails(congress, communication_type, communication_number, params) => Some(Endpoints::SenateCommunicationDetails(*congress, *communication_type, *communication_number, params.clone())),
+            Endpoints::HearingByCongress(congress, params) => {
+                Some(Endpoints::HearingByCongress(*congress, params.clone()))
+            }
+            Endpoints::HearingByChamber(congress, chamber, params) => Some(
+                Endpoints::HearingByChamber(*congress, *chamber, params.clone()),
+            ),
+            Endpoints::HearingByJacketNumber(congress, chamber, jacket_number, params) => {
+                Some(Endpoints::HearingByJacketNumber(
+                    *congress,
+                    *chamber,
+                    *jacket_number,
+                    params.clone(),
+                ))
+            }
+            Endpoints::CongressionalRecordList(params) => {
+                Some(Endpoints::CongressionalRecordList(params.clone()))
+            }
+            Endpoints::DailyCongressionalRecordList(params) => {
+                Some(Endpoints::DailyCongressionalRecordList(params.clone()))
+            }
+            Endpoints::DailyCongressionalRecordVolume(volume_number, params) => Some(
+                Endpoints::DailyCongressionalRecordVolume(*volume_number, params.clone()),
+            ),
+            Endpoints::DailyCongressionalRecordVolumeIssue(volume_number, issue_number, params) => {
+                Some(Endpoints::DailyCongressionalRecordVolumeIssue(
+                    *volume_number,
+                    *issue_number,
+                    params.clone(),
+                ))
+            }
+            Endpoints::DailyCongressionalRecordArticles(volume_number, issue_number, params) => {
+                Some(Endpoints::DailyCongressionalRecordArticles(
+                    *volume_number,
+                    *issue_number,
+                    params.clone(),
+                ))
+            }
+            Endpoints::BoundCongressionalRecordList(params) => {
+                Some(Endpoints::BoundCongressionalRecordList(params.clone()))
+            }
+            Endpoints::BoundCongressionalRecordByYear(year, params) => Some(
+                Endpoints::BoundCongressionalRecordByYear(*year, params.clone()),
+            ),
+            Endpoints::BoundCongressionalRecordByYearMonth(year, month, params) => Some(
+                Endpoints::BoundCongressionalRecordByYearMonth(*year, *month, params.clone()),
+            ),
+            Endpoints::BoundCongressionalRecordByYearMonthDay(year, month, day, params) => {
+                Some(Endpoints::BoundCongressionalRecordByYearMonthDay(
+                    *year,
+                    *month,
+                    *day,
+                    params.clone(),
+                ))
+            }
+            Endpoints::HouseCommunicationList(params) => {
+                Some(Endpoints::HouseCommunicationList(params.clone()))
+            }
+            Endpoints::HouseCommunicationByCongress(congress, params) => Some(
+                Endpoints::HouseCommunicationByCongress(*congress, params.clone()),
+            ),
+            Endpoints::HouseCommunicationByType(congress, communication_type, params) => Some(
+                Endpoints::HouseCommunicationByType(*congress, *communication_type, params.clone()),
+            ),
+            Endpoints::HouseCommunicationDetails(
+                congress,
+                communication_type,
+                communication_number,
+                params,
+            ) => Some(Endpoints::HouseCommunicationDetails(
+                *congress,
+                *communication_type,
+                *communication_number,
+                params.clone(),
+            )),
+            Endpoints::HouseRequirementList(params) => {
+                Some(Endpoints::HouseRequirementList(params.clone()))
+            }
+            Endpoints::HouseRequirementDetails(requirement_number, params) => Some(
+                Endpoints::HouseRequirementDetails(*requirement_number, params.clone()),
+            ),
+            Endpoints::HouseRequirementMatching(requirement_number, params) => Some(
+                Endpoints::HouseRequirementMatching(*requirement_number, params.clone()),
+            ),
+            Endpoints::SenateCommunicationList(params) => {
+                Some(Endpoints::SenateCommunicationList(params.clone()))
+            }
+            Endpoints::SenateCommunicationByCongress(congress, params) => Some(
+                Endpoints::SenateCommunicationByCongress(*congress, params.clone()),
+            ),
+            Endpoints::SenateCommunicationByType(congress, communication_type, params) => {
+                Some(Endpoints::SenateCommunicationByType(
+                    *congress,
+                    *communication_type,
+                    params.clone(),
+                ))
+            }
+            Endpoints::SenateCommunicationDetails(
+                congress,
+                communication_type,
+                communication_number,
+                params,
+            ) => Some(Endpoints::SenateCommunicationDetails(
+                *congress,
+                *communication_type,
+                *communication_number,
+                params.clone(),
+            )),
             Endpoints::NominationList(params) => Some(Endpoints::NominationList(params.clone())),
-            Endpoints::NominationByCongress(congress, params) => Some(Endpoints::NominationByCongress(*congress, params.clone())),
-            Endpoints::NominationDetails(congress, nomination_number, params) => Some(Endpoints::NominationDetails(*congress, nomination_number.clone(), params.clone())),
-            Endpoints::Nominees(congress, nomination_number, ordinal_number, params) => Some(Endpoints::Nominees(*congress, nomination_number.clone(), *ordinal_number, params.clone())),
-            Endpoints::NominationActions(congress, nomination_number, params) => Some(Endpoints::NominationActions(*congress, nomination_number.clone(), params.clone())),
-            Endpoints::NominationCommittees(congress, nomination_number, params) => Some(Endpoints::NominationCommittees(*congress, nomination_number.clone(), params.clone())),
-            Endpoints::NominationHearings(congress, nomination_number, params) => Some(Endpoints::NominationHearings(*congress, nomination_number.clone(), params.clone())),
+            Endpoints::NominationByCongress(congress, params) => {
+                Some(Endpoints::NominationByCongress(*congress, params.clone()))
+            }
+            Endpoints::NominationDetails(congress, nomination_number, params) => Some(
+                Endpoints::NominationDetails(*congress, nomination_number.clone(), params.clone()),
+            ),
+            Endpoints::Nominees(congress, nomination_number, ordinal_number, params) => {
+                Some(Endpoints::Nominees(
+                    *congress,
+                    nomination_number.clone(),
+                    *ordinal_number,
+                    params.clone(),
+                ))
+            }
+            Endpoints::NominationActions(congress, nomination_number, params) => Some(
+                Endpoints::NominationActions(*congress, nomination_number.clone(), params.clone()),
+            ),
+            Endpoints::NominationCommittees(congress, nomination_number, params) => {
+                Some(Endpoints::NominationCommittees(
+                    *congress,
+                    nomination_number.clone(),
+                    params.clone(),
+                ))
+            }
+            Endpoints::NominationHearings(congress, nomination_number, params) => Some(
+                Endpoints::NominationHearings(*congress, nomination_number.clone(), params.clone()),
+            ),
             Endpoints::TreatyList(params) => Some(Endpoints::TreatyList(params.clone())),
-            Endpoints::TreatyByCongress(congress, params) => Some(Endpoints::TreatyByCongress(*congress, params.clone())),
-            Endpoints::TreatyDetails(congress, treaty_number, params) => Some(Endpoints::TreatyDetails(*congress, *treaty_number, params.clone())),
-            Endpoints::TreatyPartitioned(congress, treaty_number, treaty_suffix, params) => Some(Endpoints::TreatyPartitioned(*congress, *treaty_number, treaty_suffix.clone(), params.clone())),
-            Endpoints::TreatyCommittees(congress, treaty_number, params) => Some(Endpoints::TreatyCommittees(*congress, *treaty_number, params.clone())),
-            Endpoints::TreatyActions(congress, treaty_number, params) => Some(Endpoints::TreatyActions(*congress, *treaty_number, params.clone())),
-            Endpoints::TreatyActionsBySuffix(congress, treaty_number, treaty_suffix, params) => Some(Endpoints::TreatyActionsBySuffix(*congress, *treaty_number, treaty_suffix.clone(), params.clone())),
+            Endpoints::TreatyByCongress(congress, params) => {
+                Some(Endpoints::TreatyByCongress(*congress, params.clone()))
+            }
+            Endpoints::TreatyDetails(congress, treaty_number, params) => Some(
+                Endpoints::TreatyDetails(*congress, *treaty_number, params.clone()),
+            ),
+            Endpoints::TreatyPartitioned(congress, treaty_number, treaty_suffix, params) => {
+                Some(Endpoints::TreatyPartitioned(
+                    *congress,
+                    *treaty_number,
+                    treaty_suffix.clone(),
+                    params.clone(),
+                ))
+            }
+            Endpoints::TreatyCommittees(congress, treaty_number, params) => Some(
+                Endpoints::TreatyCommittees(*congress, *treaty_number, params.clone()),
+            ),
+            Endpoints::TreatyActions(congress, treaty_number, params) => Some(
+                Endpoints::TreatyActions(*congress, *treaty_number, params.clone()),
+            ),
+            Endpoints::TreatyActionsBySuffix(congress, treaty_number, treaty_suffix, params) => {
+                Some(Endpoints::TreatyActionsBySuffix(
+                    *congress,
+                    *treaty_number,
+                    treaty_suffix.clone(),
+                    params.clone(),
+                ))
+            }
             _ => None,
-        }            
+        }
     }
 }
-
 
 /// Trait defining constructors for creating new instances of [`Endpoints`].
 ///
@@ -1272,7 +1524,12 @@ pub trait NewEndpoint {
     ///
     /// - [`congress`]: The congress number.
     /// - [`params`]: Parameters for law details.
-    fn new_law_details(congress: u32, law_type: LawType, law_number: u32, params: LawParams) -> Self;
+    fn new_law_details(
+        congress: u32,
+        law_type: LawType,
+        law_number: u32,
+        params: LawParams,
+    ) -> Self;
 
     // ================================
     // Amendment Constructors
@@ -1522,10 +1779,7 @@ pub trait NewEndpoint {
     ///
     /// - [`chamber`]: The chamber type (House or Senate).
     /// - [`params`]: Parameters for filtering committees by chamber.
-    fn new_committee_by_chamber(
-        chamber: ChamberType,
-        params: CommitteeByChamberParams,
-    ) -> Self;
+    fn new_committee_by_chamber(chamber: ChamberType, params: CommitteeByChamberParams) -> Self;
 
     /// Constructs a [`CommitteeByCongress`] endpoint variant.
     ///
@@ -1643,10 +1897,7 @@ pub trait NewEndpoint {
     ///
     /// - [`congress`]: The congress number.
     /// - [`params`]: Parameters for filtering nominations by congress.
-    fn new_nomination_by_congress(
-        congress: u32,
-        params: NominationByCongressParams,
-    ) -> Self;
+    fn new_nomination_by_congress(congress: u32, params: NominationByCongressParams) -> Self;
 
     /// Constructs a [`NominationDetails`] endpoint variant.
     ///
@@ -1741,11 +1992,7 @@ pub trait NewEndpoint {
     /// - [`congress`]: The congress number.
     /// - [`treaty_number`]: The treaty number.
     /// - [`params`]: Parameters for treaty details.
-    fn new_treaty_details(
-        congress: u32,
-        treaty_number: u32,
-        params: TreatyDetailsParams,
-    ) -> Self;
+    fn new_treaty_details(congress: u32, treaty_number: u32, params: TreatyDetailsParams) -> Self;
 
     /// Constructs a [`TreatyPartitioned`] endpoint variant.
     ///
@@ -1782,11 +2029,7 @@ pub trait NewEndpoint {
     /// - [`congress`]: The congress number.
     /// - [`treaty_number`]: The treaty number.
     /// - [`params`]: Parameters for treaty actions.
-    fn new_treaty_actions(
-        congress: u32,
-        treaty_number: u32,
-        params: TreatyActionsParams,
-    ) -> Self;
+    fn new_treaty_actions(congress: u32, treaty_number: u32, params: TreatyActionsParams) -> Self;
 
     /// Constructs a [`TreatyActionsBySuffix`] endpoint variant.
     ///
@@ -1978,9 +2221,7 @@ pub trait NewEndpoint {
     // ================================
 
     /// Constructs a [`DailyCongressionalRecordList`] endpoint variant.
-    fn new_daily_congressional_record_list(
-        params: DailyCongressionalRecordListParams,
-    ) -> Self;
+    fn new_daily_congressional_record_list(params: DailyCongressionalRecordListParams) -> Self;
 
     /// Constructs a [`DailyCongressionalRecordVolume`] endpoint variant.
     fn new_daily_congressional_record_volume(
@@ -2038,10 +2279,7 @@ pub trait NewEndpoint {
     fn new_house_communication_list(params: CommunicationParams) -> Self;
 
     /// Constructs a [`HouseCommunicationByCongress`] endpoint variant.
-    fn new_house_communication_by_congress(
-        congress: u32,
-        params: CommunicationParams,
-    ) -> Self;
+    fn new_house_communication_by_congress(congress: u32, params: CommunicationParams) -> Self;
 
     /// Constructs a [`HouseCommunicationByType`] endpoint variant.
     fn new_house_communication_by_type(
@@ -2072,10 +2310,7 @@ pub trait NewEndpoint {
     ) -> Self;
 
     /// Constructs a [`HouseRequirementMatching`] endpoint variant.
-    fn new_house_requirement_matching(
-        requirement_number: u32,
-        params: RequirementParams,
-    ) -> Self;
+    fn new_house_requirement_matching(requirement_number: u32, params: RequirementParams) -> Self;
 
     // ================================
     // Senate Communication Constructors
@@ -2085,10 +2320,7 @@ pub trait NewEndpoint {
     fn new_senate_communication_list(params: CommunicationParams) -> Self;
 
     /// Constructs a [`SenateCommunicationByCongress`] endpoint variant.
-    fn new_senate_communication_by_congress(
-        congress: u32,
-        params: CommunicationParams,
-    ) -> Self;
+    fn new_senate_communication_by_congress(congress: u32, params: CommunicationParams) -> Self;
 
     /// Constructs a [`SenateCommunicationByType`] endpoint variant.
     fn new_senate_communication_by_type(
@@ -2185,7 +2417,12 @@ impl NewEndpoint for Endpoints {
         Endpoints::LawByCongress(congress, params)
     }
 
-    fn new_law_details(congress: u32, law_type: LawType, law_number: u32, params: LawParams) -> Self {
+    fn new_law_details(
+        congress: u32,
+        law_type: LawType,
+        law_number: u32,
+        params: LawParams,
+    ) -> Self {
         Endpoints::LawDetails(congress, law_type, law_number, params)
     }
 
@@ -2335,10 +2572,7 @@ impl NewEndpoint for Endpoints {
         Endpoints::CommitteeList(params)
     }
 
-    fn new_committee_by_chamber(
-        chamber: ChamberType,
-        params: CommitteeByChamberParams,
-    ) -> Self {
+    fn new_committee_by_chamber(chamber: ChamberType, params: CommitteeByChamberParams) -> Self {
         Endpoints::CommitteeByChamber(chamber, params)
     }
 
@@ -2410,10 +2644,7 @@ impl NewEndpoint for Endpoints {
         Endpoints::NominationList(params)
     }
 
-    fn new_nomination_by_congress(
-        congress: u32,
-        params: NominationByCongressParams,
-    ) -> Self {
+    fn new_nomination_by_congress(congress: u32, params: NominationByCongressParams) -> Self {
         Endpoints::NominationByCongress(congress, params)
     }
 
@@ -2470,11 +2701,7 @@ impl NewEndpoint for Endpoints {
         Endpoints::TreatyByCongress(congress, params)
     }
 
-    fn new_treaty_details(
-        congress: u32,
-        treaty_number: u32,
-        params: TreatyDetailsParams,
-    ) -> Self {
+    fn new_treaty_details(congress: u32, treaty_number: u32, params: TreatyDetailsParams) -> Self {
         Endpoints::TreatyDetails(congress, treaty_number, params)
     }
 
@@ -2495,11 +2722,7 @@ impl NewEndpoint for Endpoints {
         Endpoints::TreatyCommittees(congress, treaty_number, params)
     }
 
-    fn new_treaty_actions(
-        congress: u32,
-        treaty_number: u32,
-        params: TreatyActionsParams,
-    ) -> Self {
+    fn new_treaty_actions(congress: u32, treaty_number: u32, params: TreatyActionsParams) -> Self {
         Endpoints::TreatyActions(congress, treaty_number, params)
     }
 
@@ -2710,9 +2933,7 @@ impl NewEndpoint for Endpoints {
     // Daily Congressional Record Constructors
     // ====================================
 
-    fn new_daily_congressional_record_list(
-        params: DailyCongressionalRecordListParams,
-    ) -> Self {
+    fn new_daily_congressional_record_list(params: DailyCongressionalRecordListParams) -> Self {
         Endpoints::DailyCongressionalRecordList(params)
     }
 
@@ -2820,10 +3041,7 @@ impl NewEndpoint for Endpoints {
         Endpoints::HouseRequirementDetails(requirement_number, params)
     }
 
-    fn new_house_requirement_matching(
-        requirement_number: u32,
-        params: RequirementParams,
-    ) -> Self {
+    fn new_house_requirement_matching(requirement_number: u32, params: RequirementParams) -> Self {
         Endpoints::HouseRequirementMatching(requirement_number, params)
     }
 
@@ -2861,4 +3079,3 @@ impl NewEndpoint for Endpoints {
         )
     }
 }
-

@@ -3,8 +3,7 @@
 //! This module defines various types used by the CDG API client, particularly enums for API
 //! endpoint parameters.
 
-
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 // =========================================
 // Enums for API Endpoint Parameters Values
@@ -271,7 +270,7 @@ impl CommunicationType {
 pub enum LawType {
     /// Public Law ([`pub`]).
     #[default]
-    Pub,  // Public Law
+    Pub, // Public Law
 
     /// Private Law ([`priv`]).
     Priv, // Private Law
@@ -330,4 +329,3 @@ impl CommitteeReportType {
         }
     }
 }
-

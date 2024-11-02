@@ -1,33 +1,33 @@
 //! # [`url_builders`] Module
-//! 
+//!
 //! The [`url_builders`] module constructs complete URLs for API requests to the US Congress API. It leverages
 //! the [`ApiParams`] trait to convert parameter structs into query strings and integrates them with endpoint
 //! paths using the [`Endpoints`] enum.
-//! 
+//!
 //! ## Traits
-//! 
+//!
 //! - **[`ApiParams`]**: Defines a method to convert parameters into a query string.
-//! 
+//!
 //! ## Implementations
-//! 
+//!
 //! [`ApiParams`] is implemented for various parameter structs (e.g., [`BillListParams`], [`AmendmentListParams`]),
 //! enabling each to generate its corresponding query string.
-//! 
+//!
 //! The [`Display`] trait is implemented for [`Endpoints`], allowing seamless URL construction by combining
 //! endpoint paths with their query parameters.
-//! 
+//!
 //! ## Key Functions
-//! 
+//!
 //! - **[`generate_url`]**: Combines the base URL, endpoint, query parameters, and API key to form the full request URL.
-//! 
+//!
 //! ## Example
-//! 
+//!
 //! ```rust
 //! use cdg_api::param_models::BillListParams;
 //! use cdg_api::cdg_types::{FormatType, SortType};
 //! use cdg_api::endpoints::Endpoints;
 //! use cdg_api::url_builders::generate_url;
-//! 
+//!
 //! fn main() {
 //!     let params = BillListParams::default()
 //!         .format(FormatType::Json)
@@ -36,26 +36,25 @@
 //!         .from_date_time("2023-01-01T00:00:00Z".to_string())
 //!         .to_date_time("2023-12-31T00:00:00Z".to_string())
 //!         .sort(SortType::UpdateDateDesc);
-//! 
+//!
 //!     let endpoint = Endpoints::BillList(params);
 //!     let api_key = "YOUR_API_KEY";
 //!     let url = generate_url(endpoint, api_key);
-//! 
+//!
 //!     println!("URL: {}", url);
 //!     // Output: https://api.congress.gov/v3/bill/?format=json&limit=10&fromDateTime=2023-01-01&toDateTime=2023-12-31&sort=updateDateDesc&api_key=YOUR_API_KEY
 //! }
 //! ```
-//! 
+//!
 //! ## Summary
-//! 
+//!
 //! - **Type Safety**: Ensures correct URL formation through trait implementations and enums.
 //! - **Extensibility**: Easily add new endpoints by implementing [`ApiParams`] for new parameter structs.
 //! - **Convenience**: Simplifies URL construction using Rust's formatting capabilities.
 
-
-use std::fmt::Display;
-use crate::param_models::*;
 use crate::endpoints::Endpoints;
+use crate::param_models::*;
+use std::fmt::Display;
 
 /// Called by the api client to generate the complete URL for the request.
 /// If the endpoint contains a '?' character, the URL is generated with '&'
@@ -82,7 +81,7 @@ pub fn generate_url(endpoint: Endpoints, api_key: &str) -> String {
 /// a URL string.
 ///
 /// For example:
-/// 
+///
 /// If we have an endpoint like `Endpoints::BillList(params)`, where [`params`]
 /// is a [`BillListParams`] struct with [`format`] set to `FormatType::Json` and [`limit`]
 /// set to [`10`], the URL string would look like:
@@ -92,7 +91,9 @@ impl std::fmt::Display for Endpoints {
         // NOTE: A '?' is appended to the params string via the [`Display`]
         // implementation for the [`ApiParam`] structs.
         match self {
-            Endpoints::Generic(endpoint, params) => write!(f, "{}/{}", endpoint, params.to_query_string()),
+            Endpoints::Generic(endpoint, params) => {
+                write!(f, "{}/{}", endpoint, params.to_query_string())
+            }
             // ================================
             // Bill Endpoints
             // ================================
@@ -101,51 +102,139 @@ impl std::fmt::Display for Endpoints {
                 write!(f, "bill/{}{}", congress, params.to_query_string())
             }
             Endpoints::BillByType(congress, bill_type, params) => {
-                write!(f, "bill/{}/{}{}", congress, bill_type.to_string(), params.to_query_string())
+                write!(
+                    f,
+                    "bill/{}/{}{}",
+                    congress,
+                    bill_type.to_string(),
+                    params.to_query_string()
+                )
             }
             Endpoints::BillDetails(congress, bill_type, bill_number, params) => {
-                write!(f, "bill/{}/{}/{}{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
+                write!(
+                    f,
+                    "bill/{}/{}/{}{}",
+                    congress,
+                    bill_type.to_string(),
+                    bill_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::BillActions(congress, bill_type, bill_number, params) => {
-                write!(f, "bill/{}/{}/{}/actions{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
+                write!(
+                    f,
+                    "bill/{}/{}/{}/actions{}",
+                    congress,
+                    bill_type.to_string(),
+                    bill_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::BillAmendments(congress, bill_type, bill_number, params) => {
-                write!(f, "bill/{}/{}/{}/amendments{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
+                write!(
+                    f,
+                    "bill/{}/{}/{}/amendments{}",
+                    congress,
+                    bill_type.to_string(),
+                    bill_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::BillCommittees(congress, bill_type, bill_number, params) => {
-                write!(f, "bill/{}/{}/{}/committees{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
+                write!(
+                    f,
+                    "bill/{}/{}/{}/committees{}",
+                    congress,
+                    bill_type.to_string(),
+                    bill_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::BillCosponsors(congress, bill_type, bill_number, params) => {
-                write!(f, "bill/{}/{}/{}/cosponsors{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
+                write!(
+                    f,
+                    "bill/{}/{}/{}/cosponsors{}",
+                    congress,
+                    bill_type.to_string(),
+                    bill_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::BillRelated(congress, bill_type, bill_number, params) => {
-                write!(f, "bill/{}/{}/{}/relatedbills{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
+                write!(
+                    f,
+                    "bill/{}/{}/{}/relatedbills{}",
+                    congress,
+                    bill_type.to_string(),
+                    bill_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::BillSubjects(congress, bill_type, bill_number, params) => {
-                write!(f, "bill/{}/{}/{}/subjects{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
+                write!(
+                    f,
+                    "bill/{}/{}/{}/subjects{}",
+                    congress,
+                    bill_type.to_string(),
+                    bill_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::BillSummaries(congress, bill_type, bill_number, params) => {
-                write!(f, "bill/{}/{}/{}/summary{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
+                write!(
+                    f,
+                    "bill/{}/{}/{}/summary{}",
+                    congress,
+                    bill_type.to_string(),
+                    bill_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::BillText(congress, bill_type, bill_number, params) => {
-                write!(f, "bill/{}/{}/{}/text{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
+                write!(
+                    f,
+                    "bill/{}/{}/{}/text{}",
+                    congress,
+                    bill_type.to_string(),
+                    bill_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::BillTitles(congress, bill_type, bill_number, params) => {
-                write!(f, "bill/{}/{}/{}/titles{}", congress, bill_type.to_string(), bill_number, params.to_query_string())
+                write!(
+                    f,
+                    "bill/{}/{}/{}/titles{}",
+                    congress,
+                    bill_type.to_string(),
+                    bill_number,
+                    params.to_query_string()
+                )
             }
-
 
             // ================================
             // Law Endpoints
             // ================================
             Endpoints::LawByType(congress, law_type, params) => {
-                write!(f, "law/{}/{}{}", congress, law_type.to_string(), params.to_query_string())
+                write!(
+                    f,
+                    "law/{}/{}{}",
+                    congress,
+                    law_type.to_string(),
+                    params.to_query_string()
+                )
             }
             Endpoints::LawByCongress(congress, params) => {
                 write!(f, "law/{}{}", congress, params.to_query_string())
             }
             Endpoints::LawDetails(congress, law_type, law_number, params) => {
-                write!(f, "law/{}/{}/{}{}", congress, law_type.to_string(), law_number, params.to_query_string())
+                write!(
+                    f,
+                    "law/{}/{}/{}{}",
+                    congress,
+                    law_type.to_string(),
+                    law_number,
+                    params.to_query_string()
+                )
             }
 
             // ================================
@@ -156,22 +245,63 @@ impl std::fmt::Display for Endpoints {
                 write!(f, "amendment/{}{}", congress, params.to_query_string())
             }
             Endpoints::AmendmentByType(congress, amendment_type, params) => {
-                write!(f, "amendment/{}/{}{}", congress, amendment_type.to_string(), params.to_query_string())
+                write!(
+                    f,
+                    "amendment/{}/{}{}",
+                    congress,
+                    amendment_type.to_string(),
+                    params.to_query_string()
+                )
             }
             Endpoints::AmendmentDetails(congress, amendment_type, amendment_number, params) => {
-                write!(f, "amendment/{}/{}/{}{}", congress, amendment_type.to_string(), amendment_number, params.to_query_string())
+                write!(
+                    f,
+                    "amendment/{}/{}/{}{}",
+                    congress,
+                    amendment_type.to_string(),
+                    amendment_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::AmendmentActions(congress, amendment_type, amendment_number, params) => {
-                write!(f, "amendment/{}/{}/{}/actions{}", congress, amendment_type.to_string(), amendment_number, params.to_query_string())
+                write!(
+                    f,
+                    "amendment/{}/{}/{}/actions{}",
+                    congress,
+                    amendment_type.to_string(),
+                    amendment_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::AmendmentCosponsors(congress, amendment_type, amendment_number, params) => {
-                write!(f, "amendment/{}/{}/{}/cosponsors{}", congress, amendment_type.to_string(), amendment_number, params.to_query_string())
+                write!(
+                    f,
+                    "amendment/{}/{}/{}/cosponsors{}",
+                    congress,
+                    amendment_type.to_string(),
+                    amendment_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::AmendmentAmendments(congress, amendment_type, amendment_number, params) => {
-                write!(f, "amendment/{}/{}/{}/amendments{}", congress, amendment_type.to_string(), amendment_number, params.to_query_string())
+                write!(
+                    f,
+                    "amendment/{}/{}/{}/amendments{}",
+                    congress,
+                    amendment_type.to_string(),
+                    amendment_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::AmendmentText(congress, amendment_type, amendment_number, params) => {
-                write!(f, "amendment/{}/{}/{}/text{}", congress, amendment_type.to_string(), amendment_number, params.to_query_string())
+                write!(
+                    f,
+                    "amendment/{}/{}/{}/text{}",
+                    congress,
+                    amendment_type.to_string(),
+                    amendment_number,
+                    params.to_query_string()
+                )
             }
 
             // ================================
@@ -182,7 +312,13 @@ impl std::fmt::Display for Endpoints {
                 write!(f, "summary/{}{}", congress, params.to_query_string())
             }
             Endpoints::SummariesByType(congress, bill_type, params) => {
-                write!(f, "summary/{}/{}{}", congress, bill_type.to_string(), params.to_query_string())
+                write!(
+                    f,
+                    "summary/{}/{}{}",
+                    congress,
+                    bill_type.to_string(),
+                    params.to_query_string()
+                )
             }
 
             // ================================
@@ -192,32 +328,62 @@ impl std::fmt::Display for Endpoints {
             Endpoints::CongressDetails(congress, params) => {
                 write!(f, "congress/{}{}", congress, params.to_query_string())
             }
-            Endpoints::CongressCurrent(params) => write!(f, "congress/current{}", params.to_query_string()),
+            Endpoints::CongressCurrent(params) => {
+                write!(f, "congress/current{}", params.to_query_string())
+            }
 
             // ================================
             // Member Endpoints
             // ================================
             Endpoints::MemberList(params) => write!(f, "member{}", params.to_query_string()),
             Endpoints::MemberByCongress(congress, params) => {
-                write!(f, "member/congress/{}{}", congress, params.to_query_string())
+                write!(
+                    f,
+                    "member/congress/{}{}",
+                    congress,
+                    params.to_query_string()
+                )
             }
             Endpoints::MemberByState(state_code, params) => {
                 write!(f, "member/{}{}", state_code, params.to_query_string())
             }
             Endpoints::MemberByStateDistrict(state_code, district, params) => {
-                write!(f, "member/{}/{}{}", state_code, district, params.to_query_string())
+                write!(
+                    f,
+                    "member/{}/{}{}",
+                    state_code,
+                    district,
+                    params.to_query_string()
+                )
             }
             Endpoints::MemberByCongressStateDistrict(congress, state_code, district, params) => {
-                write!(f, "member/congress/{}/{}/{}{}", congress, state_code, district, params.to_query_string())
+                write!(
+                    f,
+                    "member/congress/{}/{}/{}{}",
+                    congress,
+                    state_code,
+                    district,
+                    params.to_query_string()
+                )
             }
             Endpoints::MemberDetails(bio_guide_id, params) => {
                 write!(f, "member/{}{}", bio_guide_id, params.to_query_string())
             }
             Endpoints::SponsorshipList(bio_guide_id, params) => {
-                write!(f, "member/{}/sponsored-legislation{}", bio_guide_id, params.to_query_string())
+                write!(
+                    f,
+                    "member/{}/sponsored-legislation{}",
+                    bio_guide_id,
+                    params.to_query_string()
+                )
             }
             Endpoints::CosponsorshipList(bio_guide_id, params) => {
-                write!(f, "member/{}/cosponsored-legislation{}", bio_guide_id, params.to_query_string())
+                write!(
+                    f,
+                    "member/{}/cosponsored-legislation{}",
+                    bio_guide_id,
+                    params.to_query_string()
+                )
             }
 
             // ================================
@@ -225,193 +391,454 @@ impl std::fmt::Display for Endpoints {
             // ================================
             Endpoints::CommitteeList(params) => write!(f, "committee?{}", params.to_query_string()),
             Endpoints::CommitteeByChamber(chamber, params) => {
-                write!(f, "committee/chamber/{}{}", chamber.to_string(), params.to_query_string())
+                write!(
+                    f,
+                    "committee/chamber/{}{}",
+                    chamber.to_string(),
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteeByCongress(congress, params) => {
                 write!(f, "committee/{}{}", congress, params.to_query_string())
             }
             Endpoints::CommitteeByCongressChamber(congress, chamber, params) => {
-                write!(f, "committee/{}/{}{}", congress, chamber.to_string(), params.to_query_string())
+                write!(
+                    f,
+                    "committee/{}/{}{}",
+                    congress,
+                    chamber.to_string(),
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteeDetails(chamber, committee_code, params) => {
-                write!(f, "committee/{}/{}{}", chamber.to_string(), committee_code, params.to_query_string())
+                write!(
+                    f,
+                    "committee/{}/{}{}",
+                    chamber.to_string(),
+                    committee_code,
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteeBills(chamber, committee_code, params) => {
-                write!(f, "committee/{}/{}/bills{}", chamber.to_string(), committee_code, params.to_query_string())
+                write!(
+                    f,
+                    "committee/{}/{}/bills{}",
+                    chamber.to_string(),
+                    committee_code,
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteeReports(chamber, committee_code, params) => {
-                write!(f, "committee/{}/{}/reports{}", chamber.to_string(), committee_code, params.to_query_string())
+                write!(
+                    f,
+                    "committee/{}/{}/reports{}",
+                    chamber.to_string(),
+                    committee_code,
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteeNominations(chamber, committee_code, params) => {
-                write!(f, "committee/{}/{}/nominations{}", chamber.to_string(), committee_code, params.to_query_string())
+                write!(
+                    f,
+                    "committee/{}/{}/nominations{}",
+                    chamber.to_string(),
+                    committee_code,
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteeHouseCommunication(chamber, committee_code, params) => {
-                write!(f, "committee/{}/{}/house-communication{}", chamber.to_string(), committee_code, params.to_query_string())
+                write!(
+                    f,
+                    "committee/{}/{}/house-communication{}",
+                    chamber.to_string(),
+                    committee_code,
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteeSenateCommunication(chamber, committee_code, params) => {
-                write!(f, "committee/{}/{}/senate-communication{}", chamber.to_string(), committee_code, params.to_query_string())
+                write!(
+                    f,
+                    "committee/{}/{}/senate-communication{}",
+                    chamber.to_string(),
+                    committee_code,
+                    params.to_query_string()
+                )
             }
 
             // ================================
             // Committee Report Endpoints
             // ================================
-            
-            Endpoints::CommitteeReportList(params) => write!(f, "committee-report{}", params.to_query_string()),
+            Endpoints::CommitteeReportList(params) => {
+                write!(f, "committee-report{}", params.to_query_string())
+            }
             Endpoints::CommitteeReportByCongress(congress, params) => {
-                write!(f, "committee-report/{}{}", congress, params.to_query_string())
+                write!(
+                    f,
+                    "committee-report/{}{}",
+                    congress,
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteeReportByType(congress, report_type, params) => {
-                write!(f, "committee-report/{}/{}{}", congress, report_type.to_string(), params.to_query_string())
+                write!(
+                    f,
+                    "committee-report/{}/{}{}",
+                    congress,
+                    report_type.to_string(),
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteeReportDetails(congress, report_type, report_number, params) => {
-                write!(f, "committee-report/{}/{}/{}{}", congress, report_type.to_string(), report_number, params.to_query_string())
+                write!(
+                    f,
+                    "committee-report/{}/{}/{}{}",
+                    congress,
+                    report_type.to_string(),
+                    report_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteeReportText(congress, report_type, report_number, params) => {
-                write!(f, "committee-report/{}/{}/{}/text{}", congress, report_type.to_string(), report_number, params.to_query_string())
+                write!(
+                    f,
+                    "committee-report/{}/{}/{}/text{}",
+                    congress,
+                    report_type.to_string(),
+                    report_number,
+                    params.to_query_string()
+                )
             }
 
             // ================================
             // Committee Print Endpoints
             // ================================
-            Endpoints::CommitteePrintList(params) => write!(f, "committee-print{}", params.to_query_string()),
+            Endpoints::CommitteePrintList(params) => {
+                write!(f, "committee-print{}", params.to_query_string())
+            }
             Endpoints::CommitteePrintByCongress(congress, params) => {
-                write!(f, "committee-print/{}{}", congress, params.to_query_string())
+                write!(
+                    f,
+                    "committee-print/{}{}",
+                    congress,
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteePrintByCongressChamber(congress, chamber, params) => {
-                write!(f, "committee-print/{}/{}{}", congress, chamber.to_string(), params.to_query_string())
+                write!(
+                    f,
+                    "committee-print/{}/{}{}",
+                    congress,
+                    chamber.to_string(),
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteePrintByJacketNumber(congress, jacket_number, params) => {
-                write!(f, "committee-print/{}/{}{}", congress, jacket_number, params.to_query_string())
+                write!(
+                    f,
+                    "committee-print/{}/{}{}",
+                    congress,
+                    jacket_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteePrintText(congress, chamber, jacket_number, params) => {
-                write!(f, "committee-print/{}/{}/{}/text{}", congress, chamber.to_string(), jacket_number, params.to_query_string())
+                write!(
+                    f,
+                    "committee-print/{}/{}/{}/text{}",
+                    congress,
+                    chamber.to_string(),
+                    jacket_number,
+                    params.to_query_string()
+                )
             }
 
             // ================================
             // Committee Meeting Endpoints
             // ================================
-
-            Endpoints::CommitteeMeetingList(params) => write!(f, "committee-meeting{}", params.to_query_string()),
+            Endpoints::CommitteeMeetingList(params) => {
+                write!(f, "committee-meeting{}", params.to_query_string())
+            }
             Endpoints::CommitteeMeetingByCongress(congress, params) => {
-                write!(f, "committee-meeting/{}{}", congress, params.to_query_string())
+                write!(
+                    f,
+                    "committee-meeting/{}{}",
+                    congress,
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteeMeetingByChamber(congress, chamber, params) => {
-                write!(f, "committee-meeting/{}/{}{}", congress, chamber.to_string(), params.to_query_string())
+                write!(
+                    f,
+                    "committee-meeting/{}/{}{}",
+                    congress,
+                    chamber.to_string(),
+                    params.to_query_string()
+                )
             }
             Endpoints::CommitteeMeetingByEvent(congress, chamber, event_id, params) => {
-                write!(f, "committee-meeting/{}/{}/{}/{}", congress, chamber.to_string(), event_id, params.to_query_string())
+                write!(
+                    f,
+                    "committee-meeting/{}/{}/{}/{}",
+                    congress,
+                    chamber.to_string(),
+                    event_id,
+                    params.to_query_string()
+                )
             }
 
             // ================================
             // Hearing Endpoints
             // ================================
-            
             Endpoints::HearingList(params) => write!(f, "hearing{}", params.to_query_string()),
             Endpoints::HearingByCongress(congress, params) => {
                 write!(f, "hearing/{}{}", congress, params.to_query_string())
             }
             Endpoints::HearingByChamber(congress, chamber, params) => {
-                write!(f, "hearing/{}/{}{}", congress, chamber.to_string(), params.to_query_string())
+                write!(
+                    f,
+                    "hearing/{}/{}{}",
+                    congress,
+                    chamber.to_string(),
+                    params.to_query_string()
+                )
             }
             Endpoints::HearingByJacketNumber(congress, chamber, jacket_number, params) => {
-                write!(f, "hearing/{}/{}/{}{}", congress, chamber.to_string(), jacket_number, params.to_query_string())
+                write!(
+                    f,
+                    "hearing/{}/{}/{}{}",
+                    congress,
+                    chamber.to_string(),
+                    jacket_number,
+                    params.to_query_string()
+                )
             }
 
             // ================================
             // Congressional Record Endpoints
             // ================================
-
-            Endpoints::CongressionalRecordList(params) => write!(f, "congressional-record{}", params.to_query_string()),
+            Endpoints::CongressionalRecordList(params) => {
+                write!(f, "congressional-record{}", params.to_query_string())
+            }
 
             // ================================
             // Daily Congressional Record Endpoints
             // ================================
-
-            Endpoints::DailyCongressionalRecordList(params) => write!(f, "daily-congressional-record{}", params.to_query_string()),
+            Endpoints::DailyCongressionalRecordList(params) => {
+                write!(f, "daily-congressional-record{}", params.to_query_string())
+            }
             Endpoints::DailyCongressionalRecordVolume(volume, params) => {
-                write!(f, "daily-congressional-record/{}{}", volume, params.to_query_string())
+                write!(
+                    f,
+                    "daily-congressional-record/{}{}",
+                    volume,
+                    params.to_query_string()
+                )
             }
             Endpoints::DailyCongressionalRecordVolumeIssue(volume, issue, params) => {
-                write!(f, "daily-congressional-record/{}/{}{}", volume, issue, params.to_query_string())
+                write!(
+                    f,
+                    "daily-congressional-record/{}/{}{}",
+                    volume,
+                    issue,
+                    params.to_query_string()
+                )
             }
             Endpoints::DailyCongressionalRecordArticles(volume, issue, params) => {
-                write!(f, "daily-congressional-record/{}/{}{}", volume, issue, params.to_query_string())
+                write!(
+                    f,
+                    "daily-congressional-record/{}/{}{}",
+                    volume,
+                    issue,
+                    params.to_query_string()
+                )
             }
 
             // ====================================
             // Bound Congressional Record Endpoints
             // ====================================
-
-            Endpoints::BoundCongressionalRecordList(params) => write!(f, "bound-congressional-record{}", params.to_query_string()),
+            Endpoints::BoundCongressionalRecordList(params) => {
+                write!(f, "bound-congressional-record{}", params.to_query_string())
+            }
             Endpoints::BoundCongressionalRecordByYear(year, params) => {
-                write!(f, "bound-congressional-record/{}{}", year, params.to_query_string())
+                write!(
+                    f,
+                    "bound-congressional-record/{}{}",
+                    year,
+                    params.to_query_string()
+                )
             }
             Endpoints::BoundCongressionalRecordByYearMonth(year, month, params) => {
-                write!(f, "bound-congressional-record/{}/{}{}", year, month, params.to_query_string())
+                write!(
+                    f,
+                    "bound-congressional-record/{}/{}{}",
+                    year,
+                    month,
+                    params.to_query_string()
+                )
             }
             Endpoints::BoundCongressionalRecordByYearMonthDay(year, month, day, params) => {
-                write!(f, "bound-congressional-record/{}/{}/{}{}", year, month, day, params.to_query_string())
+                write!(
+                    f,
+                    "bound-congressional-record/{}/{}/{}{}",
+                    year,
+                    month,
+                    day,
+                    params.to_query_string()
+                )
             }
 
             // ======================================================
             // House Communication and Senate Communication Endpoints
             // ======================================================
-
-            Endpoints::HouseCommunicationList(params) => write!(f, "house-communication{}", params.to_query_string()),
+            Endpoints::HouseCommunicationList(params) => {
+                write!(f, "house-communication{}", params.to_query_string())
+            }
             Endpoints::HouseCommunicationByCongress(congress, params) => {
-                write!(f, "house-communication/{}{}", congress, params.to_query_string())
+                write!(
+                    f,
+                    "house-communication/{}{}",
+                    congress,
+                    params.to_query_string()
+                )
             }
             Endpoints::HouseCommunicationByType(congress, communication_type, params) => {
-                write!(f, "house-communication/{}/{}{}", congress, communication_type.to_string(), params.to_query_string())
+                write!(
+                    f,
+                    "house-communication/{}/{}{}",
+                    congress,
+                    communication_type.to_string(),
+                    params.to_query_string()
+                )
             }
-            Endpoints::HouseCommunicationDetails(congress, communication_type, communication_number, params) => {
-                write!(f, "house-communication/{}/{}/{}{}", congress, communication_type.to_string(), communication_number, params.to_query_string())
+            Endpoints::HouseCommunicationDetails(
+                congress,
+                communication_type,
+                communication_number,
+                params,
+            ) => {
+                write!(
+                    f,
+                    "house-communication/{}/{}/{}{}",
+                    congress,
+                    communication_type.to_string(),
+                    communication_number,
+                    params.to_query_string()
+                )
             }
 
-            Endpoints::SenateCommunicationList(params) => write!(f, "senate-communication{}", params.to_query_string()),
+            Endpoints::SenateCommunicationList(params) => {
+                write!(f, "senate-communication{}", params.to_query_string())
+            }
             Endpoints::SenateCommunicationByCongress(congress, params) => {
-                write!(f, "senate-communication/{}{}", congress, params.to_query_string())
+                write!(
+                    f,
+                    "senate-communication/{}{}",
+                    congress,
+                    params.to_query_string()
+                )
             }
             Endpoints::SenateCommunicationByType(congress, communication_type, params) => {
-                write!(f, "senate-communication/{}/{}{}", congress, communication_type.to_string(), params.to_query_string())
+                write!(
+                    f,
+                    "senate-communication/{}/{}{}",
+                    congress,
+                    communication_type.to_string(),
+                    params.to_query_string()
+                )
             }
-            Endpoints::SenateCommunicationDetails(congress, communication_type, communication_number, params) => {
-                write!(f, "senate-communication/{}/{}/{}{}", congress, communication_type.to_string(), communication_number, params.to_query_string())
+            Endpoints::SenateCommunicationDetails(
+                congress,
+                communication_type,
+                communication_number,
+                params,
+            ) => {
+                write!(
+                    f,
+                    "senate-communication/{}/{}/{}{}",
+                    congress,
+                    communication_type.to_string(),
+                    communication_number,
+                    params.to_query_string()
+                )
             }
 
             // ================================
             // House Requirement Endpoints
             // ================================
-            
-            Endpoints::HouseRequirementList(params) => write!(f, "house-requirement{}", params.to_query_string()),
+            Endpoints::HouseRequirementList(params) => {
+                write!(f, "house-requirement{}", params.to_query_string())
+            }
             Endpoints::HouseRequirementDetails(requirement_number, params) => {
-                write!(f, "house-requirement/{}{}", requirement_number, params.to_query_string())
+                write!(
+                    f,
+                    "house-requirement/{}{}",
+                    requirement_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::HouseRequirementMatching(requirement_number, params) => {
-                write!(f, "house-requirement/{}/matching{}", requirement_number, params.to_query_string())
+                write!(
+                    f,
+                    "house-requirement/{}/matching{}",
+                    requirement_number,
+                    params.to_query_string()
+                )
             }
 
             // ================================
             // Nomination Endpoints
             // ================================
-            Endpoints::NominationList(params) => write!(f, "nomination{}", params.to_query_string()),
+            Endpoints::NominationList(params) => {
+                write!(f, "nomination{}", params.to_query_string())
+            }
             Endpoints::NominationByCongress(congress, params) => {
                 write!(f, "nomination/{}{}", congress, params.to_query_string())
             }
             Endpoints::NominationDetails(congress, nomination_number, params) => {
-                write!(f, "nomination/{}/{}{}", congress, nomination_number, params.to_query_string())
+                write!(
+                    f,
+                    "nomination/{}/{}{}",
+                    congress,
+                    nomination_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::Nominees(congress, nomination_number, ordinal, params) => {
-                write!(f, "nomination/{}/{}/{}{}", congress, nomination_number, ordinal, params.to_query_string())
+                write!(
+                    f,
+                    "nomination/{}/{}/{}{}",
+                    congress,
+                    nomination_number,
+                    ordinal,
+                    params.to_query_string()
+                )
             }
             Endpoints::NominationActions(congress, nomination_number, params) => {
-                write!(f, "nomination/{}/{}/actions{}", congress, nomination_number, params.to_query_string())
+                write!(
+                    f,
+                    "nomination/{}/{}/actions{}",
+                    congress,
+                    nomination_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::NominationCommittees(congress, nomination_number, params) => {
-                write!(f, "nomination/{}/{}/committees{}", congress, nomination_number, params.to_query_string())
+                write!(
+                    f,
+                    "nomination/{}/{}/committees{}",
+                    congress,
+                    nomination_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::NominationHearings(congress, nomination_number, params) => {
-                write!(f, "nomination/{}/{}/hearings{}", congress, nomination_number, params.to_query_string())
+                write!(
+                    f,
+                    "nomination/{}/{}/hearings{}",
+                    congress,
+                    nomination_number,
+                    params.to_query_string()
+                )
             }
 
             // ================================
@@ -422,28 +849,58 @@ impl std::fmt::Display for Endpoints {
                 write!(f, "treaty/{}{}", congress, params.to_query_string())
             }
             Endpoints::TreatyDetails(congress, treaty_number, params) => {
-                write!(f, "treaty/{}/{}{}", congress, treaty_number, params.to_query_string())
+                write!(
+                    f,
+                    "treaty/{}/{}{}",
+                    congress,
+                    treaty_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::TreatyPartitioned(congress, treaty_number, treaty_suffix, params) => {
-                write!(f, "treaty/{}/{}/{}{}", congress, treaty_number, treaty_suffix, params.to_query_string())
+                write!(
+                    f,
+                    "treaty/{}/{}/{}{}",
+                    congress,
+                    treaty_number,
+                    treaty_suffix,
+                    params.to_query_string()
+                )
             }
             Endpoints::TreatyCommittees(congress, treaty_number, params) => {
-                write!(f, "treaty/{}/{}/committees{}", congress, treaty_number, params.to_query_string())
+                write!(
+                    f,
+                    "treaty/{}/{}/committees{}",
+                    congress,
+                    treaty_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::TreatyActions(congress, treaty_number, params) => {
-                write!(f, "treaty/{}/{}/actions{}", congress, treaty_number, params.to_query_string())
+                write!(
+                    f,
+                    "treaty/{}/{}/actions{}",
+                    congress,
+                    treaty_number,
+                    params.to_query_string()
+                )
             }
             Endpoints::TreatyActionsBySuffix(congress, treaty_number, treaty_suffix, params) => {
-                write!(f, "treaty/{}/{}/{}/actions{}", congress, treaty_number, treaty_suffix, params.to_query_string())
+                write!(
+                    f,
+                    "treaty/{}/{}/{}/actions{}",
+                    congress,
+                    treaty_number,
+                    treaty_suffix,
+                    params.to_query_string()
+                )
             }
         }
     }
 }
 
-
 // ================================
 // API Parameters
-
 
 /// Trait representing Parameters for API Endpoints.
 pub trait ApiParams {
@@ -898,9 +1355,7 @@ impl ApiParams for AmendmentActionsParams {
             query_params.push(format!("limit={}", limit));
         }
 
-
         "?".to_string() + &query_params.join("&")
-
     }
 }
 
@@ -1259,7 +1714,6 @@ impl ApiParams for CommitteeListParams {
         if let Some(to_date_time) = &self.to_date_time {
             query_params.push(format!("toDateTime={}", to_date_time));
         }
-
 
         "?".to_string() + &query_params.join("&")
     }
@@ -2162,27 +2616,27 @@ impl ApiParams for BillTitlesParams {
     /// A [`String`] containing the query parameters for bill titles.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         if let Some(from_date_time) = &self.from_date_time {
             query_params.push(format!("fromDateTime={}", from_date_time));
         }
-        
+
         if let Some(to_date_time) = &self.to_date_time {
             query_params.push(format!("toDateTime={}", to_date_time));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2202,23 +2656,23 @@ impl ApiParams for MemberByStateDistrictParams {
     /// A [`String`] containing the query parameters for retrieving members by state and district.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         if let Some(current_member) = self.current_member {
             query_params.push(format!("currentMember={}", current_member));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2238,31 +2692,31 @@ impl ApiParams for CommitteeReportListParams {
     /// A [`String`] containing the query parameters for listing committee reports.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format.to_query_param());
         }
-        
+
         if let Some(conference) = self.conference {
             query_params.push(format!("conference={}", conference));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         if let Some(from_date_time) = &self.from_date_time {
             query_params.push(format!("fromDateTime={}", from_date_time));
         }
-        
+
         if let Some(to_date_time) = &self.to_date_time {
             query_params.push(format!("toDateTime={}", to_date_time));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2278,31 +2732,31 @@ impl ApiParams for CommitteeReportByCongressParams {
     /// A [`String`] containing the query parameters for committee reports by congress.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format.to_query_param());
         }
-        
+
         if let Some(conference) = self.conference {
             query_params.push(format!("conference={}", conference));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         if let Some(from_date_time) = &self.from_date_time {
             query_params.push(format!("fromDateTime={}", from_date_time));
         }
-        
+
         if let Some(to_date_time) = &self.to_date_time {
             query_params.push(format!("toDateTime={}", to_date_time));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2318,31 +2772,31 @@ impl ApiParams for CommitteeReportByTypeParams {
     /// A [`String`] containing the query parameters for committee reports by type.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format.to_query_param());
         }
-        
+
         if let Some(conference) = self.conference {
             query_params.push(format!("conference={}", conference));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         if let Some(from_date_time) = &self.from_date_time {
             query_params.push(format!("fromDateTime={}", from_date_time));
         }
-        
+
         if let Some(to_date_time) = &self.to_date_time {
             query_params.push(format!("toDateTime={}", to_date_time));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2376,19 +2830,19 @@ impl ApiParams for CommitteeReportTextParams {
     /// A [`String`] containing the query parameters for committee report text.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format.to_query_param());
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2408,27 +2862,27 @@ impl ApiParams for CommitteePrintListParams {
     /// A [`String`] containing the query parameters for listing committee prints.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         if let Some(from_date_time) = &self.from_date_time {
             query_params.push(format!("fromDateTime={}", from_date_time));
         }
-        
+
         if let Some(to_date_time) = &self.to_date_time {
             query_params.push(format!("toDateTime={}", to_date_time));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2622,19 +3076,19 @@ impl ApiParams for CommitteeMeetingByChamberParams {
     /// A [`String`] containing the query parameters for committee meetings by chamber.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2672,19 +3126,19 @@ impl ApiParams for HearingListParams {
     /// A [`String`] containing the query parameters for listing hearings.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2700,19 +3154,19 @@ impl ApiParams for HearingByCongressParams {
     /// A [`String`] containing the query parameters for hearings by congress.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2728,19 +3182,19 @@ impl ApiParams for HearingByChamberParams {
     /// A [`String`] containing the query parameters for hearings by chamber.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2778,31 +3232,31 @@ impl ApiParams for CongressionalRecordListParams {
     /// A [`String`] containing the query parameters for listing congressional records.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(year) = self.year {
             query_params.push(format!("year={}", year));
         }
-        
+
         if let Some(month) = self.month {
             query_params.push(format!("month={}", month));
         }
-        
+
         if let Some(day) = self.day {
             query_params.push(format!("day={}", day));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2822,19 +3276,19 @@ impl ApiParams for DailyCongressionalRecordListParams {
     /// A [`String`] containing the query parameters for listing daily congressional records.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2850,19 +3304,19 @@ impl ApiParams for DailyCongressionalVolumeNumberParams {
     /// A [`String`] containing the query parameters for daily congressional records by volume number.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2878,19 +3332,19 @@ impl ApiParams for DailyCongressionalVolumeNumberIssueNumberParams {
     /// A [`String`] containing the query parameters for daily congressional records by volume and issue number.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2910,19 +3364,19 @@ impl ApiParams for BoundCongressionalRecordParams {
     /// A [`String`] containing the query parameters for bound congressional records.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2942,19 +3396,19 @@ impl ApiParams for CommunicationParams {
     /// A [`String`] containing the query parameters for communications.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format!("format={}", format.to_string()));
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -2990,19 +3444,19 @@ impl ApiParams for RequirementParams {
     /// A [`String`] containing the query parameters for requirements.
     fn to_query_string(&self) -> String {
         let mut query_params = vec![];
-        
+
         if let Some(format) = &self.format {
             query_params.push(format.to_query_param());
         }
-        
+
         if let Some(offset) = self.offset {
             query_params.push(format!("offset={}", offset));
         }
-        
+
         if let Some(limit) = self.limit {
             query_params.push(format!("limit={}", limit));
         }
-        
+
         "?".to_string() + &query_params.join("&")
     }
 }
@@ -3078,4 +3532,3 @@ impl ApiParams for GenericParams {
         "?".to_string() + &query_params.join("&")
     }
 }
-

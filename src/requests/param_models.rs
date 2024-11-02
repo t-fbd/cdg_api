@@ -1,27 +1,27 @@
 //! # [`param_models`] Module
-//! 
+//!
 //! This module defines the parameter models used for constructing API requests to various endpoints
-//! of the US Congress API. It includes structs for endpoint-specific parameters, facilitating 
+//! of the US Congress API. It includes structs for endpoint-specific parameters, facilitating
 //! type-safe and structured API interactions.
-//! 
+//!
 //! ## Example
-//! 
+//!
 //! ```rust
 //! use cdg_api::param_models::BillListParams;
 //! use cdg_api::cdg_types::{FormatType, SortType};
-//! 
+//!
 //! fn main() {
 //!     let params = BillListParams::default()
 //!         .format(FormatType::Json)
 //!         .limit(10)
 //!         .sort(SortType::UpdateDateDesc);
-//! 
+//!
 //!     // Use [`params`] with an endpoint constructor
 //! }
 //! ```
 
-use serde::{Deserialize, Serialize};
 use crate::cdg_types::*;
+use serde::{Deserialize, Serialize};
 
 // ================================
 // Endpoint-Specific Parameter Structs
@@ -35,37 +35,36 @@ pub struct GenericParams {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub offset: Option<u32>,
-    
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub limit: Option<u32>,
-    
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub from_date_time: Option<String>,
-    
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub to_date_time: Option<String>,
-    
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sort: Option<SortType>,
-    
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub conference: Option<bool>,
-    
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub current_member: Option<bool>,
-    
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub year: Option<u32>,
-    
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub month: Option<u32>,
-    
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub day: Option<u32>,
-    
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub chamber: Option<ChamberType>,
-
 }
 
 impl GenericParams {
@@ -499,8 +498,6 @@ pub struct AmendmentTextParams {
     pub format: Option<FormatType>,
 }
 
-
-
 // ================================
 // Member Endpoints Parameters
 // ================================
@@ -525,7 +522,7 @@ pub struct MemberListParams {
     /// End date-time for filtering members.
     pub to_date_time: Option<String>,
 
-    /// 
+    ///
     /// Filter to include only current members.
     pub current_member: Option<bool>,
 }
@@ -905,7 +902,6 @@ pub struct CommitteeReportDetailsParams {
     pub format: Option<FormatType>,
 }
 
-
 /// Parameters for the [`CommitteeReportText`] endpoint.
 ///
 /// These parameters allow specifying the desired response format
@@ -927,7 +923,7 @@ pub struct CommitteeReportTextParams {
 // ====================================
 
 /// Parameters for the [`CommitteePrintList`] endpoint.
-/// 
+///
 /// These parameters allow filtering and pagination when listing committee prints.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct CommitteePrintListParams {
@@ -1067,7 +1063,6 @@ pub struct CommitteeMeetingByChamberParams {
     /// Maximum number of items to return.
     pub limit: Option<u32>,
 }
-
 
 /// Parameters for the [`CommitteeMeetingByEvent`] endpoint.
 ///
