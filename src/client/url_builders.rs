@@ -433,6 +433,9 @@ impl std::fmt::Display for Endpoints {
             Endpoints::TreatyActions(congress, treaty_number, params) => {
                 write!(f, "treaty/{}/{}/actions{}", congress, treaty_number, params.to_query_string())
             }
+            Endpoints::TreatyActionsBySuffix(congress, treaty_number, treaty_suffix, params) => {
+                write!(f, "treaty/{}/{}/{}/actions{}", congress, treaty_number, treaty_suffix, params.to_query_string())
+            }
         }
     }
 }

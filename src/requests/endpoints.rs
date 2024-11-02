@@ -1026,6 +1026,17 @@ pub enum Endpoints {
     /// - [`u32`]: The treaty number.
     /// - [`TreatyActionsParams`]: Additional parameters for treaty actions.
     TreatyActions(u32, u32, TreatyActionsParams),
+
+    /// Endpoint to fetch actions taken on a specific treaty, by suffix.
+    ///
+    /// # Parameters
+    ///
+    /// - [`u32`]: The congress number.
+    /// - [`u32`]: The treaty number.
+    /// - [`String`]: The treaty suffix.
+    /// - [`TreatyActionsParams`]: Additional parameters for treaty actions.
+    /// /treaty/{congress}/{treatyNumber}/{treatySuffix}/actions
+    TreatyActionsBySuffix(u32, u32, String, TreatyActionsParams),
 }
 
 
@@ -1680,6 +1691,21 @@ pub trait NewEndpoint {
     fn new_treaty_actions(
         congress: u32,
         treaty_number: u32,
+        params: TreatyActionsParams,
+    ) -> Self;
+
+    /// Constructs a [`TreatyActionsBySuffix`] endpoint variant.
+    ///
+    /// # Parameters
+    ///
+    /// - [`congress`]: The congress number.
+    /// - [`treaty_number`]: The treaty number.
+    /// - [`treaty_suffix`]: The treaty suffix.
+    /// - [`params`]: Parameters for treaty actions.
+    fn new_treaty_actions_by_suffix(
+        congress: u32,
+        treaty_number: u32,
+        treaty_suffix: String,
         params: TreatyActionsParams,
     ) -> Self;
 
@@ -2383,7 +2409,16 @@ impl NewEndpoint for Endpoints {
         Endpoints::TreatyActions(congress, treaty_number, params)
     }
 
-        fn new_bill_related(
+    fn new_treaty_actions_by_suffix(
+        congress: u32,
+        treaty_number: u32,
+        treaty_suffix: String,
+        params: TreatyActionsParams,
+    ) -> Self {
+        Endpoints::TreatyActionsBySuffix(congress, treaty_number, treaty_suffix, params)
+    }
+
+    fn new_bill_related(
         congress: u32,
         bill_type: BillType,
         bill_number: u32,

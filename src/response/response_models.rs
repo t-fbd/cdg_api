@@ -1893,7 +1893,7 @@ pub struct HouseRequirementDetails {
     #[serde(rename = "submittingOfficial")]
     pub submitting_official: Option<String>,
     #[serde(rename = "matchingCommunications")]
-    pub matching_communications: Option<MatchingCommunications>,
+    pub matching_communications_inner: Option<MatchingCommunications>,
 }
 
 /// Represents matching communications associated with a House requirement.
@@ -1901,7 +1901,8 @@ pub struct HouseRequirementDetails {
 pub struct MatchingCommunications {
     pub count: Option<u32>,
     pub url: Option<String>,
-    pub items: Option<Vec<MatchingCommunicationItem>>,
+    #[serde(rename = "matchingCommunications")]
+    pub matching_communications_outer: Option<Vec<MatchingCommunicationItem>>,
 }
 
 /// Represents a House communication matching a House requirement.
