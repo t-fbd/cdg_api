@@ -1,4 +1,4 @@
-//! # [`response_modes`] Module
+//! # `response_modes` Module
 //!
 //! This module defines the response models used for parsing API responses from various endpoints
 //! of the US Congress API. It includes a combination of enums, structs, and traits to handle

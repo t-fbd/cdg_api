@@ -1,4 +1,4 @@
-//! # [`param_models`] Module
+//! # `param_models` Module
 //!
 //! This module defines the parameter models used for constructing API requests to various endpoints
 //! of the US Congress API. It includes structs for endpoint-specific parameters, facilitating
@@ -16,7 +16,7 @@
 //!         .limit(10)
 //!         .sort(SortType::UpdateDateDesc);
 //!
-//!     // Use [`params`] with an endpoint constructor
+//!     // Use `params` with an endpoint constructor
 //! }
 //! ```
 

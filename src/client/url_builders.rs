@@ -82,13 +82,13 @@ pub fn generate_url(endpoint: Endpoints, api_key: &str) -> String {
 ///
 /// For example:
 ///
-/// If we have an endpoint like `Endpoints::BillList(params)`, where [`params`]
-/// is a [`BillListParams`] struct with [`format`] set to `FormatType::Json` and [`limit`]
+/// If we have an endpoint like `Endpoints::BillList(params)`, where `params`
+/// is a [`BillListParams`] struct with [`format`] set to `FormatType::Json` and `limit`
 /// set to [`10`], the URL string would look like:
 /// `bill/?format=json&limit=10`
 impl std::fmt::Display for Endpoints {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        // NOTE: A '?' is appended to the params string via the [`Display`]
+        // NOTE: A '?' is appended to the params string via the `Display`
         // implementation for the [`ApiParam`] structs.
         match self {
             Endpoints::Generic(endpoint, params) => {

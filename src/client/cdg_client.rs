@@ -1,6 +1,6 @@
-//! ### [`client`] Module
+//! ### `client` Module
 //!
-//! The [`client`] module provides the [`CongressApiClient`] struct, which serves as the primary interface for interacting with the US Congress API. It handles API key management, URL construction, making HTTP requests, and deserializing responses.
+//! The `client` module provides the [`CongressApiClient`] struct, which serves as the primary interface for interacting with the US Congress API. It handles API key management, URL construction, making HTTP requests, and deserializing responses.
 //!
 //! #### Usage Example
 //!

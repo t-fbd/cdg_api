@@ -1,4 +1,4 @@
-//! [`param_chains`] module
+//! `param_chains` module
 //!
 //! Simply holds a macro that allows each Param model to call `build` methods for user ease
 

@@ -1,4 +1,4 @@
-//! # [`endpoints`] Module
+//! # `endpoints` Module
 //!
 //! This module defines the [`Endpoints`] enum, which represents the various API endpoints
 //! available in the US Congress API. Each variant encapsulates the necessary parameters
