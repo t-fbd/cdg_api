@@ -12,7 +12,7 @@ pub use response::response_models;
 /// The base URL for the US Congress API.
 pub const BASE_URL: &str = "https://api.congress.gov/v3/";
 
-/// Unwraps an `Option<String>` and returns the inner [`String`] or an empty string if [`None`].
+/// Unwraps an `Option<String>` and returns the inner `String` or an empty string if `None`.
 pub fn unwrap_option_string(opt: Option<String>) -> String {
     match opt {
         Some(s) => s,
@@ -20,7 +20,7 @@ pub fn unwrap_option_string(opt: Option<String>) -> String {
     }
 }
 
-/// Unwraps an `Option<u32>` and returns the inner [`u32`] or 0 if [`None`].
+/// Unwraps an `Option<u32>` and returns the inner `u32` or 0 if `None`.
 pub fn unwrap_option_u32(opt: Option<u32>) -> u32 {
     match opt {
         Some(i) => i,
@@ -28,7 +28,7 @@ pub fn unwrap_option_u32(opt: Option<u32>) -> u32 {
     }
 }
 
-/// Unwraps an `Option<T>` and returns the inner [`T`] or the default value if [`None`].
+/// Unwraps an `Option<T>` and returns the inner `T` or the default value if `None`.
 pub fn unwrap_option<T: Default>(opt: Option<T>) -> T {
     match opt {
         Some(t) => t,
@@ -36,11 +36,11 @@ pub fn unwrap_option<T: Default>(opt: Option<T>) -> T {
     }
 }
 
-#[cfg(feature = "requests")]
+#[cfg(feature = "request_handlers")]
 pub mod request_handlers {
-    //! # [`request_handlers`] Module
+    //! # `request_handlers` Module
     //!
-    //! The [`request_handlers`] module provides utility functions for interacting with the US Congress API.
+    //! The `request_handlers` module provides utility functions for interacting with the US Congress API.
     //! It includes methods for fetching data via HTTP requests and processing responses using external tools.
     //!
     //! ## Usage
@@ -78,21 +78,21 @@ pub mod request_handlers {
     //!     Ok(())
     //! }
     //! ```
-
+    use std::io::Write;
     use super::response_models::PrimaryResponse;
-    use reqwest::blocking::Client;
     use serde::de::DeserializeOwned;
+    use reqwest::blocking::Client;
 
     /// Fetches data from the US Congress API and deserializes it into the specified response model.
     ///
     /// # Parameters
     ///
-    /// - [`url`]: The complete URL for the API request.
+    /// - `url`: The complete URL for the API request.
     ///
     /// # Returns
     ///
     /// - `Ok(T)`: The deserialized response data.
-    /// - [`Err`]: An error if the request fails or deserialization fails.
+    /// - `Err`: An error if the request fails or deserialization fails.
     pub fn get_congress_data<T: PrimaryResponse + DeserializeOwned>(
         url: &str,
     ) -> Result<T, Box<dyn std::error::Error>> {
@@ -102,24 +102,23 @@ pub mod request_handlers {
         Ok(data)
     }
 
-    use std::io::Write;
 
-    /// Executes a [`curl`] request to the given URL and processes the JSON output with [`jq`].
+    /// Executes a `curl` request to the given URL and processes the JSON output with `jq`.
     ///
     /// # Parameters
     ///
-    /// - [`url`]: The API endpoint URL.
-    /// - [`jq_cmd`]: A [`jq`] filter string to process the JSON output.
+    /// - `url`: The API endpoint URL.
+    /// - `jq_cmd`: A `jq` filter string to process the JSON output.
     ///
     /// # Returns
     ///
     /// - `Ok(())`: If the command executes successfully.
-    /// - [`Err`]: If there is an error executing the commands or processing the data.
+    /// - `Err`: If there is an error executing the commands or processing the data.
     ///
     /// # Notes
     ///
-    /// - Requires [`curl`] and [`jq`] to be installed on your system.
-    /// - Ensures that the [`CDG_API_KEY`] environment variable is set.
+    /// - Requires `curl` and `jq` to be installed on your system.
+    /// - Ensures that the `CDG_API_KEY` environment variable is set.
     pub fn curl_and_jq(url: &str, jq_cmd: &str) -> Result<(), Box<dyn std::error::Error>> {
         // Check if jq is installed
         if std::process::Command::new("jq")

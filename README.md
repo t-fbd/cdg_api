@@ -7,7 +7,7 @@ A simple Rust library to interact with the [US Congress API](https://api.congres
 
 `cdg_api` provides a Rust interface for interacting with the US Congress API. It simplifies constructing API endpoints, building URLs with parameters, and retrieving legislative data. Whether fetching information about bills, members, amendments, or laws, `cdg_api` offers a streamlined and type-safe approach to accessing this data.
 
-The library is a work in progress but is very much functional. It is designed to be modular, extensible, and easy to use. The [`CongressApiClient`] struct serves as the central component for making requests, handling responses, and managing API keys. The library includes specific models for various API responses, such as bills, members, nominations, and treaties, as well as a versatile `GenericResponse` for handling unknown response structures.
+The library is a work in progress but is very much functional. It is designed to be modular, extensible, and easy to use. The `CongressApiClient` struct serves as the central component for making requests, handling responses, and managing API keys. The library includes specific models for various API responses, such as bills, members, nominations, and treaties, as well as a versatile `GenericResponse` for handling unknown response structures.
 
 Please, if you find any issues, particularly with the API responses or models as I find it tedious to test all of them, feel free to open an issue or submit a pull request.
 
@@ -33,28 +33,28 @@ Around **100+** endpoints models available for interacting with the US Congress 
 Around **150+** response models available for parsing API responses, including specific models for bills, members, nominations, treaties, and more.
 
 - **Modules**:
-    - **[`endpoints`]**: Models representing available API endpoints, including `Endpoints::Generic` for custom endpoints.
-    - **[`url_builders`]**: Utility functions for constructing API URLs with query parameters.
-    - **[`param_models`]**: Models and enums for different query parameters.
-    - **[`param_chains`]**: Build chains for every param_model and the macro that constructs them.
-    - **[`response_models`]**: Models for API responses, including specific models and the versatile `GenericResponse`.
-    - **[`cdg_client`]**: [`CongressApiClient`] struct for interacting with the API.
-    - **[`cdg_types`]**: Enums and structs and implementations for various custom types used in the API.
-    - **[`ser_deser_cdg`]**: Response handling functions. See below.
+    - **endpoints**: Models representing available API endpoints, including `Endpoints::Generic` for custom endpoints.
+    - **url_builders**: Utility functions for constructing API URLs with query parameters.
+    - **param_models**: Models and enums for different query parameters.
+    - **param_chains**: Build chains for every param_model and the macro that constructs them.
+    - **response_models**: Models for API responses, including specific models and the versatile `GenericResponse`.
+    - **cdg_client**: `CongressApiClient` struct for interacting with the API.
+    - **cdg_types**: Enums and structs and implementations for various custom types used in the API.
+    - **ser_deser_cdg**: Response handling functions. See below.
 
 - **Api Client**:
-  - **[`CongressApiClient`]**: Centralized client managing API keys, constructing URLs, making requests, and deserializing responses.
+  - **CongressApiClient**: Centralized client managing API keys, constructing URLs, making requests, and deserializing responses.
 
 - **Generic Response Handling**:
-  - **`GenericResponse`**: A catch-all response model for endpoints without a specific response type or when the response model is unknown.
+  - **GenericResponse**: A catch-all response model for endpoints without a specific response type or when the response model is unknown.
 
 - **Response Handling**
-  - **[`parse_response`]**: A method to parse `GenericResponse` into a specific response model when the structure is known.
-  - **[`serialize_response`]**: A method to serialize `GenericResponse` into a JSON string for debugging or creating a specific response model, a good fallback when parsing fails.
+  - **parse_response**: A method to parse `GenericResponse` into a specific response model when the structure is known.
+  - **serialize_response**: A method to serialize `GenericResponse` into a JSON string for debugging or creating a specific response model, a good fallback when parsing fails.
 
 - **Modules by Feature Flags**:
-  - **Feature Flag: `requests` (enabled by default)**:
-    - **[`request_handlers`]**: Functions for making HTTP requests and handling responses, parts of which are used by [`CongressApiClient`].
+  - **Feature Flag: `request_handlers` (enabled by default)**:
+    - **request_handlers**: Functions for making HTTP requests and handling responses, parts of which are used by `CongressApiClient`.
 
 ## Installation
 
@@ -88,7 +88,7 @@ cargo add cdg_api --no-default-features
 
 ### Setting Up Your API Key
 
-Obtain an API key from the [US Congress API](https://api.congress.gov/). Provide it to the [`CongressApiClient`] either via an environment variable or direct initialization:
+Obtain an API key from the [US Congress API](https://api.congress.gov/). Provide it to the `CongressApiClient` either via an environment variable or direct initialization:
 
 1. **Environment Variable**:
 
@@ -106,7 +106,7 @@ Obtain an API key from the [US Congress API](https://api.congress.gov/). Provide
 
 **Note**: Using environment variables is recommended to avoid hardcoding sensitive information.
 
-## Using [`CongressApiClient`]
+## Using `CongressApiClient`
 
 [`CongressApiClient`] allows you to interact with various API endpoints. Below are examples demonstrating how to fetch different types of data, including the new `Endpoints::Generic` variant.
 
@@ -114,8 +114,8 @@ Obtain an API key from the [US Congress API](https://api.congress.gov/). Provide
 
 Fetch a list of current members of Congress and display their names, party affiliations, and states.
 
-ps. Instead of using the standard [`unwrap`] methods, you can use [`cdg_api::unwrap_option()`], [`cdg_api::unwrap_option_string()`], or [`cdg_api::unwrap_option_u32()`]
-    in order to quickly unwrap the [`Option`] values and provide a default value if the value is [`None`]. Pretty much the same as [`unwrap_or_default()`].
+ps. Instead of using the standard `unwrap` methods, you can use `cdg_api::unwrap_option()`], `cdg_api::unwrap_option_string()`, or `cdg_api::unwrap_option_u32()`
+    in order to quickly unwrap the `Option` values and provide a default value if the value is `None`. Pretty much the same as `unwrap_or_default()`.
 
 ```rust
 use cdg_api::CongressApiClient;
