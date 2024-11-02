@@ -8,6 +8,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  CDG_API_KEY: ${{ secrets.CDG_API_KEY }}
 
 jobs:
   build:
