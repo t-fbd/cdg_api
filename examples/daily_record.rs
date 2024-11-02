@@ -11,10 +11,8 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     // Create the endpoint
     let endpoint = Endpoints::DailyCongressionalRecordList(
-        DailyCongressionalRecordListParams {
-            format: Some(FormatType::Json),
-            ..Default::default()
-        }
+        DailyCongressionalRecordListParams::default()
+            .format(FormatType::Json)
     );
 
     // Fetch the data

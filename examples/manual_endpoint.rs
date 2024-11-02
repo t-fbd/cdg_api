@@ -12,20 +12,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Assume there's an endpoint that doesn't have a specific response model
     let endpoint = Endpoints::new_generic(
         "daily-congressional-record".to_string(),
-        GenericParams::new(
-            FormatType::Json.into(),
-            None,
-            250.into(),
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-           None,
-            None,
-            None,
-        )
+        GenericParams::default()
+            .format(FormatType::Json)
+            .limit(250)
     );
 
     // Fetch the data as GenericResponse

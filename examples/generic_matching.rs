@@ -10,10 +10,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     let client = CongressApiClient::new(None)?; // Use API key from environment
 
     // Define parameters for bill details
-    let params = BillDetailsParams {
-        format: Some(FormatType::Json),
-        ..BillDetailsParams::default()
-    };
+    let params = BillDetailsParams::default()
+        .format(FormatType::Json);
 
     // Specify the bill to fetch (e.g., H.R. 1234 from the 118th Congress)
     let endpoint = Endpoints::new_bill_details(118, BillType::Hr, 1234, params);

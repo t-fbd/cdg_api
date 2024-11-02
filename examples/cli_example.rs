@@ -82,12 +82,11 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_bills = fetch_all(
                 &client,
                 |offset, limit| {
-                    Endpoints::BillList(BillListParams {
-                        format: Some(FormatType::Json),
-                        limit: Some(limit as u32),
-                        offset: Some(offset as u32),
-                        ..BillListParams::default()
-                    })
+                    Endpoints::BillList(BillListParams::default()
+                        .format(FormatType::Json)
+                        .limit(limit as u32)
+                        .offset(offset as u32)
+                    )
                 },
                 |response: &BillsResponse| response.bills.clone(),
                 bill_amount as usize,
@@ -105,12 +104,11 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_nominations: Vec<cdg_api::response_models::NominationItem> = fetch_all(
                 &client,
                 |offset, limit| {
-                    Endpoints::NominationList(NominationListParams {
-                        format: Some(FormatType::Json),
-                        limit: Some(limit as u32),
-                        offset: Some(offset as u32),
-                        ..NominationListParams::default()
-                    })
+                    Endpoints::NominationList(NominationListParams::default()
+                        .format(FormatType::Json)
+                        .limit(limit as u32)
+                        .offset(offset as u32)
+                    )
                 },
                 |response: &NominationsResponse| response.nominations.clone(),
                 results_max,
@@ -127,12 +125,11 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_treaties = fetch_all(
                 &client,
                 |offset, limit| {
-                    Endpoints::TreatyList(TreatyListParams {
-                        format: Some(FormatType::Json),
-                        limit: Some(limit as u32),
-                        offset: Some(offset as u32),
-                        ..TreatyListParams::default()
-                    })
+                    Endpoints::TreatyList(TreatyListParams::default()
+                        .format(FormatType::Json)
+                        .limit(limit as u32)
+                        .offset(offset as u32)
+                    )
                 },
                 |response: &TreatiesResponse| response.treaties.clone(),
                 results_max,
@@ -172,13 +169,12 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_members = fetch_all(
                 &client,
                 |offset, limit| {
-                    Endpoints::MemberList(MemberListParams {
-                        format: Some(FormatType::Json),
-                        limit: Some(limit as u32),
-                        offset: Some(offset as u32),
-                        current_member: Some(true),
-                        ..MemberListParams::default()
-                    })
+                    Endpoints::MemberList(MemberListParams::default()
+                        .format(FormatType::Json)
+                        .limit(limit as u32)
+                        .offset(offset as u32)
+                        .current_member(true)
+                    )
                 },
                 |response: &MembersResponse| response.members.clone(),
                 results_max,
@@ -194,12 +190,11 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_committees = fetch_all(
                 &client,
                 |offset, limit| {
-                    Endpoints::CommitteeList(CommitteeListParams {
-                        format: Some(FormatType::Json),
-                        limit: Some(limit as u32),
-                        offset: Some(offset as u32),
-                        ..CommitteeListParams::default()
-                    })
+                    Endpoints::CommitteeList(CommitteeListParams::default()
+                        .format(FormatType::Json)
+                        .limit(limit as u32)
+                        .offset(offset as u32)
+                    )
                 },
                 |response: &CommitteesResponse| response.committees.clone(),
                 results_max,
@@ -217,12 +212,10 @@ fn run() -> Result<(), Box<dyn Error>> {
                 |offset, limit| {
                     Endpoints::LawByCongress(
                         congress,
-                        LawParams {
-                            format: Some(FormatType::Json),
-                            limit: Some(limit as u32),
-                            offset: Some(offset as u32),
-                            ..LawParams::default()
-                        },
+                        LawParams::default()
+                            .format(FormatType::Json)
+                            .limit(limit as u32)
+                            .offset(offset as u32)
                     )
                 },
                 |response: &LawsResponse| response.bills.clone(),
@@ -239,12 +232,11 @@ fn run() -> Result<(), Box<dyn Error>> {
             let all_amendments = fetch_all(
                 &client,
                 |offset, limit| {
-                    Endpoints::AmendmentList(AmendmentListParams {
-                        format: Some(FormatType::Json),
-                        limit: Some(limit as u32),
-                        offset: Some(offset as u32),
-                        ..AmendmentListParams::default()
-                    })
+                    Endpoints::AmendmentList(AmendmentListParams::default()
+                        .format(FormatType::Json)
+                        .limit(limit as u32)
+                        .offset(offset as u32)
+                    )
                 },
                 |response: &AmendmentsResponse| response.amendments.clone(),
                 results_max,

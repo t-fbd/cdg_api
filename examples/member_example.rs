@@ -12,12 +12,10 @@ fn main() -> Result<(), Box<dyn Error>> {
                                                 // Set the API key explicitly with:
                                                 // CongressApiClient::new(Some("api_key_here"))?;
     // Define parameters
-    let params = MemberListParams {
-        format: Some(FormatType::Json),
-        limit: Some(10),
-        current_member: Some(true),
-        ..MemberListParams::default()
-    };
+    let params = MemberListParams::default()
+        .format(FormatType::Json)
+        .limit(10)
+        .current_member(true);
 
     // Create the endpoint
     let endpoint = Endpoints::MemberList(params);

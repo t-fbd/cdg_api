@@ -15,11 +15,10 @@
 //! use cdg_api::param_models::*;
 //! 
 //! fn main() {
-//!     let params = BillListParams {
-//!         format: Some(FormatType::Json),
-//!         limit: Some(20),
-//!         ..BillListParams::default()
-//!     };
+//!     let params = BillListParams::default()
+//!         .format(FormatType::Json)
+//!         .limit(20);
+//! 
 //!     let endpoint = Endpoints::new_bill_list(params);
 //!     // Use the endpoint with CongressApiClient
 //! }
@@ -1028,6 +1027,10 @@ pub enum Endpoints {
     /// - [`TreatyActionsParams`]: Additional parameters for treaty actions.
     TreatyActions(u32, u32, TreatyActionsParams),
 }
+
+
+
+
 
 /// Trait defining constructors for creating new instances of [`Endpoints`].
 ///

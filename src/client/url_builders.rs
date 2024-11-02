@@ -29,14 +29,13 @@
 //! use cdg_api::url_builders::generate_url;
 //! 
 //! fn main() {
-//!     let params = BillListParams {
-//!         format: Some(FormatType::Json),
-//!         limit: Some(10),
-//!         from_date_time: Some("2023-01-01".to_string()),
-//!         to_date_time: Some("2023-12-31".to_string()),
-//!         sort: Some(SortType::UpdateDateDesc),
-//!         ..Default::default()
-//!     };
+//!     let params = BillListParams::default()
+//!         .format(FormatType::Json)
+//!         .limit(10)
+//!         //Use format: YYYY-MM-DDT00:00:00Z
+//!         .from_date_time("2023-01-01T00:00:00Z".to_string())
+//!         .to_date_time("2023-12-31T00:00:00Z".to_string())
+//!         .sort(SortType::UpdateDateDesc);
 //! 
 //!     let endpoint = Endpoints::BillList(params);
 //!     let api_key = "YOUR_API_KEY";

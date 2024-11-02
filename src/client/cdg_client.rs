@@ -14,12 +14,10 @@
 //! fn main() -> Result<(), Box<dyn std::error::Error>> {
 //!     let client = CongressApiClient::new(None)?; // Uses API key from environment
 //! 
-//!     let params = MemberListParams {
-//!         format: Some(FormatType::Json),
-//!         limit: Some(10),
-//!         current_member: Some(true),
-//!         ..MemberListParams::default()
-//!     };
+//!     let params = MemberListParams::default()
+//!         .format(FormatType::Json)
+//!         .limit(10)
+//!         .current_member(true);
 //! 
 //!     let endpoint = Endpoints::new_member_list(params);
 //!     let response: MembersResponse = client.fetch(endpoint)?;

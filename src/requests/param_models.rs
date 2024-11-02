@@ -11,14 +11,11 @@
 //! use cdg_api::cdg_types::{FormatType, SortType};
 //! 
 //! fn main() {
-//!     let params = BillListParams {
-//!         format: Some(FormatType::Json),
-//!         limit: Some(10),
-//!         from_date_time: Some("2023-01-01".to_string()),
-//!         to_date_time: Some("2023-12-31".to_string()),
-//!         sort: Some(SortType::UpdateDateDesc),
-//!         ..BillListParams::default()
-//!     };
+//!     let params = BillListParams::default()
+//!         .format(FormatType::Json)
+//!         .limit(10)
+//!         .sort(SortType::UpdateDateDesc);
+//! 
 //!     // Use [`params`] with an endpoint constructor
 //! }
 //! ```

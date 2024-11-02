@@ -10,11 +10,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     let client = CongressApiClient::new(None)?; // Use default API key
 
     // Define parameters
-    let params = BillListParams {
-        format: Some(FormatType::Json),
-        limit: Some(10),
-        ..BillListParams::default()
-    };
+    let params = BillListParams::default()
+        .format(FormatType::Json)
+        .limit(10);
 
     // Create the endpoint
     let endpoint = Endpoints::BillList(params);

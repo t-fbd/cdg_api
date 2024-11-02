@@ -36,6 +36,7 @@ Around **150+** response models available for parsing API responses, including s
     - **[`endpoints`]**: Models representing available API endpoints, including `Endpoints::Generic` for custom endpoints.
     - **[`url_builders`]**: Utility functions for constructing API URLs with query parameters.
     - **[`param_models`]**: Models and enums for different query parameters.
+    - **[`param_chains`]**: Build chains for every param_model and the macro that constructs them.
     - **[`response_models`]**: Models for API responses, including specific models and the versatile `GenericResponse`.
     - **[`cdg_client`]**: [`CongressApiClient`] struct for interacting with the API.
     - **[`cdg_types`]**: Enums and structs and implementations for various custom types used in the API.
@@ -125,12 +126,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Create the endpoint and define parameters
     let endpoint = Endpoints::new_member_list(
-        MemberListParams {
-            format: Some(FormatType::Json),
-            limit: Some(10),
-            current_member: Some(true),
-            ..MemberListParams::default()
-        }
+        MemberListParams::default()
+            .format(FormatType::Json)
+            .limit(10)
+            .current_member(true)
     );
 
     // Fetch the data
@@ -166,10 +165,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     let client = CongressApiClient::new(None)?; // Use API key from environment
 
     // Define parameters for bill details
-    let params = BillDetailsParams {
-        format: Some(FormatType::Json),
-        ..BillDetailsParams::default()
-    };
+    let params = BillDetailsParams::default()
+        .format(FormatType::Json);
 
     // Specify the bill to fetch (e.g., H.R. 1234 from the 118th Congress)
     let endpoint = Endpoints::new_bill_details(118, BillType::Hr, 148, params);
@@ -221,20 +218,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Manually specify the endpoint string
     let endpoint = Endpoints::new_generic(
       "daily-congressional-record".to_string(),
-      GenericParams::new(
-        FormatType::Json.into(),
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-      )
+      GenericParams::default().format(FormatType::Json)
     );
 
     // Fetch the data as GenericResponse
@@ -271,6 +255,8 @@ fn main() -> Result<(), Box<dyn Error>> {
 ## Other Projects
 
 - **[`loc_api`](https://crates.io/crates/loc_api)**: A Rust library for interacting with the Library of Congress API.
+
+To be completely honest, I put a lot more love and effort into `cdg_api` than I did with `loc_api`. Just a heads up.
 
 ## License
 
