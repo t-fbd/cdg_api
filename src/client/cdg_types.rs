@@ -55,10 +55,11 @@ impl FormatType {
 ///
 /// This enum allows consumers to sort responses based on update dates
 /// in ascending or descending order.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum SortType {
     /// SortType by update date in ascending order.
+    #[default]
     UpdateDateAsc,
 
     /// SortType by update date in descending order.
@@ -163,12 +164,13 @@ impl BillType {
 ///
 /// This enum categorizes amendments based on their origin within
 /// the legislative chambers.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, Default)]
 pub enum AmendmentType {
     /// House Amendment ([`hamdt`]).
     Hamdt, // House Amendment
 
     /// Senate Amendment ([`samdt`]).
+    #[default]
     Samdt, // Senate Amendment
 
     /// Senate Unnumbered Amendment ([`suamdt`]).
@@ -194,12 +196,13 @@ impl AmendmentType {
 ///
 /// This enum distinguishes between the House, Senate, and Joint committees
 /// within the legislative body.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, Default)]
 pub enum ChamberType {
     /// House chamber.
     House,
 
     /// Senate chamber.
+    #[default]
     Senate,
 
     /// Joint chamber (both House and Senate).
@@ -229,9 +232,10 @@ impl ChamberType {
 ///
 /// This enum categorizes the various communication types such as executive
 /// communications, presidential messages, petitions, etc.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, Default)]
 pub enum CommunicationType {
     /// Executive Communication ([`ec`]).
+    #[default]
     Ec, // Executive Communication
 
     /// Message from the President ([`ml`]).
@@ -263,9 +267,10 @@ impl CommunicationType {
 /// Enum representing different types of laws.
 ///
 /// This enum distinguishes between public and private laws.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, Default)]
 pub enum LawType {
     /// Public Law ([`pub`]).
+    #[default]
     Pub,  // Public Law
 
     /// Private Law ([`priv`]).
@@ -290,7 +295,7 @@ impl LawType {
 ///
 /// This enum categorizes committee reports based on their origin within
 /// the legislative chambers.
-#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, Default)]
 pub enum CommitteeReportType {
     /// House Report ([`hrpt`]).
     Hrpt, // House Report
@@ -305,6 +310,7 @@ pub enum CommitteeReportType {
     Sdoc, // Senate Document
 
     /// Conference Report ([`crpt`]).
+    #[default]
     Crpt, // Conference Report
 }
 
