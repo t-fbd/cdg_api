@@ -78,10 +78,10 @@ pub mod request_handlers {
     //!     Ok(())
     //! }
     //! ```
-    use std::io::Write;
     use super::response_models::PrimaryResponse;
-    use serde::de::DeserializeOwned;
     use reqwest::blocking::Client;
+    use serde::de::DeserializeOwned;
+    use std::io::Write;
 
     /// Fetches data from the US Congress API and deserializes it into the specified response model.
     ///
@@ -101,7 +101,6 @@ pub mod request_handlers {
         let data = response.json::<T>()?;
         Ok(data)
     }
-
 
     /// Executes a `curl` request to the given URL and processes the JSON output with `jq`.
     ///
