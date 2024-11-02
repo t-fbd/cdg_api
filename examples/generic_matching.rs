@@ -2,7 +2,7 @@ use cdg_api::{unwrap_option_string, unwrap_option, CongressApiClient};
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
 use cdg_api::param_models::BillDetailsParams;
 use cdg_api::cdg_types::{BillType, FormatType};
-use cdg_api::response_models::{BillDetailsResponse, GenericResponse};
+use cdg_api::response_models::{BillDetailsResponse, GenericResponse, parse_response};
 
 use std::error::Error;
 
@@ -20,7 +20,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let response: GenericResponse = client.fetch(endpoint)?;
 
     // Parse the response as BillDetails
-    let bill_details: BillDetailsResponse = response.parse_generic_response()?;
+    let bill_details: BillDetailsResponse = parse_response(&response)?;
     let bill = bill_details.bill;
 
     println!("Bill: {}", unwrap_option_string(bill.bill_type));

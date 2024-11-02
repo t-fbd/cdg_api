@@ -884,4 +884,7 @@ fn display_bill_details(response: &LawDetailsResponse) {
         println!("  - Latest Action: N/A");
     }
     println!("----------------------------------------");
+
+    println!("Raw JSON Response:");
+    println!("{:#?}", response);
 }

@@ -2,7 +2,7 @@ use cdg_api::cdg_types::FormatType;
 use cdg_api::param_models::GenericParams;
 use cdg_api::{CongressApiClient, unwrap_option, unwrap_option_u32, unwrap_option_string};
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
-use cdg_api::response_models::{DailyCongressionalRecordResponse, GenericResponse};
+use cdg_api::response_models::{DailyCongressionalRecordResponse, GenericResponse, parse_response, serialize_response};
 
 use std::error::Error;
 
@@ -21,7 +21,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let response: GenericResponse = client.fetch(endpoint)?;
 
     // Parse the response into a generic JSON value if specific parsing fails
-    match response.parse_generic_response::<DailyCongressionalRecordResponse>() {
+    match parse_response::<DailyCongressionalRecordResponse, GenericResponse>(&response) {
         Ok(json) => {
             json.daily_congressional_record.iter().for_each(|records| {
                 let record = records.clone();
@@ -39,7 +39,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         Err(e) => {
             println!("Failed to parse response: {}", e);
             // Serialize the response as a generic JSON value, pretty-printed = true
-            println!("{}", response.serialize_generic_response(true)?);
+            println!("{}", serialize_response(&response, true)?);
         }
     }
 

@@ -20,7 +20,7 @@ Please, if you find any issues, particularly with the API responses or models as
   - [Setting Up Your API Key](#setting-up-your-api-key)
 - [Using `CongressApiClient`](#using-congressapiclient)
   - [Example 1: Fetching Members](#example-1-fetching-members)
-  - [Example 2: Using `GenericResponse` with `parse_generic_response`](#example-2-using-genericresponse-with-parse_generic_response)
+  - [Example 2: Using `GenericResponse` with `parse_response`](#example-2-using-genericresponse-with-parse_response)
   - [Example 3: Using `Endpoints::Generic` for Custom Endpoints](#example-3-using-endpointsgeneric-for-custom-endpoints)
 - [Other Projects](#other-projects)
 - [License](#license)
@@ -40,14 +40,17 @@ Around **150+** response models available for parsing API responses, including s
     - **[`response_models`]**: Models for API responses, including specific models and the versatile `GenericResponse`.
     - **[`cdg_client`]**: [`CongressApiClient`] struct for interacting with the API.
     - **[`cdg_types`]**: Enums and structs and implementations for various custom types used in the API.
+    - **[`ser_deser_cdg`]**: Response handling functions. See below.
 
 - **Api Client**:
   - **[`CongressApiClient`]**: Centralized client managing API keys, constructing URLs, making requests, and deserializing responses.
 
 - **Generic Response Handling**:
   - **`GenericResponse`**: A catch-all response model for endpoints without a specific response type or when the response model is unknown.
-  - **[`parse_generic_response`]**: A method to parse `GenericResponse` into a specific response model when the structure is known.
-  - **[`serialize_generic_response`]**: A method to serialize `GenericResponse` into a JSON string for debugging or creating a specific response model, a good fallback when parsing fails.
+
+- **Response Handling**
+  - **[`parse_response`]**: A method to parse `GenericResponse` into a specific response model when the structure is known.
+  - **[`serialize_response`]**: A method to serialize `GenericResponse` into a JSON string for debugging or creating a specific response model, a good fallback when parsing fails.
 
 - **Modules by Feature Flags**:
   - **Feature Flag: `requests` (enabled by default)**:
@@ -148,7 +151,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-#### Example 2: Using `GenericResponse` with `parse_generic_response`
+#### Example 2: Using `GenericResponse` with `parse_response`
 
 Fetch detailed information about a specific bill using `GenericResponse` and parse it into a specific response model.
 
@@ -157,7 +160,7 @@ use cdg_api::CongressApiClient;
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
 use cdg_api::param_models::BillDetailsParams;
 use cdg_api::cdg_types::{BillType, FormatType};
-use cdg_api::response_models::{BillDetailsResponse, GenericResponse};
+use cdg_api::response_models::{BillDetailsResponse, GenericResponse, serialize_response, parse_response};
 
 use std::error::Error;
 
@@ -175,14 +178,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     let response: GenericResponse = client.fetch(endpoint)?;
 
     // Parse the response as BillDetailsResponse
-    let bill_details: BillDetailsResponse = match response.parse_generic_response() {
+    let bill_details: BillDetailsResponse = match parse_response(&response) {
         Ok(bill_details) => bill_details,
         Err(e) => {
             // If parsing fails to a specific primary response fails, the GenericResponse can be serialized
             // to see the response structure. This can help in debugging and creating a specific response model.
             // The argument `true` pretty prints the response, `false` prints the raw JSON.
             println!("Failed to parse response: {}", e);
-            println!("Response:\n\n{}", response.serialize_generic_response(true)?);
+            println!("Response:\n\n{}", serialize_response(&response, true)?);
             return Ok(());
         }
     };
@@ -199,14 +202,14 @@ fn main() -> Result<(), Box<dyn Error>> {
 #### Example 3: Using `Endpoints::Generic` for Custom Endpoints
 
 When working with custom or unknown endpoints, you can use `Endpoints::Generic` to specify the endpoint string such as `daily-congressional-record` and `GenericParams` to define query parameters. The response can be fetched as `GenericResponse`.
-The `Endpoint` created can then call `parse_generic_response` to parse the response into a specific response model. If parsing fails, the `GenericResponse` can be serialized to see the response structure.
+The `Endpoint` created can then call `parse_response` to parse the response into a specific response model. If parsing fails, the `GenericResponse` can be serialized to see the response structure.
 
 This is essentially the Endpoints equivalent of the GenericResponse example above. One for requests and the other for responses.
 
 ```rust
 use cdg_api::CongressApiClient;
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
-use cdg_api::response_models::{DailyCongressionalRecordResponse, GenericResponse};
+use cdg_api::response_models::{DailyCongressionalRecordResponse, GenericResponse, serialize_response, parse_response};
 use cdg_api::param_models::GenericParams;
 use cdg_api::cdg_types::*;
 
@@ -225,7 +228,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let response: GenericResponse = client.fetch(endpoint)?;
 
     // Parse the response into DailyCongressionalRecordResponse
-    match response.parse_generic_response::<DailyCongressionalRecordResponse>() {
+    match parse_response::<DailyCongressionalRecordResponse, GenericResponse>(&response) {
         Ok(daily_record) => {
             let record = daily_record.daily_congressional_record;
             for issue in record {
@@ -244,7 +247,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         },
         Err(e) => {
             println!("Failed to parse response: {}", e);
-            println!("Response:\n\n{}", response.serialize_generic_response(true)?);
+            println!("Response:\n\n{}", serialize_response(&response, true)?);
         }
     }
 

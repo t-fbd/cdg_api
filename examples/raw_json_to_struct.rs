@@ -1,4 +1,4 @@
-use cdg_api::response_models::{BillsResponse, GenericResponse};
+use cdg_api::response_models::{BillsResponse, GenericResponse, serialize_response, parse_response};
 use cdg_api::unwrap_option_string;
 
 const RAW_BILL_DATA: &str = r#"{
@@ -54,11 +54,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let bills: GenericResponse = serde_json::from_str(RAW_BILL_DATA)?;
 
-    let bills: BillsResponse = match bills.parse_generic_response() {
+    let bills: BillsResponse = match parse_response(&bills) {
         Ok(bills) => bills,
         Err(e) => {
             eprintln!("Error parsing generic response: {}", e);
-            println!("{}", bills.serialize_generic_response(true)?);
+            println!("{}", serialize_response(&bills, true)?);
             return Ok(());
         }
     };
