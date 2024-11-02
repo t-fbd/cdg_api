@@ -28,6 +28,33 @@ use serde_json::Value;
 /// returned by an API endpoint. All other response models are nested within a primary response.
 pub trait PrimaryResponse {}
 
+pub use ser_deser_cdg::{parse_response, serialize_response};
+mod ser_deser_cdg {
+    use serde::Serialize;
+
+    use super::PrimaryResponse;
+
+
+
+    pub fn serialize_response<T>(res: &T, pretty: bool) -> Result<String, serde_json::Error> 
+    where T: PrimaryResponse + Serialize
+    {
+        if pretty {
+            serde_json::to_string_pretty(&res)
+        } else {
+            serde_json::to_string(&res)
+        }
+    }
+
+    /// Attempts to parse the generic response model as a specific response model.
+    /// GenericResponse -> json string -> PrimaryResponse (trait held by the parent response models)
+    pub fn parse_response<T: PrimaryResponse + serde::de::DeserializeOwned + Serialize, F: PrimaryResponse + Serialize>(res: &F) -> Result<T, serde_json::Error> {
+        let json = serde_json::to_string(&res)?;
+        let response: T = serde_json::from_str(&json)?;
+        Ok(response)
+    }
+}
+
 macro_rules! impl_primary_response {
     ($($t:ty),*) => {
         $(impl PrimaryResponse for $t {})*
@@ -255,25 +282,6 @@ pub struct GenericResponse {
     pub extra: Option<GenericResponseModel>,
 }
 
-impl GenericResponse {
-    /// Serializes the generic response model to a JSON string.
-    /// If [`pretty`] is true, the JSON will be pretty-printed.
-    pub fn serialize_generic_response(&self, pretty: bool) -> Result<String, serde_json::Error> {
-        if pretty {
-            serde_json::to_string_pretty(&self)
-        } else {
-            serde_json::to_string(&self)
-        }
-    }
-
-    /// Attempts to parse the generic response model as a specific response model.
-    /// GenericResponse -> json string -> PrimaryResponse (trait held by the parent response models)
-    pub fn parse_generic_response<T: PrimaryResponse + serde::de::DeserializeOwned>(&self) -> Result<T, serde_json::Error> {
-        let json = serde_json::to_string(&self)?;
-        let response: T = serde_json::from_str(&json)?;
-        Ok(response)
-    }
-}
 
 /// Response model for the `/amendment` endpoint.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
