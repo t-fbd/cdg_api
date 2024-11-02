@@ -34,14 +34,11 @@ use std::process;
 use cdg_api::CongressApiClient;
 use cdg_api::endpoints::Endpoints;
 use cdg_api::param_models::{
-    AmendmentListParams, BillDetailsParams, BillListParams, CommitteeListParams, LawParams,
-    MemberDetailsParams, MemberListParams, NominationListParams, TreatyListParams,
+    AmendmentListParams, BillActionsParams, BillDetailsParams, BillListParams, CommitteeListParams, LawParams, MemberDetailsParams, MemberListParams, NominationListParams, TreatyListParams
 };
 use cdg_api::cdg_types::*;
 use cdg_api::response_models::{
-    AmendmentsResponse, BillsResponse, CommitteesResponse, CongressDetailsResponse,
-    LawDetailsResponse, LawsResponse, MemberDetailsResponse, MembersResponse, NominationsResponse,
-    PrimaryResponse, TreatiesResponse,
+    AmendmentsResponse, BillActionsResponse, BillDetailsResponse, BillsResponse, CommitteesResponse, CongressDetailsResponse, LawsResponse, MemberDetailsResponse, MembersResponse, NominationsResponse, PrimaryResponse, TreatiesResponse
 };
 
 fn main() {
@@ -161,8 +158,21 @@ fn run() -> Result<(), Box<dyn Error>> {
             let bill_number: u32 = args[4].parse()?;
             let params = BillDetailsParams::default();
             let endpoint = Endpoints::BillDetails(congress, bill_type, bill_number, params);
-            let response: LawDetailsResponse = client.fetch(endpoint)?;
+            let response: BillDetailsResponse = client.fetch(endpoint)?;
             display_bill_details(&response);
+        }
+        "bill_actions" => {
+            if args.len() < 5 {
+                eprintln!("Usage: cargo run -- bill_actions <congress> <bill_type> <bill_number>");
+                return Err("Missing arguments for bill_actions command.".into());
+            }
+            let congress: u32 = args[2].parse()?;
+            let bill_type = BillType::from_str(&args[3]).unwrap_or_default();
+            let bill_number: u32 = args[4].parse()?;
+            let params = BillActionsParams::default();
+            let endpoint = Endpoints::BillActions(congress, bill_type, bill_number, params);
+            let response: BillActionsResponse = client.fetch(endpoint)?;
+            display_billacts_details(&response);
         }
         "current_members" => {
             let limit = 250;
@@ -837,8 +847,28 @@ fn display_member_details(response: &MemberDetailsResponse) {
     println!("----------------------------------------");
 }
 
+fn display_billacts_details(response: &BillActionsResponse) {
+    println!("Bill Actions:");
+    for action in &response.actions {
+        println!("----------------------------------------");
+        println!(
+            "Action Code: {}",
+            action.action_code.clone().unwrap_or_else(|| "N/A".to_string())
+        );
+        println!(
+            "Action Date: {}",
+            action.action_date.clone().unwrap_or_else(|| "N/A".to_string())
+        );
+        println!(
+            "Text       : {}",
+            action.text.clone().unwrap_or_else(|| "N/A".to_string())
+        );
+    }
+    println!("----------------------------------------");
+}
+
 /// Displays detailed information about a specific bill.
-fn display_bill_details(response: &LawDetailsResponse) {
+fn display_bill_details(response: &BillDetailsResponse) {
     let bill = &response.bill;
     println!("\nBill Details:");
     println!("----------------------------------------");
