@@ -1,5 +1,3 @@
-#![allow(unused_imports)]
-
 use cdg_api::{
     cdg_types::{
         AmendmentType, BillType, ChamberType, CommitteeReportType, CommunicationType, FormatType,
