@@ -269,4 +269,11 @@ This project is licensed under the terms of the [MIT license](https://github.com
 
 [https://github.com/t-fbd/cdg_api](https://github.com/t-fbd/cdg_api)
 
+The data is sourced from the [U.S. Congress API](https://api.congress.gov/).
+
+## Contact
+
+For questions or feedback, please contact me on [github](https://www.github.com/t-fbd) or email me [here](mailto:tairenfd@mailbox.org).
+
+If you find this project helpful, consider donating [PayPal](https://paypal.me/imturn?country.x=US&locale.x=en_US).
 
