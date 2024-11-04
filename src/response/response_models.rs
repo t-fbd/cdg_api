@@ -669,6 +669,9 @@ pub struct BillAction {
     pub text: Option<String>,
     #[serde(rename = "type")]
     pub action_type: Option<String>,
+    pub committees: Option<Vec<Committee>>,
+    #[serde(rename = "recordedVotes")]
+    pub recorded_votes: Option<Vec<RecordedVote>>,
     #[serde(flatten)]
     pub unknown: Option<Value>,
 }

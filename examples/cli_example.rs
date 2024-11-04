@@ -907,9 +907,135 @@ fn display_billacts_details(response: &BillActionsResponse) {
                 .unwrap_or_else(|| "N/A".to_string())
         );
         println!(
+            "Action Time: {}",
+            action
+                .action_time
+                .clone()
+                .unwrap_or_else(|| "N/A".to_string())
+        );
+        println!(
+            "Action Type: {}",
+            action
+                .action_type
+                .clone()
+                .unwrap_or_else(|| "N/A".to_string())
+        );
+        println!(
             "Text       : {}",
             action.text.clone().unwrap_or_else(|| "N/A".to_string())
         );
+        if let Some(ref source_system) = action.source_system {
+            println!("---> Source System Details");
+            println!(
+                "source system           : {}",
+                source_system.name
+                    .clone()
+                    .unwrap_or_default()
+            );
+            println!(
+                "source system code           : {}",
+                source_system.code
+                    .clone()
+                    .unwrap_or_default()
+            );
+        }
+        if let Some(ref committees) = action.committees {
+            println!("---> Committees Details");
+            for committee in committees {
+                println!(
+                    "committee name           : {}",
+                    committee.name
+                        .clone()
+                        .unwrap_or_default()
+                );
+                println!(
+                    "committee code           : {}",
+                    committee.system_code
+                        .clone()
+                        .unwrap_or_default()
+                );
+                println!(
+                    "committee chamber         : {}",
+                    committee.chamber
+                        .clone()
+                        .unwrap_or_default()
+                );
+                println!(
+                    "committee type    : {}",
+                    committee.committee_type
+                        .clone()
+                        .unwrap_or_default()
+                );
+                if let Some(activities) = &committee.activities {
+                    println!("---> Committee Activities Details");
+                    for activity in activities {
+                        println!(
+                            "activity name           : {}",
+                            activity.name
+                                .clone()
+                                .unwrap_or_default()
+                        );
+                        println!(
+                            "activity date           : {}",
+                            activity.date
+                                .clone()
+                                .unwrap_or_default()
+                        );
+                    }
+                }
+                println!(
+                    "url        : {}",
+                    committee.url
+                        .clone()
+                        .unwrap_or_default()
+                );
+            }
+        }
+        if let Some(recorded_votes) = &action.recorded_votes {
+            println!("---> Recorded Votes Details");
+            for vote in recorded_votes {
+                println!(
+                    "vote chamber           : {}",
+                    vote.chamber
+                        .clone()
+                        .unwrap_or_default()
+                );
+                println!(
+                    "vote congress           : {}",
+                    vote.congress
+                        .clone()
+                        .unwrap_or_default()
+                );
+                println!(
+                    "vote session           : {}",
+                    vote.session_number
+                        .clone()
+                        .unwrap_or_default()
+                );
+                println!(
+                    "roll call number           : {}",
+                    vote.roll_number
+                        .clone()
+                        .unwrap_or_default()
+                );
+                println!(
+                    "vote date           : {}",
+                    vote.date
+                        .clone()
+                        .unwrap_or_default()
+                );
+                println!(
+                    "url           : {}",
+                    vote.url
+                        .clone()
+                        .unwrap_or_default()
+                );
+            }
+        }
+        if let Some(unknown) = &action.unknown {
+            println!("---> Unknown Details");
+            println!("{:#?}", unknown);
+        }
     }
     println!("----------------------------------------");
 }
