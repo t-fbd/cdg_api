@@ -259,7 +259,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
 - **[`loc_api`](https://crates.io/crates/loc_api)**: A Rust library for interacting with the Library of Congress API.
 
-To be completely honest, I put a lot more love and effort into `cdg_api` than I did with `loc_api`. Just a heads up.
+- **[`congress_rollcalls`](https://github.com/t-fbd/congress_rollcalls)**: Github repository holding mass data of roll call votes in the US Congress.
 
 ## License
 
