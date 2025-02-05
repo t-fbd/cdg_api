@@ -1,7 +1,7 @@
 use cdg_api::cdg_types::{BillType, FormatType};
 use cdg_api::endpoints::Endpoints;
-use cdg_api::param_models::{BillActionsParams, BillListParams};
-use cdg_api::response_models::{BillActionsResponse, BillsResponse};
+use cdg_api::param_models::BillActionsParams;
+use cdg_api::response_models::BillActionsResponse;
 use cdg_api::CongressApiClient;
 
 use std::error::Error;
