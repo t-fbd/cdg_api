@@ -1,14 +1,14 @@
 use cdg_api::{
     cdg_types::{
-        AmendmentType, BillType, ChamberType, CommitteeReportType, CommunicationType, FormatType,
-        LawType, SortType,
+        BillType, ChamberType, FormatType,
+        LawType,
     },
     endpoints::{Endpoints, NewEndpoint},
     param_models::*,
     response_models::{
         BillsResponse, CommitteeDetailsResponse, CommitteeReportsResponse, CongressDetailsResponse,
-        HearingsResponse, LawDetailsResponse, LawsResponse, MembersResponse,
-        NominationDetailsResponse, NominationsResponse, RelatedBillsResponse, TreatiesResponse,
+        HearingsResponse, LawsResponse, MembersResponse,
+        NominationDetailsResponse, RelatedBillsResponse,
         TreatyDetailsResponse,
     },
     CongressApiClient,
