@@ -23,22 +23,6 @@ pub fn unwrap_option_string(opt: Option<String>) -> String {
     }
 }
 
-/// Unwraps an `Option<u32>` and returns the inner `u32` or 0 if `None`.
-pub fn unwrap_option_u32(opt: Option<u32>) -> u32 {
-    match opt {
-        Some(i) => i,
-        None => 0,
-    }
-}
-
-/// Unwraps an `Option<T>` and returns the inner `T` or the default value if `None`.
-pub fn unwrap_option<T: Default>(opt: Option<T>) -> T {
-    match opt {
-        Some(t) => t,
-        None => T::default(),
-    }
-}
-
 #[cfg(feature = "request_handlers")]
 pub mod request_handlers {
     //! # `request_handlers` Module

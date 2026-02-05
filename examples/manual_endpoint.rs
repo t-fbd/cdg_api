@@ -4,7 +4,7 @@ use cdg_api::param_models::GenericParams;
 use cdg_api::response_models::{
     parse_response, serialize_response, DailyCongressionalRecordResponse, GenericResponse,
 };
-use cdg_api::{unwrap_option, unwrap_option_string, unwrap_option_u32, CongressApiClient};
+use cdg_api::{unwrap_option_string, CongressApiClient};
 
 use std::error::Error;
 
@@ -27,13 +27,13 @@ fn main() -> Result<(), Box<dyn Error>> {
                 let record = records.clone();
                 println!("Date: {}", unwrap_option_string(record.issue_date));
                 println!("Update Date: {}", unwrap_option_string(record.update_date));
-                println!("Volume: {}", unwrap_option_u32(record.volume_number));
+                println!("Volume: {}", record.volume_number.unwrap_or_default());
                 println!("Issue: {}", unwrap_option_string(record.issue_number));
-                println!("Sess. #: {}", unwrap_option_u32(record.session_number));
-                println!("Congress: {}", unwrap_option_u32(record.congress));
+                println!("Sess. #: {}", record.session_number.unwrap_or_default());
+                println!("Congress: {}", record.congress.unwrap_or_default());
                 println!("URL: {}", unwrap_option_string(record.url));
                 println!();
-                println!("Full Issue: {:#?}", unwrap_option(record.full_issue));
+                println!("Full Issue: {:#?}", record.full_issue.unwrap_or_default());
             });
         }
         Err(e) => {

@@ -2,7 +2,7 @@ use cdg_api::cdg_types::{BillType, FormatType};
 use cdg_api::endpoints::{Endpoints, NewEndpoint};
 use cdg_api::param_models::BillDetailsParams;
 use cdg_api::response_models::{parse_response, BillDetailsResponse, GenericResponse};
-use cdg_api::{unwrap_option, unwrap_option_string, CongressApiClient};
+use cdg_api::{unwrap_option_string, CongressApiClient};
 
 use std::error::Error;
 
@@ -24,7 +24,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     println!("Bill: {}", unwrap_option_string(bill.bill_type));
     println!("Title: {}", unwrap_option_string(bill.title));
-    println!("Summary: {:#?}", unwrap_option(bill.summaries));
+    println!("Summary: {:#?}", bill.summaries.unwrap_or_default());
 
     Ok(())
 }
