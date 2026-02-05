@@ -1,13 +1,16 @@
 #![doc = include_str!("../README.md")]
 
-pub mod client;
+pub mod cdg_client;
+pub mod cdg_types;
 pub mod requests;
 pub mod response;
 
-pub use client::{cdg_client::CongressApiClient, cdg_types, url_builders};
-pub use request_handlers::get_congress_data;
-pub use requests::{endpoints, param_models};
+pub use cdg_client::CongressApiClient;
+pub use requests::{endpoints, param_models, url_builders};
 pub use response::response_models;
+
+#[cfg(feature = "request_handlers")]
+pub use request_handlers::get_congress_data;
 
 /// The base URL for the US Congress API.
 pub const BASE_URL: &str = "https://api.congress.gov/v3/";

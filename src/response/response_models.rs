@@ -1564,33 +1564,122 @@ pub struct HearingsReference {
 /// Response model for the `/treaty` endpoint.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatiesResponse {
-    pub treaties: Vec<TreatyItem>,
+    pub treaty: Vec<Treaty>,
     #[serde(flatten)]
     pub unknown: Option<Value>,
 }
 
-/// Represents an individual treaty entry.
+/// Response model for the `/treaty/{congress}/{number}` endpoint.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
-pub struct TreatyItem {
-    #[serde(rename = "congressReceived")]
-    pub congress_received: Option<u32>,
+pub struct TreatyDetailsResponse {
+    pub treaty: Vec<Treaty>,
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Represents an individual treaty entry with all fields from the API.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct Treaty {
+    /// Actions associated with the treaty (count and URL).
+    pub actions: Option<TreatyActions>,
+
+    /// The congress in which the treaty was considered.
     #[serde(rename = "congressConsidered")]
     pub congress_considered: Option<u32>,
+
+    /// The congress that received the treaty.
+    #[serde(rename = "congressReceived")]
+    pub congress_received: Option<u32>,
+
+    /// List of countries that are parties to the treaty.
+    #[serde(rename = "countriesParties")]
+    pub countries_parties: Option<Vec<TreatyCountryParty>>,
+
+    /// Date when the treaty entered into force (if applicable).
+    #[serde(rename = "inForceDate")]
+    pub in_force_date: Option<String>,
+
+    /// Index terms associated with the treaty.
+    #[serde(rename = "indexTerms")]
+    pub index_terms: Option<Vec<TreatyIndexTerm>>,
+
+    /// The treaty number.
     pub number: Option<u32>,
-    pub suffix: Option<String>,
-    #[serde(rename = "transmittedDate")]
-    pub transmitted_date: Option<String>,
+
+    /// Old treaty number (if renumbered).
+    #[serde(rename = "oldNumber")]
+    pub old_number: Option<String>,
+
+    /// Display name for the old treaty number.
+    #[serde(rename = "oldNumberDisplayName")]
+    pub old_number_display_name: Option<String>,
+
+    /// Parts of the treaty (empty object in most cases).
+    pub parts: Option<TreatyParts>,
+
+    /// Related documents such as executive reports.
+    #[serde(rename = "relatedDocs")]
+    pub related_docs: Option<Vec<TreatyRelatedDoc>>,
+
+    /// Full text of the resolution (if passed by Senate).
     #[serde(rename = "resolutionText")]
     pub resolution_text: Option<String>,
+
+    /// Suffix to the treaty number (if any).
+    pub suffix: Option<String>,
+
+    /// Titles of the treaty (formal and short).
+    pub titles: Option<Vec<TreatyTitle>>,
+
+    /// Topic or subject matter of the treaty.
     pub topic: Option<String>,
+
+    /// Date when the treaty was transmitted to the Senate.
+    #[serde(rename = "transmittedDate")]
+    pub transmitted_date: Option<String>,
+
+    /// Last update date for the treaty record.
     #[serde(rename = "updateDate")]
     pub update_date: Option<String>,
-    pub parts: Option<TreatyParts>,
+
     #[serde(flatten)]
     pub unknown: Option<Value>,
 }
 
-/// Represents parts of a treaty.
+/// Actions associated with a treaty.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct TreatyActions {
+    /// Number of actions.
+    pub count: Option<u32>,
+
+    /// URL to retrieve the actions.
+    pub url: Option<String>,
+
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Represents a country or party to the treaty.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct TreatyCountryParty {
+    /// Name of the country or party.
+    pub name: Option<String>,
+
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Represents an index term (keyword) associated with the treaty.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct TreatyIndexTerm {
+    /// The index term text.
+    pub name: Option<String>,
+
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Parts of a treaty (typically an empty object).
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct TreatyParts {
     pub count: Option<u32>,
@@ -1599,68 +1688,29 @@ pub struct TreatyParts {
     pub unknown: Option<Value>,
 }
 
-/// Response model for the `/treaty/{congress}/{number}` endpoint.
+/// Related document (e.g., executive report) associated with the treaty.
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
-pub struct TreatyDetailsResponse {
-    pub treaty: TreatyDetails,
-    #[serde(flatten)]
-    pub unknown: Option<Value>,
-}
+pub struct TreatyRelatedDoc {
+    /// Citation for the related document (e.g., "Ex. Rept. 112-1").
+    pub citation: Option<String>,
 
-/// Represents detailed information about a treaty.
-#[derive(Debug, Serialize, Deserialize, Default, Clone)]
-pub struct TreatyDetails {
-    #[serde(rename = "congressReceived")]
-    pub congress_received: Option<u32>,
-    #[serde(rename = "congressConsidered")]
-    pub congress_considered: Option<u32>,
-    pub number: Option<u32>,
-    pub suffix: Option<String>,
-    #[serde(rename = "transmittedDate")]
-    pub transmitted_date: Option<String>,
-    #[serde(rename = "inForceDate")]
-    pub in_force_date: Option<String>,
-    #[serde(rename = "resolutionText")]
-    pub resolution_text: Option<String>,
-    #[serde(rename = "countriesParties")]
-    pub countries_parties: Option<Vec<CountryParty>>,
-    #[serde(rename = "indexTerms")]
-    pub index_terms: Option<Vec<IndexTerm>>,
-    #[serde(rename = "relatedDocs")]
-    pub related_docs: Option<Vec<RelatedDoc>>,
-    pub topic: Option<String>,
-    #[serde(rename = "updateDate")]
-    pub update_date: Option<String>,
-    pub parts: Option<TreatyParts>,
-    #[serde(flatten)]
-    pub unknown: Option<Value>,
-}
-
-/// Represents a country or party associated with the treaty.
-#[derive(Debug, Serialize, Deserialize, Default, Clone)]
-pub struct CountryParty {
-    pub name: Option<String>,
-    #[serde(rename = "oldNumber")]
-    pub old_number: Option<String>,
-    #[serde(rename = "oldNumberDisplayName")]
-    pub old_number_display_name: Option<String>,
-    #[serde(flatten)]
-    pub unknown: Option<Value>,
-}
-
-/// Represents an index term associated with the treaty.
-#[derive(Debug, Serialize, Deserialize, Default, Clone)]
-pub struct IndexTerm {
-    pub name: Option<String>,
-    #[serde(flatten)]
-    pub unknown: Option<Value>,
-}
-
-/// Represents an executive report associated with the treaty.
-#[derive(Debug, Serialize, Deserialize, Default, Clone)]
-pub struct RelatedDoc {
-    pub name: Option<String>,
+    /// URL to retrieve the related document.
     pub url: Option<String>,
+
+    #[serde(flatten)]
+    pub unknown: Option<Value>,
+}
+
+/// Title of a treaty.
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct TreatyTitle {
+    /// The title text.
+    pub title: Option<String>,
+
+    /// Type of title (e.g., "Treaty - Formal Title", "Treaty - Short Title").
+    #[serde(rename = "titleType")]
+    pub title_type: Option<String>,
+
     #[serde(flatten)]
     pub unknown: Option<Value>,
 }
@@ -2140,7 +2190,7 @@ pub struct HearingTranscript {
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct RelatedItems {
     pub bills: Option<Vec<BillItem>>,
-    pub treaties: Option<Vec<TreatyItem>>,
+    pub treaties: Option<Vec<Treaty>>,
     pub nominations: Option<Vec<NominationItem>>,
 }
 

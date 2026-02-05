@@ -218,19 +218,20 @@ fn test_fetch_treaty_details() {
     let response: TreatyDetailsResponse = client
         .fetch(endpoint)
         .expect("Failed to fetch treaty details");
+    println!("{:#?}", response);
+
+    // Get singular treaty
+    let treaty = response.treaty[0].clone();
 
     // Assert that the treaty number matches.
     assert_eq!(
-        response.treaty.number.unwrap_or(0),
+        treaty.number.unwrap_or(0),
         treaty_number,
         "Treaty number should match"
     );
 
     // Optionally, print out the fetched treaty details for manual verification.
-    println!(
-        "Treaty Topic: {}",
-        response.treaty.topic.unwrap_or("".to_string())
-    );
+    println!("Treaty Topic: {}", treaty.topic.unwrap_or("".to_string()));
 }
 
 #[test]

@@ -135,12 +135,12 @@ fn run() -> Result<(), Box<dyn Error>> {
                             .offset(offset as u32),
                     )
                 },
-                |response: &TreatiesResponse| response.treaties.clone(),
+                |response: &TreatiesResponse| response.treaty.clone(),
                 results_max,
                 limit,
             )?;
             display_treaties(&TreatiesResponse {
-                treaties: all_treaties,
+                treaty: all_treaties,
                 unknown: None,
             });
         }
@@ -551,7 +551,7 @@ fn display_nominations(response: &NominationsResponse) {
 /// Displays the list of treaties in a formatted manner.
 fn display_treaties(response: &TreatiesResponse) {
     println!("Recent Treaties:");
-    for treaty in &response.treaties {
+    for treaty in &response.treaty {
         println!("----------------------------------------");
         println!(
             "Number              : {}",
@@ -596,7 +596,7 @@ fn display_treaties(response: &TreatiesResponse) {
         }
     }
     println!("----------------------------------------");
-    println!("Total Treaties: {}", response.treaties.len());
+    println!("Total Treaties: {}", response.treaty.len());
 }
 
 /// Displays the list of committees in a formatted manner.
