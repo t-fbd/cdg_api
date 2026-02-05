@@ -11,7 +11,7 @@ Add `cdg_api` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-cdg_api = "1.3.6"
+cdg_api = "1.4"
 ```
 
 Or use `cargo` to add the dependency:
@@ -24,7 +24,7 @@ If you don't want to pull in reqwest as a dependency, you can disable the `reque
 
 ```toml
 [dependencies]
-cdg_api = { version = "1.3.6", default-features = false }
+cdg_api = { version = "1.4", default-features = false }
 ```
 
 or
@@ -59,7 +59,7 @@ Obtain an API key from the [US Congress API](https://api.congress.gov/). Provide
 
 [`CongressApiClient`] allows you to interact with various API endpoints. Below are examples demonstrating how to fetch different types of data, including the fetch-all `Endpoints::Generic` variant.
 
-For more detailed information, see the [documentation](https://docs.rs/cdg_api/1.3.6/cdg_api/), the
+For more detailed information, see the [documentation](https://docs.rs/cdg_api/1.4/cdg_api/), the
 [examples directory](examples/), and the [US Congress API documentation](https://github.com/LibraryOfCongress/api.congress.gov/).
 
 #### Example 1: Fetching Members
