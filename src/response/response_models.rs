@@ -1350,8 +1350,6 @@ pub struct MemberDetails {
     pub sponsored_legislation: Option<LegislationReference>,
     #[serde(rename = "cosponsoredLegislation")]
     pub cosponsored_legislation: Option<LegislationReference>,
-    #[serde(rename = "updateDate")]
-    pub update_date_member: Option<String>,
     #[serde(rename = "partyHistory")]
     pub party_history: Option<Vec<PartyHistory>>,
     #[serde(flatten)]
