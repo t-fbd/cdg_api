@@ -38,7 +38,7 @@ pub mod request_handlers {
     //!
     //! fn main() -> Result<(), Box<dyn std::error::Error>> {
     //!     let url = "https://api.congress.gov/v3/bill/?format=json&limit=10&api_key=YOUR_API_KEY";
-    //!     
+    //!
     //!     // Fetch and deserialize data
     //!     // Note:
     //!     // In this example it will fail because the api key is not valid
@@ -51,7 +51,7 @@ pub mod request_handlers {
     //!             BillsResponse::default()
     //!         }
     //!     };
-    //!     
+    //!
     //!     // Fetch and process data with jq
     //!     // Note:
     //!     // In this example it will fail because the api key is not valid
@@ -61,7 +61,7 @@ pub mod request_handlers {
     //!         Ok(_) => println!("Data processed successfully."),
     //!         Err(err) => eprintln!("Error: {}", err),
     //!     }
-    //!     
+    //!
     //!     Ok(())
     //! }
     //! ```
